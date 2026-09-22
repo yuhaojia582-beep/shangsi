@@ -1,0 +1,3356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>上巳血案 · 古代宫斗单人推理本</title>
+<style>
+:root{
+  --ink:#0c0709;
+  --panel:#1c1216;
+  --line:rgba(217,180,91,.20); --line-2:rgba(217,180,91,.42);
+  --gold:#d9b45b; --gold-2:#f4dc95;
+  --red-2:#c9303a;
+  --jade:#6f9c86;
+  --paper:#efe3ce; --paper-2:#bcab90; --paper-3:#8b7b64;
+  --shadow:0 18px 46px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1100px 620px at 12% -8%, rgba(158,32,41,.20), transparent 62%),
+    radial-gradient(900px 560px at 96% 4%, rgba(111,156,134,.10), transparent 58%),
+    radial-gradient(800px 700px at 50% 118%, rgba(217,180,91,.09), transparent 62%),
+    var(--ink);
+  color:var(--paper);
+  font-family:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100%;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(217,180,91,.028) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(217,180,91,.022) 0 1px, transparent 1px 3px);
+}
+#app{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:22px 20px 60px}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+::-webkit-scrollbar-thumb{background:rgba(217,180,91,.26);border-radius:9px}
+::-webkit-scrollbar-thumb:hover{background:rgba(217,180,91,.45)}
+
+.frame{border:1px solid var(--line);border-radius:4px;
+  background:linear-gradient(180deg, rgba(36,23,32,.86), rgba(20,12,16,.92));
+  box-shadow:var(--shadow);position:relative;}
+.frame::after{content:"";position:absolute;inset:5px;border:1px solid rgba(217,180,91,.10);border-radius:2px;pointer-events:none;}
+.seal{display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#a8232d,#7d151d);color:#fbeedd;font-size:12px;letter-spacing:.28em;
+  padding:7px 9px 7px 11px;border-radius:3px;writing-mode:vertical-rl;line-height:1.15;font-weight:600;
+  box-shadow:0 3px 14px rgba(158,32,41,.45), inset 0 0 0 1px rgba(255,225,190,.28);}
+.rule{height:1px;border:0;background:linear-gradient(90deg,transparent,var(--line-2) 18%,var(--line-2) 82%,transparent);margin:20px 0;}
+.kicker{font-size:11px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;opacity:.85;}
+.muted{color:var(--paper-2)}
+.dim{color:var(--paper-3)}
+
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* 开场 */
+#intro{max-width:980px;margin:0 auto;padding:44px 40px 40px;animation:fade .9s ease both}
+.intro-top{display:flex;gap:26px;align-items:flex-start;justify-content:space-between}
+.intro-title{font-size:52px;letter-spacing:.2em;line-height:1.18;font-weight:700;
+  background:linear-gradient(180deg,#fbeecb 12%,var(--gold) 62%,#9c7a2e 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.intro-sub{margin-top:8px;color:var(--paper-2);letter-spacing:.24em;font-size:13px}
+.docket{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.docket div{background:rgba(20,12,16,.72);padding:12px 15px}
+.docket dt{font-size:11px;color:var(--paper-3);letter-spacing:.2em;margin-bottom:3px}
+.docket dd{font-size:14px;color:var(--paper)}
+.intro-body{margin-top:24px;color:#dccfb9}
+.intro-body p{margin-bottom:11px}
+.intro-note{margin-top:22px;border-left:2px solid var(--gold);padding:14px 0 14px 16px;
+  background:linear-gradient(90deg,rgba(217,180,91,.08),transparent);font-size:13.5px;color:var(--paper-2);}
+.intro-note ol{padding-left:20px;margin-top:8px}
+.intro-note li{margin-bottom:5px;line-height:1.9}
+.intro-note b{color:var(--gold-2)}
+.intro-actions{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+.btn{border:1px solid var(--line-2);background:rgba(217,180,91,.07);color:var(--gold-2);
+  font-family:inherit;font-size:14px;letter-spacing:.16em;padding:11px 26px;border-radius:3px;
+  cursor:pointer;transition:.22s;position:relative;}
+.btn:hover{background:rgba(217,180,91,.16);border-color:var(--gold);box-shadow:0 0 22px rgba(217,180,91,.2);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(145deg,#a8232d,#7f161e);border-color:rgba(255,220,180,.3);color:#fdeee0;box-shadow:0 6px 22px rgba(158,32,41,.4)}
+.btn.primary:hover{background:linear-gradient(145deg,#c02b36,#981b24);box-shadow:0 8px 30px rgba(200,43,54,.5)}
+.btn.ghost{background:transparent;color:var(--paper-2);border-color:var(--line)}
+.btn.ghost:hover{color:var(--gold-2)}
+.btn.sm{padding:7px 15px;font-size:12.5px;letter-spacing:.1em}
+
+/* 主界面 */
+#game{animation:fade .5s ease both}
+.topbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 20px;
+  border:1px solid var(--line);border-radius:4px;
+  background:linear-gradient(180deg,rgba(43,27,36,.92),rgba(22,13,17,.94));box-shadow:var(--shadow);}
+.topbar .brand{font-size:19px;letter-spacing:.2em;color:var(--gold-2)}
+.topbar .brand small{display:block;font-size:11px;letter-spacing:.3em;color:var(--paper-3);margin-top:2px}
+.daypips{display:flex;gap:7px;margin-left:6px}
+.pip{padding:5px 13px;font-size:12.5px;letter-spacing:.14em;border-radius:2px;border:1px solid var(--line);color:var(--paper-3);background:rgba(0,0,0,.24)}
+.pip.on{border-color:var(--gold);color:#1a1014;background:linear-gradient(180deg,var(--gold-2),var(--gold));font-weight:700}
+.pip.done{color:var(--jade);border-color:rgba(111,156,134,.5)}
+.topbar .spacer{flex:1}
+.apbox{display:flex;align-items:center;gap:12px}
+.apbox .lab{font-size:11px;letter-spacing:.26em;color:var(--paper-3)}
+.apdots{display:flex;gap:5px}
+.apdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(217,180,91,.55);background:transparent;transition:.25s}
+.apdot.on{background:radial-gradient(circle at 35% 32%,#fbe9b6,var(--gold));border-color:var(--gold-2)}
+
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr) 310px;gap:16px;margin-top:16px;align-items:start}
+@media(max-width:1180px){.layout{grid-template-columns:220px minmax(0,1fr)}.col-right{grid-column:1/-1}}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.col-right{grid-column:auto}}
+
+.panel{border:1px solid var(--line);border-radius:4px;
+  background:linear-gradient(180deg,rgba(33,21,28,.88),rgba(18,11,14,.94));box-shadow:var(--shadow);position:relative;}
+.panel-h{padding:11px 16px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.3em;color:var(--gold);
+  background:linear-gradient(90deg,rgba(217,180,91,.10),transparent);display:flex;justify-content:space-between;align-items:center;}
+.panel-b{padding:12px}
+
+.place{display:flex;gap:11px;align-items:flex-start;padding:10px 12px;margin-bottom:7px;
+  border:1px solid transparent;border-radius:3px;cursor:pointer;transition:.2s;background:rgba(255,255,255,.018);}
+.place:hover{background:rgba(217,180,91,.09);border-color:rgba(217,180,91,.24)}
+.place.on{background:linear-gradient(90deg,rgba(158,32,41,.28),rgba(158,32,41,.06));border-color:rgba(201,48,58,.6)}
+.place.locked{opacity:.4;cursor:not-allowed}
+.place.locked:hover{background:rgba(255,255,255,.018);border-color:transparent}
+.p-ico{flex:0 0 30px;height:30px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:2px;font-size:14px;color:var(--gold);background:rgba(0,0,0,.3)}
+.place.on .p-ico{border-color:var(--gold);background:rgba(217,180,91,.14)}
+.p-name{font-size:14.5px;color:var(--paper);letter-spacing:.08em}
+.p-sub{font-size:11.5px;color:var(--paper-3);line-height:1.5;margin-top:1px}
+.p-badge{font-size:10px;color:var(--jade);margin-left:auto;white-space:nowrap;padding-top:3px}
+
+.stage{padding:22px 26px 26px;min-height:420px}
+.stage-h{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+.stage-h h2{font-size:26px;letter-spacing:.16em;color:var(--gold-2);font-weight:600}
+.stage-h .sub{font-size:12.5px;color:var(--paper-3);letter-spacing:.14em;margin-top:4px}
+.stage-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;text-align:center;color:var(--paper-3)}
+.stage-empty .big{font-size:60px;color:rgba(217,180,91,.16);margin-bottom:14px}
+.stage-empty p{max-width:470px;font-size:13.5px;line-height:2}
+
+/* 页签 */
+.tabs{display:flex;gap:9px;margin-top:18px}
+.tab{padding:8px 20px;border:1px solid var(--line);border-radius:2px;cursor:pointer;font-size:13.5px;
+  letter-spacing:.2em;color:var(--paper-3);transition:.2s;background:rgba(255,255,255,.015);}
+.tab:hover{border-color:var(--gold);color:var(--gold-2)}
+.tab.on{background:linear-gradient(180deg,rgba(217,180,91,.24),rgba(217,180,91,.06));border-color:var(--gold);color:var(--gold-2)}
+.tab .cnt{font-size:11px;margin-left:8px;opacity:.72;letter-spacing:.06em}
+.tabnote{margin-top:13px;font-size:12.5px;color:var(--paper-3);line-height:1.9;
+  border-left:2px solid rgba(217,180,91,.35);padding-left:11px;background:linear-gradient(90deg,rgba(217,180,91,.05),transparent);}
+
+/* 场景（勘验 · 问话通用） */
+.scene{position:relative;margin-top:16px;border:1px solid var(--line);border-radius:3px;overflow:hidden;
+  background:radial-gradient(130% 96% at 50% 6%, #2a1c24, #0a0608 82%);box-shadow:inset 0 0 60px rgba(0,0,0,.6);}
+.scene-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.scene svg{display:block;width:100%;height:auto}
+.scene-pan{display:none;padding:6px 14px;font-size:11px;letter-spacing:.22em;color:var(--paper-3);
+  text-align:center;border-top:1px solid var(--line);background:rgba(0,0,0,.34)}
+.scene-tip{padding:9px 16px;border-top:1px solid var(--line);font-size:12.5px;letter-spacing:.05em;
+  min-height:42px;display:flex;align-items:center;gap:10px;line-height:1.65;
+  background:linear-gradient(90deg,rgba(217,180,91,.07),transparent 74%);color:var(--paper-3);transition:.2s}
+.scene-tip b{color:var(--gold-2);font-weight:600;letter-spacing:.1em}
+.scene-tip i{font-style:normal;color:var(--paper-3)}
+.scene-tip.on{color:var(--paper-2)}
+.scene-tip.on b{color:var(--gold-2)}
+.scene-tip .go{color:#e79aa2;white-space:nowrap}
+/* 热区 */
+.hs{fill:transparent;stroke:transparent;stroke-width:1.6;cursor:pointer;pointer-events:all;transition:fill .18s,stroke .18s}
+.hs:hover{fill:rgba(217,180,91,.10);stroke:var(--gold);stroke-dasharray:5 3}
+.hs.sel{fill:rgba(217,180,91,.16);stroke:var(--gold);stroke-dasharray:5 3}
+.hs.lock{cursor:not-allowed}
+.hs.lock:hover{fill:rgba(255,255,255,.03);stroke:rgba(217,180,91,.4)}
+.hs.fin:hover{fill:rgba(111,156,134,.11);stroke:var(--jade)}
+/* 场景内状态点 */
+.hsm{pointer-events:none}
+.hsm.todo circle{fill:#d9b45b;opacity:.4;animation:breath 2.8s ease-in-out infinite}
+.hsm.hit circle{fill:#f4dc95;opacity:.95}
+.hsm.hit circle.ring{fill:none;stroke:#f4dc95;stroke-opacity:.5;stroke-width:1}
+.hsm.miss circle{fill:#5f554b;opacity:.65}
+@keyframes breath{0%,100%{opacity:.26}50%{opacity:.72}}
+.sec-lab{margin-top:22px;margin-bottom:2px;font-size:11px;letter-spacing:.32em;color:var(--paper-3);
+  padding-bottom:8px;border-bottom:1px solid var(--line)}
+
+/* 搜查点 */
+.spotgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:11px;margin-top:16px}
+.spot{border:1px solid var(--line);border-radius:3px;padding:13px 15px 12px;cursor:pointer;transition:.22s;
+  background:linear-gradient(160deg,rgba(217,180,91,.05),transparent 72%);position:relative;}
+.spot:hover{border-color:var(--gold);background:linear-gradient(160deg,rgba(217,180,91,.15),transparent 72%);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.34)}
+.spot .sn{font-size:14px;color:#e6dac4;letter-spacing:.04em;margin-bottom:5px;padding-right:48px}
+.spot .sh{font-size:12px;color:var(--paper-3);line-height:1.7}
+.spot .sf{position:absolute;top:12px;right:13px;font-size:11px;letter-spacing:.1em}
+.spot.hit{border-color:rgba(217,180,91,.55);background:linear-gradient(160deg,rgba(217,180,91,.18),transparent 72%)}
+.spot.hit .sf{color:var(--gold)}
+.spot.hit .sn{color:var(--gold-2)}
+.spot.miss{opacity:.5;border-color:rgba(255,255,255,.07);background:none}
+.spot.miss .sf{color:var(--paper-3)}
+.spot.locked{opacity:.42;cursor:not-allowed;border-style:dashed}
+.spot.locked:hover{transform:none;border-color:var(--line);background:linear-gradient(160deg,rgba(217,180,91,.05),transparent 72%);box-shadow:none}
+.spot.locked .sf{color:var(--paper-3)}
+
+/* 选中待确认：金框 + 呼吸光，与热区的 .sel 同一套语汇 */
+.spot.pick{border-color:var(--gold);background:linear-gradient(160deg,rgba(217,180,91,.2),transparent 72%);
+  box-shadow:0 0 0 1px rgba(217,180,91,.35),0 10px 26px rgba(0,0,0,.4);animation:pickPulse 2.2s ease-in-out infinite}
+.spot.pick:hover{transform:none}
+.spot.pick .sf{color:var(--gold-2)}
+.spot.pick .sn{color:var(--gold-2)}
+@keyframes pickPulse{0%,100%{box-shadow:0 0 0 1px rgba(217,180,91,.35),0 10px 26px rgba(0,0,0,.4)}
+  50%{box-shadow:0 0 0 1px rgba(217,180,91,.7),0 10px 30px rgba(0,0,0,.5),0 0 18px rgba(217,180,91,.16)}}
+.sdock{margin-top:12px;padding-top:11px;border-top:1px dashed rgba(217,180,91,.3);
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.sdock-t{flex:1;font-size:11.5px;color:var(--gold-2);letter-spacing:.1em;white-space:nowrap}
+@media(max-width:430px){.sdock-t{flex:1 1 100%}}
+
+/* 话题 */
+.actlist{margin-top:16px;display:grid;gap:11px}
+.act{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:3px;
+  cursor:pointer;transition:.22s;background:linear-gradient(90deg,rgba(217,180,91,.05),transparent 70%);flex-wrap:wrap}
+.act:hover{border-color:var(--gold);background:linear-gradient(90deg,rgba(217,180,91,.14),transparent 70%);transform:translateX(3px)}
+.act.done{cursor:default;opacity:.6;border-color:rgba(111,156,134,.32);background:rgba(111,156,134,.05)}
+.act.done:hover{transform:none;border-color:rgba(111,156,134,.32);background:rgba(111,156,134,.05)}
+.act.locked{cursor:not-allowed;opacity:.44;border-style:dashed}
+.act.locked:hover{transform:none;border-color:var(--line);background:linear-gradient(90deg,rgba(217,180,91,.05),transparent 70%)}
+.act .a-no{flex:0 0 auto;font-size:11px;letter-spacing:.14em;color:var(--gold);border:1px solid var(--line);padding:3px 7px;border-radius:2px;white-space:nowrap}
+.act.done .a-no{color:var(--jade);border-color:rgba(111,156,134,.42)}
+.act.locked .a-no{color:var(--paper-3)}
+.act .a-txt{flex:1;font-size:14.5px;color:#e6dac4;letter-spacing:.04em}
+.act.done .a-txt,.act.locked .a-txt{color:var(--paper-3)}
+.act .a-cost{font-size:11.5px;color:var(--paper-3);letter-spacing:.1em;white-space:nowrap}
+.act.prove{background:linear-gradient(90deg,rgba(158,32,41,.14),transparent 70%);border-color:rgba(201,48,58,.4)}
+.act.prove:hover{border-color:var(--red-2);background:linear-gradient(90deg,rgba(158,32,41,.24),transparent 70%)}
+.act.prove .a-no{color:#e79aa2;border-color:rgba(201,48,58,.5)}
+.act.pick{border-color:var(--gold);background:linear-gradient(90deg,rgba(217,180,91,.2),transparent 70%);
+  box-shadow:0 0 0 1px rgba(217,180,91,.35),0 10px 26px rgba(0,0,0,.4);animation:pickPulse 2.2s ease-in-out infinite}
+.act.pick:hover{transform:none}
+.act.pick .a-no{color:var(--gold-2);border-color:rgba(217,180,91,.5)}
+.act.pick .a-txt{color:var(--gold-2)}
+.adock{flex:1 1 100%;padding-top:11px;border-top:1px dashed rgba(217,180,91,.3);
+  display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+
+/* 阅读区 */
+.read{animation:rise .45s ease both}
+.dialogue{margin-top:20px;padding:20px 22px;border-left:2px solid rgba(201,48,58,.55);
+  background:linear-gradient(90deg,rgba(158,32,41,.10),transparent 76%);font-size:15px;line-height:2.05;color:#e9ddc7;}
+.dialogue p{margin-bottom:12px}
+.dialogue p:last-child{margin-bottom:0}
+.dialogue .say{color:#f3e4c6}
+.dialogue .narr{color:var(--paper-2);font-size:14px}
+.dialogue strong{color:#ffd9a0;font-weight:600}
+.dialogue.barren{border-left-color:rgba(140,140,140,.35);background:linear-gradient(90deg,rgba(255,255,255,.035),transparent 76%)}
+
+.cluepop{margin-top:18px;border:1px solid var(--line-2);border-radius:3px;padding:15px 17px;
+  background:linear-gradient(160deg,rgba(217,180,91,.10),rgba(20,12,16,.6));animation:rise .5s .1s ease both;}
+.cluepop .ch{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+.cluepop .ct{font-size:15px;color:var(--gold-2);letter-spacing:.1em}
+.tag{font-size:10.5px;letter-spacing:.16em;padding:2px 8px;border-radius:2px;border:1px solid currentColor;opacity:.9}
+.tag.物证{color:#d59a5e} .tag.证词{color:#8fb3c9} .tag.时间{color:#7fc0a3}
+.cluepop .cd{font-size:14px;color:#ded2bc;line-height:1.95}
+.cluepop .cp{margin-top:10px;font-size:13.5px;line-height:1.9}
+.cluepop .cp b{color:var(--gold);font-weight:600;letter-spacing:.06em}
+.cluepop .cp.warn b{color:#d98b7a}
+
+/* 线索簿 */
+.cluebox{max-height:560px;overflow-y:auto;padding:12px}
+.cluegrp{margin-bottom:14px}
+.cluegrp .gh{font-size:11px;letter-spacing:.26em;color:var(--paper-3);margin-bottom:7px}
+.cluecard{padding:9px 11px;border:1px solid var(--line);border-radius:3px;margin-bottom:6px;
+  font-size:13px;color:#d5c9b4;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02);}
+.cluecard:hover{border-color:var(--gold);background:rgba(217,180,91,.1);color:var(--gold-2)}
+.cluecard .cid{font-size:10px;color:var(--paper-3);letter-spacing:.1em;margin-right:6px}
+.empty-note{color:var(--paper-3);font-size:13px;text-align:center;padding:26px 10px;line-height:2}
+
+/* 弹窗 */
+.modal{position:fixed;inset:0;background:rgba(6,3,5,.86);backdrop-filter:blur(5px);
+  display:flex;align-items:center;justify-content:center;padding:24px;z-index:60;animation:fade .25s ease both;}
+.modal-in{max-width:680px;width:100%;max-height:84vh;overflow-y:auto;border:1px solid var(--line-2);
+  border-radius:4px;padding:26px 30px;background:linear-gradient(180deg,rgba(40,25,34,.98),rgba(19,11,15,.99));
+  box-shadow:0 30px 80px rgba(0,0,0,.7);animation:rise .32s ease both;}
+.modal-in h3{font-size:20px;color:var(--gold-2);letter-spacing:.14em;margin-bottom:5px}
+.modal-in .ms{font-size:12px;color:var(--paper-3);letter-spacing:.16em;margin-bottom:16px}
+
+.provegrid{display:grid;gap:8px;max-height:400px;overflow-y:auto;padding-right:4px}
+.pv{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;
+  cursor:pointer;font-size:13.5px;color:#cfc3ae;transition:.2s;background:rgba(255,255,255,.015);}
+.pv:hover{border-color:var(--red-2);background:rgba(158,32,41,.13);color:#f0dcc8}
+.pv .pid{font-size:10.5px;color:var(--paper-3);letter-spacing:.08em}
+.pv .ptype{margin-left:auto;font-size:11px;color:var(--paper-3)}
+.pv.dead{opacity:.4;cursor:not-allowed}
+.pv.dead:hover{border-color:var(--line);background:rgba(255,255,255,.015);color:#cfc3ae}
+.pv.dead .ptype{color:#a56a62}
+
+/* 结案 */
+#verdict{max-width:900px;margin:0 auto;animation:fade .5s ease both}
+.vhead{text-align:center;padding:34px 20px 22px}
+.vhead h1{font-size:38px;letter-spacing:.3em;color:var(--gold-2);font-weight:600}
+.vhead p{color:var(--paper-3);letter-spacing:.2em;font-size:12.5px;margin-top:8px}
+.q{padding:22px 26px;border-top:1px solid var(--line)}
+.q .qn{font-size:11px;letter-spacing:.28em;color:var(--gold);margin-bottom:6px}
+.q h4{font-size:17px;color:#f0e3ca;letter-spacing:.08em;font-weight:600;margin-bottom:14px}
+.opts{display:grid;gap:9px}
+.opt{display:flex;align-items:center;gap:12px;padding:12px 15px;border:1px solid var(--line);border-radius:3px;
+  cursor:pointer;transition:.2s;background:rgba(255,255,255,.018);font-size:14px;color:#dbcfb9;}
+.opt:hover{border-color:var(--gold);background:rgba(217,180,91,.09)}
+.opt.sel{border-color:var(--red-2);background:linear-gradient(90deg,rgba(158,32,41,.26),rgba(158,32,41,.05));color:#f7e6d4}
+.opt .dot{width:14px;height:14px;border-radius:50%;border:1px solid var(--line-2);flex:0 0 auto;position:relative}
+.opt.sel .dot{border-color:var(--red-2)}
+.opt.sel .dot::after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:var(--red-2)}
+.opt .ohint{margin-left:auto;font-size:11px;color:var(--paper-3);letter-spacing:.08em}
+.evpick{display:grid;gap:7px;max-height:340px;overflow-y:auto;padding-right:4px}
+.ev{display:flex;align-items:center;gap:11px;padding:10px 13px;border:1px solid var(--line);border-radius:3px;
+  cursor:pointer;font-size:13.5px;color:#cfc3ae;transition:.2s;background:rgba(255,255,255,.015);}
+.ev:hover{border-color:var(--gold);background:rgba(217,180,91,.08)}
+.ev.sel{border-color:var(--gold);background:linear-gradient(90deg,rgba(217,180,91,.2),transparent);color:var(--gold-2)}
+.ev .box{width:13px;height:13px;border:1px solid var(--line-2);border-radius:2px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:10px}
+.ev.sel .box{background:var(--gold);border-color:var(--gold);color:#1a1014}
+.ev .eid{font-size:10px;color:var(--paper-3);letter-spacing:.08em}
+
+/* 复盘 */
+#reveal{max-width:1000px;margin:0 auto;animation:fade .55s ease both}
+.score{text-align:center;padding:34px 24px 26px;border:1px solid var(--line-2);border-radius:4px;
+  background:linear-gradient(180deg,rgba(43,27,36,.9),rgba(18,11,14,.94));box-shadow:var(--shadow);}
+.score .rank{font-size:44px;letter-spacing:.4em;font-weight:700;
+  background:linear-gradient(180deg,#fbeecb,var(--gold) 60%,#96742a);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.score .rsub{color:var(--paper-2);letter-spacing:.22em;font-size:12.5px;margin-top:10px}
+.score .rbody{margin-top:18px;color:#ded2bc;font-size:14.5px;max-width:640px;margin-left:auto;margin-right:auto;line-height:2;text-align:left}
+.checks{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.chk{font-size:12.5px;padding:6px 14px;border-radius:2px;border:1px solid;letter-spacing:.1em}
+.chk.ok{color:#8fc9a8;border-color:rgba(111,156,134,.6);background:rgba(111,156,134,.1)}
+.chk.no{color:#dd8e84;border-color:rgba(201,48,58,.55);background:rgba(158,32,41,.12)}
+.sec{margin-top:22px;padding:26px 30px}
+.sec h2{font-size:21px;color:var(--gold-2);letter-spacing:.18em;margin-bottom:6px;font-weight:600}
+.sec h2 .num{font-size:12px;color:var(--paper-3);letter-spacing:.2em;display:block;margin-bottom:4px}
+.sec p{color:#ddd1bb;margin-bottom:11px}
+.sec p:last-child{margin-bottom:0}
+.tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+.tbl th{text-align:left;padding:9px 12px;color:var(--gold);font-weight:600;letter-spacing:.1em;
+  border-bottom:1px solid var(--line-2);background:rgba(217,180,91,.06);font-size:12.5px}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--line);color:#d4c8b2;vertical-align:top;line-height:1.8}
+.tbl tr.key td{background:rgba(158,32,41,.13);color:#f2e4cf}
+.tbl tr.key td:first-child{box-shadow:inset 3px 0 0 var(--red-2)}
+.chain{margin-top:14px}
+.chainli{display:flex;gap:14px;padding:13px 16px;border-left:2px solid rgba(217,180,91,.4);
+  background:linear-gradient(90deg,rgba(217,180,91,.07),transparent);margin-bottom:9px;font-size:14px;color:#dbcfb9;}
+.chainli .cn{flex:0 0 auto;color:var(--gold);letter-spacing:.1em;font-size:12.5px;padding-top:2px}
+.role{display:grid;gap:10px;margin-top:14px}
+.rolecard{padding:14px 17px;border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.018)}
+.rolecard .rn{font-size:15px;color:var(--gold-2);letter-spacing:.1em;margin-bottom:5px}
+.rolecard .rl{font-size:13.5px;color:#cfc3ae;line-height:1.9}
+.rolecard .rl span{color:var(--gold);font-size:12px;letter-spacing:.08em}
+.foot{text-align:center;margin-top:26px;color:var(--paper-3);font-size:12px;letter-spacing:.16em;line-height:2}
+
+/* ---------------- 窄屏 / 手机 ---------------- */
+/* grid / flex 子项默认 min-width:auto，会让可横滑的孩子把整页撑宽 —— 一律放开 */
+.layout > *,.panel,.panel-b,.places,.stats,.stage,.scene,.scene-scroll,.col-mid{min-width:0}
+.places{display:block}
+.stats{display:grid;gap:2px}
+#toTop{position:fixed;right:14px;bottom:16px;z-index:50;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line-2);background:rgba(28,18,22,.94);color:var(--gold-2);font-family:inherit;
+  font-size:15px;letter-spacing:0;cursor:pointer;display:none;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);padding:0;line-height:1}
+#toTop.show{display:flex}
+#toTop:active{transform:scale(.94)}
+
+@media(max-width:820px){
+  #app{padding:10px 11px 76px}
+  /* 工具条吸顶：翻到哪都看得见余筹与结束本日 */
+  .topbar{position:sticky;top:0;z-index:40;gap:9px;padding:9px 11px;border-radius:0 0 3px 3px;
+    background:linear-gradient(180deg,rgba(43,27,36,.99),rgba(22,13,17,.96));backdrop-filter:blur(9px);}
+  .topbar .brand{font-size:15px;letter-spacing:.12em}
+  .topbar .brand small{display:none}
+  .daypips{gap:5px;margin-left:0}
+  .pip{padding:4px 8px;font-size:11px;letter-spacing:.04em}
+  .apdots{display:none}
+  .apbox{gap:7px}
+  .apbox .lab{font-size:10.5px;letter-spacing:.1em}
+  .btn.sm{padding:7px 11px;font-size:12px;letter-spacing:.06em}
+
+  .layout{gap:11px;margin-top:11px}
+  /* 宫城：竖列表改横向 chip 条，把案台顶上来 */
+  .places{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px;-webkit-overflow-scrolling:touch}
+  .place{flex:0 0 auto;flex-direction:column;align-items:center;gap:5px;min-width:112px;max-width:146px;
+    margin-bottom:0;padding:9px 10px;text-align:center}
+  .place .p-ico{flex:0 0 24px;height:24px;font-size:12px}
+  .place > div{width:100%}
+  .p-name{font-size:13px;letter-spacing:.04em}
+  .p-sub{display:none}
+  .p-badge{margin-left:0;padding-top:1px;font-size:9.5px}
+  .stats{display:flex;gap:14px;flex-wrap:wrap}
+
+  .stage{padding:15px 13px 17px;min-height:0}
+  .stage-h{gap:10px;padding-bottom:11px;align-items:center}
+  .stage-h h2{font-size:20px;letter-spacing:.08em}
+  .stage-h .sub{font-size:11.5px;letter-spacing:.06em}
+  .stage-h > div:last-child{display:none}   /* 余筹在吸顶条上已经有了，不必重复 */
+  .tabs{gap:8px;margin-top:13px}
+  .tab{padding:8px 13px;font-size:12.5px;letter-spacing:.1em}
+  .tabnote{font-size:12px;margin-top:11px}
+
+  /* 勘验页：给足最小宽度，热区才点得准；不够宽就左右滑 */
+  .scene{margin-top:13px}
+  .scene-scroll.tapable svg{min-width:900px}
+  .scene-pan{display:block}
+  .scene-tip{min-height:0;padding:10px 13px;font-size:12.5px;flex-wrap:wrap;gap:6px 10px}
+
+  .sec-lab{margin-top:17px}
+  .spotgrid{grid-template-columns:1fr;gap:9px;margin-top:13px}
+  .spot .sn{font-size:13.5px;padding-right:44px}
+  .spot .sh{font-size:11.5px}
+  .act{padding:12px 13px;gap:10px}
+  .act .a-txt{font-size:13.5px}
+  .act .a-cost{font-size:11px}
+
+  .read .dialogue{padding:15px 15px;font-size:14.5px;line-height:1.95;margin-top:16px}
+  .cluepop{padding:13px 14px;margin-top:15px}
+  .cluepop .ch{gap:8px}
+  .cluepop .ct{font-size:14px}
+  .cluepop .cd,.cluepop .cp{font-size:13px}
+  .cluebox{max-height:none}
+
+  .sec{padding:19px 15px;margin-top:16px}
+  .sec h2{font-size:18px;letter-spacing:.12em}
+  .tbl{font-size:12px;display:block;overflow-x:auto;max-width:100%}
+  .tbl th,.tbl td{padding:7px 8px}
+  .chainli{flex-direction:column;gap:4px;padding:11px 12px;font-size:13px}
+  .chainli .cn{padding-top:0}
+  .rolecard{padding:12px 13px}
+  .rolecard .rn{font-size:14px}
+  .rolecard .rl{font-size:13px}
+  .foot{padding:0 8px}
+
+  .modal{padding:11px;align-items:flex-start;padding-top:34px}
+  .modal-in{padding:19px 16px;max-height:86vh}
+  .modal-in h3{font-size:17px}
+  .provegrid{max-height:52vh}
+  .pv{font-size:13px;padding:11px 12px;gap:9px}
+  .pv .ptype{font-size:10.5px}
+
+  #intro{padding:24px 17px 22px}
+  .intro-title{font-size:33px;letter-spacing:.14em}
+  .intro-top{gap:14px}
+  .vhead{padding:26px 12px 18px}
+  .vhead h1{font-size:26px;letter-spacing:.18em}
+  .score{padding:26px 16px 20px}
+  .score .rank{font-size:31px;letter-spacing:.22em}
+  .score .rbody{font-size:13.5px}
+  .q{padding:18px 15px}
+  .evpick{max-height:none}
+}
+@media(max-width:620px){
+  /* 标题让位给「日 / 余筹 / 结束本日」——窄屏上这三样才是要一直看得见的 */
+  .topbar .brand{display:none}
+}
+@media(max-width:430px){
+  .place{min-width:100px;max-width:128px}
+  .pip{padding:3px 6px;font-size:10.5px}
+  .apbox .lab{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<button id="toTop" type="button" aria-label="回到顶部" onclick="backToTop()">顶</button>
+<script>
+/* =========================================================
+   上巳血案 · 古代宫斗单人推理本
+   真相：德妃在节礼桂花蜜中下钩吻 / 皇后撤解药·撤试毒·传夜禁断其生路
+   玩法：勘验（搜现场，含干扰项）+ 问话（呈证逼问）
+   ========================================================= */
+
+/* ---------------- 线索库（22条） ---------------- */
+const CLUES = {
+  c01:{name:"贵妃遗体的勘验",type:"时间",desc:"面色青紫，唇甲发绀，指端有细密红点，身上无一处外伤。",point:"毒自口入；死状合钩吻之征。",warn:"三月初三之前，贵妃身上可还有别的症候？只凭验状，尚不足以定凶器从何而来。",from:"毓秀宫 · 勘验"},
+  c02:{name:"盏底的灰白沉淀",type:"物证",desc:"青玉盏底沉着一层灰白粉末，未化于蜜水。以水调之，粉沉底不散；就烛火焙之，散出微辛之气。",point:"毒是事后掺入的粉末，掺杂仓促，未及化开——下毒的人是在蜜已经盛进瓶里之后才动的手。所以，毒在蜜里。",warn:"粉末是掺进蜜里的，还是本就随蜜而来？盏底这一层，仍要问一问来源。",from:"毓秀宫 · 勘验"},
+  c03:{name:"三月初三 · 太液池宫宴",type:"证词",desc:"皇后亲赐一盏长春酒于贵妃。贵妃以「近日脾胃不适」推辞，未起身接盏。满座皆静。皇后持盏立了半晌，笑道：「妹妹的病，倒是挑着日子来的。」宴散时贵妃先行，未向皇后辞。",point:"皇后与贵妃当众结怨，满宫皆见——皇后有动机，也最容易被指认。",warn:"结怨是结怨，动手是动手。这一条只证到满宫皆见，证不到当夜那一盏汤。",from:"长秋宫 · 问话"},
+  c04:{name:"「我愿以命换命」",type:"证词",desc:"宫宴上沈琮（贵妃之弟）当众重提盐引旧案，语带讥讽。婉贵人执盏而起，只说八个字：「若我母家清白，我愿以命换命。」座中无人应声。三月初三酉时，有人见咸福宫宫人在毓秀宫外墙下徘徊。",point:"婉贵人有动机，且案发前有可疑举动——最「像」凶手的人。",warn:"动机不等于时辰。她的举动有几处可查，先看清那些举动落在什么时候。",from:"咸福宫 · 问话"},
+  c05:{name:"秋棠的当夜",type:"时间",desc:"亥时娘娘命我取节礼那瓶桂花蜜，冲一盏安神蜜汤。娘娘饮了半盏，说「这蜜不对，口里发麻」，命我去请太医。我到宫门，门吏说「今夜宫中有旨，各宫无旨不得出入」。子时娘娘腹痛，我又去，仍被拦。丑时娘娘已不能言语，我跪在门内哭求——门吏说，「已遣人禀报长秋宫了」。",point:"从饮汤到身故约三个时辰，其间两次求医皆被宫门拦下；秋棠并不知蜜中有毒。",warn:"端汤的人与下毒的人，未必是同一个。这条可以两头问：汤从哪来，毒从哪来。",from:"毓秀宫 · 问话"},
+  c06:{name:"太医院脉案",type:"证词",desc:"周鹤称：贵妃孕已两月，胎象尚稳，此事宫中未宣，只太医院脉案有记。死因系钩吻中毒，由口入，发作应在亥时之后。",point:"贵妃有孕——这是皇后之位的催命符，也是本案最深的一层动机。",warn:"有孕是缘由，不是死因。此条要接上脉案与遗体的验状，才立得住。",from:"太医院 · 问话"},
+  c07:{name:"那瓶桂花蜜",type:"物证",desc:"毓秀宫余下的小半瓶桂花蜜，蜜色较他宫所赐者深浊，瓶底沉有灰白粉末，以水调之则沉底不散。另取景仁宫、咸福宫同批节礼之桂花蜜并验，蜜色清亮，瓶底无物。",point:"毒在「蜜」中，而蜜出自上巳节礼。六宫同批，唯毓秀宫这一瓶有毒——有人在分装环节做了手脚。",warn:"唯一的这一瓶与众不同——为何是这一瓶，还要看分装那一环。",from:"毓秀宫 · 勘验"},
+  c08:{name:"涂改的分装单",type:"物证",desc:"内务府《上巳节六宫节礼分装单》载：各宫例得「桂花蜜二瓶」。毓秀宫一栏「二瓶」二字被刮去，改书「一瓶、蜜饯二盒」。墨色新于他行，改笔出自景仁宫掌事宫女之手。",point:"有人特意把毓秀宫那一瓶蜜单独调出、单独交付——正是掺毒的那一瓶。",warn:"涂改的是谁的手、改了之后这一瓶去了哪里，这两问缺一不可。",from:"内务府档房 · 勘验"},
+  c09:{name:"御药房 · 三月初一领药档",type:"物证",desc:"《御药房出入档》记：三月初一辰时，景仁宫小太监林忠领「钩吻末」三钱，用途栏书「除园中虫豸」。钩吻外用杀虫，非禁药，然宫中已多年无人领取。",point:"德妃宫中有人在案发前三日取得钩吻末——毒源。",warn:"领药的人领了做什么用，档上写的未必是真话，可去问一问。",from:"御药房 · 勘验"},
+  c10:{name:"被朱笔勾去的两味",type:"物证",desc:"贵妃安胎方原含「生甘草」与「紫苏」，为太医院按例配入，用以和药性、缓诸毒。三月初三上午的脉案上，此二味被朱笔勾去，改加「砂仁」，批注「脾胃不和，甘草性滞」。落笔者为太医周鹤。",point:"撤去的两味恰是缓解钩吻之毒的药材；改方之日，正是案发之日。",warn:"笔在他手上，话却未必是他要说的。改方之前，有没有第二个人开口？",from:"太医院 · 勘验"},
+  c11:{name:"内务府 ·「清整宫器」令",type:"物证",desc:"三月初三戌时，内务府传出「上巳后清整宫器」之令，收各宫银针、银箸、试毒之器，言「节后重验成色」。然《知会签》上画押的传令内侍，名在长秋宫册上。毓秀宫试毒之器亦在被收之列。",point:"案发当夜，全宫试毒的手段被「合规地」撤走——且传令者出自中宫。",warn:"此令若真是惯例，往年当有旧档可对；若对不上，才见分量。",from:"内务府档房 · 勘验"},
+  c12:{name:"未送出的信",type:"物证",desc:"长秋宫一名宫人的箱底，压着一封未送出的信。信是婉贵人所书，通篇为母家旧案求贵妃「于圣前进一言」，末句「妾愿以三年寂寂，换母家一纸清白」。无一字怨言，亦无一字涉毒。",point:"婉贵人遣人至毓秀宫是为求情，不是害人；且此信竟落在长秋宫宫人手中——婉贵人的一举一动，早被人看着。",warn:"信落在谁手里，和信是谁写的，是两件事。这一层可以分开问。",from:"长秋宫 · 勘验"},
+  c13:{name:"被扣押的小太监",type:"证词",desc:"秋棠的弟弟在御膳房当差。三月初二午后，他被人以「盗用御膳」为由押走，押人的内侍出自长秋宫。至案发，人仍未放。秋棠供称：扣押当日，有人对她说过一句——「好好当你的差，别多问。」",point:"有人在案发前一日，先捏住了毓秀宫大宫女的软肋。",warn:"押人的由头是真的还是借来的？问一问御膳房当日的情形。",from:"毓秀宫 · 问话"},
+  c14:{name:"节后的派差签条",type:"证词",desc:"三月初三戌时，毓秀宫试毒宫女春禧被派去帮着搬运上巳赏赐的绸缎。差事出自内务府，而转下画押的，是一枚长秋宫的私记。她走后，毓秀宫当夜无人试毒。",point:"案发当夜，毓秀宫的最后一道防线被人调开。",warn:"派差是常事。要看的是：谁签的这一条，以及她走了之后宫里缺了谁。",from:"内务府档房 · 勘验"},
+  c15:{name:"宫门值房 · 夜册",type:"时间",desc:"《宫门值房夜册》记：三月初三戌时末，长秋宫传令「今夜宫中有警，酉时后各宫无旨不得出入」；同夜亥时、子时、丑时，毓秀宫三次有人至门求见太医，皆被驳回，驳由皆为「夜禁」。",point:"夜禁令的传令时间早于贵妃饮汤——这是先把门关上，再等一件事发生。不是事后补救。",warn:"夜禁若能查到旧例，便知这一次是迟是早。时辰差得开，才算数。",from:"宫门值房 · 勘验"},
+  c16:{name:"门吏的口供",type:"证词",desc:"值夜内侍供称：丑时毓秀宫宫女在门内哭求，他曾「遣人疾走长秋宫禀报贵妃危殆」。长秋宫回话只有四个字：「知道了，候。」此后无人来，也无人遣医。他再问，回话是「娘娘已歇」。",point:"中宫在明知贵妃垂危的情况下，既不亲至，也不遣医——这不是来不及，是不打算救。",warn:"回话是一个候字——要看这句话出自谁的吩咐，还是值房自己的应付。",from:"宫门值房 · 问话"},
+  c17:{name:"太医的翻供",type:"证词",desc:"周鹤在得知贵妃有孕、且所撤二味正是缓毒之药后翻供：三月初三上午长秋宫召他入内，皇后隔着帘子说——「贵妃脾胃弱，甘草性滞，去了罢。紫苏也换掉。」他答「此二味是太医院旧例」。帘内答：「旧例是给常人定的。她的药，我说了算。」他不敢再争。",point:"皇后明确知晓并亲手撤去贵妃药中的缓冲之物——她知道自己在做什么。",warn:"他翻供之后，话就作得准了么？这条宜与他先前的话对读。",from:"太医院 · 呈证"},
+  c18:{name:"小太监林忠的供词",type:"证词",desc:"林忠（押于慎刑司）供：三月初一，德妃命他去御药房领钩吻末，说是「园里虫多」。三月初三酉时，德妃又命他到分装房，把一瓶已备好的桂花蜜「换到毓秀宫那份里」，并交代「瓶口封蜡要跟别的一样」。他所知仅此。",point:"德妃是下毒之人，且是有预谋的分装调换，不是临时起意。",warn:"他手上的事与宫里的手如何接上，中间还缺一环，可以再问。",from:"内务府档房 · 勘验"},
+  c19:{name:"长秋宫的「关切」",type:"证词",desc:"三月初三上午皇后召见周鹤之后，对身侧宫人说过一句话。此话由长秋宫一名宫人供出：「贵妃这一胎，是留不住的。留不住的东西，何必让她费心。」——与「撤药」一事的时点，正好衔接。",point:"皇后在案发当日上午，已对贵妃之死有预判。",warn:"宫人的转述需有旁证。这一句，可曾入过档、可有人同闻？",from:"长秋宫 · 问话"},
+  c20:{name:"婉贵人的自陈",type:"证词",desc:"婉贵人见得那封信，久不能言。她自陈：三月初三托宫中管事送信，为母家求情。送信的宫人在毓秀宫外墙下徘徊，是因宫门已闭（酉时已行夜禁），进不去。信未送到，也未退回——后来在长秋宫宫人的箱中被寻出。「以命换命」说的是「以我三年寂寂，换母家一纸清白」。",point:"婉贵人的全部可疑举动皆有合理性；她与本案无关。",warn:"她自陈可供参考，却不等于清白。把她的举动与时辰对一遍。",from:"咸福宫 · 呈证"},
+  c21:{name:"那一碗没端上的药",type:"证词",desc:"秋棠供称：贵妃饮蜜汤后觉异，曾对她说「去把安胎的药煎来，我这几日都靠它」。秋棠跑去药房，药房已按夜禁闭门，她空手而回。贵妃服药的习惯是每夜必饮——药中本有甘草、紫苏二味。",point:"贵妃当晚若照常服药，尚有转圜；那一碗药，被「夜禁」一起关在了门外。",warn:"药没煎成是事实；成与不成，各是谁的错，还要看当夜的情形。",from:"毓秀宫 · 问话"},
+  c22:{name:"先说了「虫」的人",type:"证词",desc:"你把御药房的领药档推到她面前。德妃只看了一瞬，便抬起头——「除虫的药末，也算罪证？」你还没说出那是什么药。",point:"德妃对「三月初一领钩吻」一事早有腹稿，在被点破之前就已备好了说辞。",warn:"她备了话，不等于她备了毒。这条记的是神色，不是证据。",from:"景仁宫 · 呈证"},
+
+  /* ===== 误导线索组 · 甲：婉贵人 =====
+     看起来是「私藏毒粉」的铁证，实为珍珠粉。证伪线索 c24。 */
+  c23:{name:"妆匣夹层里的白粉",type:"物证",mislead:true,refute:["c24"],flag:"指向错误",
+    desc:"你启开婉贵人的妆匣。木匣底下是活的，掀开那层薄板，下面压着一个折成方胜的纸包——白粉，约莫二钱，细腻无味。",
+    point:"一个失宠的贵人，在妆匣夹层里私藏毒粉。她把最要紧的东西，藏在了最贴身的地方——匣底夹层，本就不是放脂粉的位置。",
+    warn:"那二钱粉究竟是什么，验过才作数——问她一句，或取去药房对一对。",
+    truth:"那是珍珠粉。婉贵人失宠后脂粉例份早停，她自己买珍珠磨来敷面。此粉入口不麻、细润如脂——钩吻之末不是这个样子。",
+    from:"咸福宫 · 勘验"},
+
+  c24:{name:"药童验过的那包粉",type:"物证",desc:"你把那包白粉送到太医院。药童拈起一点，凑近闻了闻——无味；再蘸一点含在舌尖上，片刻吐掉，摇头：「不麻。」他说钩吻的末入口发麻、舌根发紧，这一个不麻。又以水调开，粉沉底不散，指间一捻，细润如脂。他翻了翻咸福宫的采买档：三月初三，「珍珠二两」。",
+    point:"钩吻之末入口发麻，此粉不麻、无味、细润如脂——不是毒。二钱白粉对二两珍珠，她那二两珠子，磨出来差不多就是这个数。",
+    warn:"验过之后，这包粉与贵妃盏底的白粉是不是同一样东西，还要比一比。",
+    from:"太医院 · 呈证"},
+
+  /* ===== 误导线索组 · 乙：太医周鹤 =====
+     灰白药末与盏底沉淀同色，看似他投毒。实为被撤的两味。证伪线索 c26。 */
+  c25:{name:"私药匣里的一包药末",type:"物证",mislead:true,refute:["c26"],flag:"指向错误",
+    desc:"太医院值房，周鹤的私药匣扣着锁，锁是坏的一掰就开。匣中一格，收着一小包药末——灰白色，细而微涩，气味极淡。你对着光看，越看越觉得，它与青玉盏底那层沉淀，像一个东西。",
+    point:"改药方的是他，改方之日正是贵妃死的那一日；如今他私匣里还藏着一包灰白色的药末，而贵妃的盏底，正沉着灰白色的粉末。",
+    warn:"灰白的粉末太医院有几十种。匣里这一包，可曾验过品名？",
+    truth:"那是生甘草与紫苏，他自己研磨的——被撤下来的两味。",
+    from:"太医院 · 勘验"},
+
+  c26:{name:"药童的辨认",type:"证词",desc:"你把那包药末递给药童。他拈一点送进嘴里，尝了尝，又吐出来，脸色忽然很难看：「这是生甘草和紫苏——磨成末的。」他说，周太医三月初三那天，把撤下来的两味各留了一份，夜里自己研磨。问他做什么用，太医只说了一句：「娘娘的药，我看着被撤的。」",
+    point:"他手里那包灰白的药末，不是毒。他是不敢明着违中宫的话，想把撤掉的两味磨成粉，寻个机会暗地里给贵妃补回去。",
+    warn:"他藏着药，是心虚还是别的缘故，只有问过他本人才知道。",
+    from:"太医院 · 呈证"},
+
+  /* ===== 误导线索组 · 丙：大宫女秋棠 =====
+     端汤的人袖里有空纸包，看似她下手。实为醒神散。证伪线索 c28。 */
+  c27:{name:"秋棠袖袋里的纸包",type:"物证",mislead:true,refute:["c28"],flag:"指向错误",
+    desc:"秋棠住处的墙角搁着一件换下来的旧褙子。你翻它的袖袋——里头有一个折得很小的空纸包，纸上留着一圈白色的残痕，指腹一蹭，蹭下一点细末。",
+    point:"那一夜，汤是她端的。她袖里揣着一个空纸包，纸上留着一圈白。屋里没有第二个人碰过那盏汤。",
+    warn:"纸包有用，与纸包有毒，是两回事。这包东西的去处，可以问问。",
+    truth:"那是醒神散。她夜里守着贵妃，怕自己睡过去，困了就抿一点薄荷冰片。",
+    from:"毓秀宫 · 勘验"},
+
+  c28:{name:"纸包里装的是什么",type:"证词",desc:"秋棠见了那个纸包，先是一愣，跟着脸就白了：「那是醒神散。」她说娘娘夜里常发作，她得守着，怕自己熬不住睡过去，托人从御药房领了薄荷、冰片，拿纸包着，困了就抿一点。「司正若不信，我那件衣裳的另一只袖子里，还有半包。」你去翻——半包，薄荷冰片末，辛凉刺鼻。",
+    point:"她袖里装的是薄荷与冰片，是给自己提神用的。那点白，不是毒。",
+    warn:"她袖里的东西另有所用——这一条能不能立，要看它接不接得上别的。",
+    from:"毓秀宫 · 问话"},
+
+  /* ===== 误导线索组 · 丁：无效铁证 =====
+     这条指向对了人（德妃），但证据本身无效——教的是「证据的有效性」。证伪线索 c30。 */
+  c29:{name:"分装房里的封蜡残块",type:"物证",mislead:true,refute:["c30"],flag:"证据无效",
+    desc:"分装房的案角，扔着一小块用剩的松香蜡，色如琥珀，边上留着熔过的痕。你把它与毓秀宫那瓶毒蜜的瓶口封蜡比在一处——颜色一样，厚薄一样，连封口压出的纹路都像。",
+    point:"毒蜜瓶口的蜡，与景仁宫分装房这半块，出自同一炉。换瓶的手，就在这间房里——这条链，闭环了。",
+    warn:"同一炉的蜡，是六宫皆有，还是独此一处？这一条须与分装旧档对读。",
+    truth:"宫中封蜡皆由内务府一炉熬制、按宫分发。它固然不错，却谁都证明不了。",
+    from:"景仁宫 · 勘验"},
+
+  c30:{name:"封蜡皆出一炉",type:"证词",desc:"你问分装房的掌事宫女：六宫节礼的瓶口，用的是什么蜡？她答得干脆：「一炉出的，一个色儿。封出来谁也看不出分别。」她翻出库册给你看——上巳、中秋、岁末，宫中封蜡皆由内务府一炉熬制，按宫分发，取用有定数。",
+    point:"六宫的封瓶蜡，本来就一模一样。所以「封蜡相同」这一条，什么都证明不了——它既不能指谁，也不能替谁开脱。",
+    warn:"蜡既然人人都一样，那动手的地方就不在蜡上。往别处找。",
+    from:"景仁宫 · 勘验"},
+
+  /* ===== 误导线索组 · 戊：试毒银针 =====
+     银针发乌看着像「毒已被验出、有人瞒报」，实为硫熏所致，六宫的针都乌。
+     工具不可靠 + 人人都有。证伪线索 c32。 */
+  c31:{name:"通体发乌的试毒银针",type:"物证",mislead:true,refute:["c32"],flag:"证据无效",
+    desc:"上巳后清整宫器，各宫收上来的试毒之器尽数封在内务府档房，装一只描漆木匣。你逐件翻验——毓秀宫试毒宫女春禧用的那根银针，通体乌黑，指腹擦之不去。同匣里其余几宫的银针，也有三四根带着乌色。",
+    point:"银针已经乌了。也就是说，毒物早在案发之前就经了她的手，验出来了——可这根针被收了回来，没有人报上去，也没有人停下来问一句。试毒的人，知情不报。",
+    warn:"针乌不等于针验出了毒。它还乌在哪里、别的针如何，都要对上。",
+    truth:"银针乌，是因为碰到了硫——宫里蜜饯、药材、蜜瓶口的封纸，多用硫磺熏过防虫。它验不出钩吻，而六宫的针本来就都乌着。春禧不曾瞒报，她守的那道防线，一直是一层纸。",
+    from:"内务府档房 · 勘验"},
+
+  c32:{name:"银针验的是什么",type:"证词",desc:"你把那根发乌的银针和药童那套验毒的家伙一并摆在案上。药童看了一眼就笑了：「司正，银针乌，那是碰到硫了。宫里的蜜饯要熏硫、药材要熏硫，连蜜瓶口那层封纸都熏过——十验九乌。」他又说，钩吻是草木里的毒，银针验它不着：「真要认钩吻，得看死人，看药案。老话讲『银针验毒』，验的是砒，不是这个。」他顿了顿，又说了句闲话：「前几日清整宫器，把各宫的针都收走了。收它做什么？那东西本来也验不出什么。」",
+    point:"银针验不出钩吻。贵妃之死能定为钩吻，靠的不是银针，是遗体征象与太医院脉案。六宫的针都乌、六宫的银匙都干净——这两样，都不能指谁，也不能替谁开脱。",
+    warn:"此条一旦立住，凡凭银针得来的判断都要重看一遍。慎之。",
+    from:"太医院 · 呈证"},
+
+  /* ===== 误导线索组 · 己：夹在案卷里的匿名字条 =====
+     看着像有人告发内情，实为诱饵。来源不可考。证伪线索 c34。 */
+  c33:{name:"案卷里夹着的一张字条",type:"物证",mislead:true,refute:["c34"],flag:"来源不明",
+    desc:"你翻《慎刑司案卷》，指头忽然一顿——卷页之间夹着一张没头没尾的字条。纸是档房最寻常的竹纸，字是反手写的：「贵人之死，非病非疾。毓秀宫膳房有人下手，此事系咸福宫所为。以三日之期，必得其证。」",
+    point:"有人知道内情，也愿意告诉你。字条挑在案卷里夹着，是怕被人看见；「此事系咸福宫所为」八个字，把矛头直直指往婉贵人。你正缺这样一句话。",
+    warn:"这张纸是谁放进来的，目录上没有它。来路不明的字条，先问来路。",
+    truth:"这张字条不是证据，是诱饵：纸、墨、笔迹三样都无从溯源，也没人能证明是谁放的。有人算准了你会翻开这一页。",
+    from:"内务府档房 · 勘验"},
+
+  c34:{name:"字条上的纸、墨与手",type:"证词",desc:"你把字条拿给档房书吏看。他先看纸：「这是档房的竹纸，一领一刀，六宫都在用。」再看墨：「寻常松烟墨，宫中处处有。」最后看字——他把纸翻过来对着光，摇了摇头：「反手写的。写字的人，不想让你认出笔迹。」你问，这本案卷封存之后，有谁调看过？他答：三月初四封卷，此后景仁宫的人来看过，长秋宫的人也来看过。",
+    point:"纸六宫都用，墨处处皆有，字是故意反手写的——三样都无从溯源。这张字条不是证据，是诱饵。更要紧的是：有人算准了你会翻到这一页，也算准了你会想听它上面那句话。",
+    warn:"这一页被人翻过两回。字条既已无从溯源，便不可入簿。",
+    from:"内务府档房 · 问话"}
+};
+
+/* 误导线索（结案时须剔除）：指向明确，但可被证伪 */
+const MISLEAD_IDS = Object.keys(CLUES).filter(k=>CLUES[k].mislead);
+
+/* ---------------- 地点 ---------------- */
+const PLACES = [
+  {
+    id:"yuxiu", name:"毓秀宫", sub:"贵妃居所 · 寝殿与库房", ico:"寝", open:1,
+    spots:[
+      {id:"s1",name:"贵妃的遗体",hint:"太医尚未收殓，尚可近前一验。",clue:"c01",body:[
+        ["narr","你请示过内廷，允准近前一验。"],
+        ["narr","面色青紫，唇甲发绀，指端有细密红点，身上无一处外伤。"],
+        ["narr","你翻开眼皮，再看指缝——无抓痕，无挣扎。"],
+        ["narr","这不是心疾暴卒。这是毒，自口入。"]
+      ]},
+      {id:"s2",name:"妆台上的青玉盏",hint:"残着半盏蜜汤，盏底似有沉淀。",clue:"c02",body:[
+        ["narr","你把青玉盏端到窗下细看。"],
+        ["narr","盏中还有半盏蜜汤，已经凉透。盏底沉着一层灰白粉末，并未化于蜜水。"],
+        ["narr","你以银针试了试，针色发乌。可这宫里熏过硫的物事太多，一根乌针，说明不了什么。"],
+        ["narr","你换了法子：就着烛火焙那层沉淀，散出微辛之气；以水调开，粉沉底不散。"],
+        ["narr","你盯着那层没化开的粉末，看了很久。"],
+        ["narr","<strong>毒是后来才掺进去的。</strong>掺得仓促，连化都没化开——下毒的人，是在蜜已经盛进瓶里之后才动的手。"],
+        ["narr","那么，毒在蜜里。"]
+      ]},
+      {id:"s3",name:"枕畔的安神香囊",hint:"贵妃惯用此香助眠。",clue:null,miss:[
+        ["narr","你拆开香囊，倒出香末，以银针试之，又就着烛火闻了半晌。"],
+        ["narr","沉香、藿香、少量苏合。是宫外铺子里二两银子一盒的寻常货色。"],
+        ["narr","香中无毒。"],
+        ["narr","——你在这上面，白费了一刻。"]
+      ]},
+      {id:"s4",name:"上巳节礼的那瓶桂花蜜",hint:"与其他宫的节礼一并送来，还剩小半瓶。",clue:"c07",body:[
+        ["narr","你把毓秀宫余下的小半瓶桂花蜜，与景仁宫、咸福宫同批节礼的蜜并在一处看。"],
+        ["narr","别人那两瓶，蜜色清亮。毓秀宫这一瓶，色深而浊，瓶底沉着一层灰白粉末。"],
+        ["narr","你以银针试之，发乌。又把三瓶并在一处，就着光比——清亮的两瓶，瓶底干净；浊的那一瓶，沉着一层粉。"],
+        ["narr","六宫同批的节礼，只有这一瓶有毒。"],
+        ["narr","你回头看了一眼那只青玉盏。毒不在汤里，毒在蜜里。"],
+        ["narr","而蜜，是从上巳节礼送进来的。"]
+      ]},
+      {id:"s5",name:"毓秀宫自记的收礼账",hint:"宫人自己记的收礼簿，随手记的。",clue:null,miss:[
+        ["narr","簿子上写着：三月初三收桂花蜜一瓶、蜜饯二盒，收赏绸二匹，收节仪一份。"],
+        ["narr","笔迹潦草，看得出是随手记的。"],
+        ["narr","秋棠在旁边轻声说了一句：「往年……都是两瓶蜜的。」"],
+        ["narr","你把这句记下了。但要坐实，还得去内务府看那张正单。"]
+      ]},
+      {id:"s6",name:"窗下的药炉",hint:"贵妃最后说要煎的那服药，就在这只炉上。",open:2,req:{clue:"c02"},clue:null,miss:[
+        ["narr","药炉是冷的。炉灰干硬结块，至少两日未动过火。"],
+        ["narr","炉边的案上搁着三剂药包，纸绳还是新系的，未拆。"],
+        ["narr","你解开一剂看了看，又系回去。"],
+        ["narr","贵妃每晚必服的安胎药，昨夜，没有煎。"],
+        ["narr","不是没人想煎——是煎不成。"]
+      ]},
+      {id:"s28",name:"秋棠的住处",hint:"大宫女的铺位，墙角搁着换下来的旧衣裳。",open:2,clue:"c27",body:[
+        ["narr","秋棠这几日守在灵前，住处空着。"],
+        ["narr","墙角搁着一件换下来的旧褙子，袖口磨得起了毛。"],
+        ["narr","你伸手翻它的袖袋——里头有一个折得很小的空纸包。"],
+        ["narr","纸上留着一圈白色的残痕。你指腹一蹭，蹭下一点细末。"],
+        ["narr","你捏着那个空纸包，站了一会儿。"],
+        ["narr","那一夜，汤是她端的。而这间屋里，没有第二个人碰过那盏汤。"]
+      ]}
+    ],
+    topics:[
+      {id:"t1",label:"问秋棠 · 那一夜",clues:["c05"],react:"low",who:"秋棠",body:[
+        ["narr","秋棠的眼睛已经哭肿了。她跪着，一句一句地答。"],
+        ["say","「亥时，娘娘命我去取节礼那瓶桂花蜜，冲一盏安神蜜汤。」"],
+        ["say","「娘娘饮了半盏，说：『这蜜不对，口里发麻。』命我去请太医。」"],
+        ["say","「我到宫门，门吏说：『今夜宫中有旨，各宫无旨不得出入。』」"],
+        ["say","「我回来禀了娘娘。子时娘娘腹痛，我又去，仍被拦。丑时娘娘已经不能言语，我跪在门内哭求——门吏说，『已遣人禀报长秋宫了』。」"],
+        ["narr","亥时饮汤，到寅时殒命，整整三个时辰。"],
+        ["narr","而秋棠从头到尾，不知道那瓶蜜里有什么。"]
+      ]},
+      {id:"t2",label:"问秋棠 · 你家里的事",open:2,req:{clue:"c05"},clues:["c13"],react:"shake",who:"秋棠",body:[
+        ["narr","你问起她的弟弟。秋棠的肩膀塌了下去。"],
+        ["say","「我弟弟在御膳房当差。三月初二午后，他被人以『盗用御膳』为由押走了。押人的内侍，是从长秋宫来的。」"],
+        ["say","「到今日还没放。」"],
+        ["narr","她抬起头，声音很轻："],
+        ["say","「押他那天，有人对我说过一句话——『好好当你的差，别多问。』」"],
+        ["narr","案发前一日。有人先捏住了毓秀宫大宫女的软肋。"],
+        ["narr","然后第二日，那盏汤被端了上去。"]
+      ]},
+      {id:"t3",label:"问秋棠 · 那碗没端上的药",open:3,req:{clue:"c02"},clues:["c21"],react:"low",who:"秋棠",body:[
+        ["narr","「还有一件事，我一直没说。」秋棠的声音在抖。"],
+        ["say","「娘娘饮了蜜汤，觉出不对，对我说：『去把安胎的药煎来，我这几日都靠它。』」"],
+        ["say","「我跑去药房，药房已经按夜禁闭了门。我空手回来的。」"],
+        ["narr","你翻开脉案：贵妃的安胎方里，原本有生甘草、紫苏。"],
+        ["narr","那一夜，若能端上那碗药，尚有转圜。"],
+        ["narr","可那一碗药，和太医一起，被「夜禁」关在了门外。"]
+      ]},
+      {id:"t15",label:"问她 · 你袖里的那个纸包",show:["c27"],open:2,clues:["c28"],react:"shake",who:"秋棠",body:[
+        ["narr","你把那个空纸包放在她面前。"],
+        ["narr","秋棠先是一愣，跟着脸就白了。"],
+        ["say","「那是醒神散。」"],
+        ["say","「娘娘夜里常发作，我得守着。我怕自己熬不住睡过去，托人从御药房领了些薄荷、冰片，拿纸包着，困了就抿一点。」"],
+        ["say","「司正若不信——我那件衣裳的另一只袖子里，还有半包。」"],
+        ["narr","你去翻。半包药末，薄荷与冰片，辛凉刺鼻。"],
+        ["narr","你合上那只袖子，把它放回原处。"],
+        ["narr","她从头到尾，只想让娘娘活下来。"]
+      ],wrong:[
+        ["narr","你把手里的东西推过去。秋棠看了一眼，声音很轻：「司正想问什么？」"],
+        ["narr","她等着你的下一句。而你手里，没有下一句。"],
+        ["narr","——你呈错了东西。她什么都没说。"]
+      ]}
+    ]
+  },
+
+  {
+    id:"changqiu", name:"长秋宫", sub:"中宫正殿 · 皇后 韩令仪", ico:"殿", open:1,
+    spots:[
+      {id:"s7",name:"皇后的熏香",hint:"中宫惯用的沉水香，日日不歇。",clue:null,miss:[
+        ["narr","沉水香，杂以少量苏合，是六宫最常见的一味。"],
+        ["narr","你验过香灰，又验了未燃的香饼。"],
+        ["narr","无毒。与本案无涉。"]
+      ]},
+      {id:"s8",name:"中宫起居注",hint:"中宫每日行止，皆载于此。",clue:null,miss:[
+        ["narr","起居注一直记到三月初二，字迹端整，一日不落。"],
+        ["narr","三月初三那一页，空着。"],
+        ["narr","你往后翻。三月初四，只写了六个字：「上巳后清整宫器。」"],
+        ["narr","三月初三，皇后在做什么，一个字都没有。"],
+        ["narr","——起居官不敢记的那一日，正是贵妃死的那一日。"]
+      ]},
+      {id:"s9",name:"宫人住处的箱笼",hint:"长秋宫近侍共有箱笼十二只，皆可启。",open:2,req:{clue:"c04"},clue:"c12",body:[
+        ["narr","你带着人，把长秋宫近侍的箱笼逐一启开。"],
+        ["narr","前面十一只，都是些换洗衣裳、旧鞋、几吊钱。"],
+        ["narr","第十二只，箱底压着一封信。信未封口，也未送出。"],
+        ["narr","是婉贵人的笔迹，通篇为母家旧案求贵妃「于圣前进一言」，末句写着——"],
+        ["say","「妾愿以三年寂寂，换母家一纸清白。」"],
+        ["narr","通篇无一字怨言，无一字涉毒。"],
+        ["narr","你忽然觉得背上发凉。婉贵人的人去毓秀宫，是送信；可那信，落在了这里。"],
+        ["narr","有人在看着婉贵人。"]
+      ]}
+    ],
+    topics:[
+      {id:"t4",label:"问皇后 · 宫宴之后，娘娘在何处",clues:["c03"],react:"away",who:"皇后",body:[
+        ["narr","皇后端坐榻上，手捻一串沉香佛珠，不曾抬眼。"],
+        ["say","「你问本宫宫宴之后在何处？」她笑了一声，「本宫是中宫。回自己的宫，也要向司正报备么？」"],
+        ["say","「贵妃的酒，本宫赐了。她没接。」佛珠停了一停，「满宫都看着。所以你现在站在这儿。」"],
+        ["say","「本宫若真要做什么，会挑一个满宫都看着的时候么？」"],
+        ["narr","她说这话时，看的不是你的眼睛——是你腰间那块内廷司正的牙牌。"]
+      ]},
+      {id:"t5",label:"问宫人 · 三月初三上午，娘娘说过什么",open:3,req:{clue:"c10"},clues:["c19"],react:"rise",who:"皇后",body:[
+        ["narr","你提审长秋宫一名近侍宫人。她跪了许久，才开口。"],
+        ["say","「三月初三上午，太医来过。太医走后，娘娘说了句话。」"],
+        ["say","「娘娘说：『贵妃这一胎，是留不住的。留不住的东西，何必让她费心。』」"],
+        ["narr","你手里正握着那张脉案。太医来的时候，把贵妃方中的生甘草、紫苏，勾掉了。"],
+        ["narr","你忽然明白：那句话不是感慨，是安排。"]
+      ]}
+    ]
+  },
+
+  {
+    id:"jingren", name:"景仁宫", sub:"东六宫 · 德妃 陈妙真", ico:"宫", open:1,
+    spots:[
+      {id:"s10",name:"分装房的封蜡库册",hint:"内务府按月分发的封蜡，取用有定数。",clue:"c30",body:[
+        ["narr","你问分装房的掌事宫女：六宫节礼的瓶口，用的是什么蜡？"],
+        ["say","掌事宫女：「一炉出的，一个色儿。封出来谁也看不出分别。」"],
+        ["narr","你让她把库册取来。"],
+        ["narr","上巳、中秋、岁末，宫中封蜡皆由内务府一炉熬制，按宫分发，取用有定数。"],
+        ["narr","换瓶的人只要照旧封蜡，确实没人看得出哪一瓶被换过——"],
+        ["narr","可反过来也一样：封蜡相同这件事，谁都证明不了。"],
+        ["narr","你在这本册子上，什么都没拿到。"]
+      ]},
+      {id:"s29",name:"工具台上的残蜡",hint:"熔蜡的痕迹还在，台角粘着一小块残蜡。",open:2,clue:"c29",body:[
+        ["narr","分装房的工具台，台角粘着一小块用剩的松香蜡，边上留着熔过的痕。"],
+        ["narr","你把毓秀宫那瓶毒蜜的瓶口封蜡拓样取来，两下并在一处。"],
+        ["narr","颜色一样，厚薄一样，连封口压出的纹路都像。"],
+        ["narr","你捏着那一小块残蜡，指腹上蹭了一层琥珀色的蜡屑。"],
+        ["narr","换瓶的手，就在这间房里。"],
+        ["narr","——这条链，看起来闭环了。"]
+      ]},
+      {id:"s11",name:"景仁宫的领物册",hint:"各宫皆有领物册，记日常用度。",clue:null,miss:[
+        ["narr","景仁宫的领物册按日抄录，字迹工整。"],
+        ["narr","三月初一那一行，只写了四个字：「药末三钱」。"],
+        ["narr","没有品名。墨色比别的行重，像是描过一遍。"],
+        ["narr","你合上册子。要问出那是什么药，得去御药房看出库档。"]
+      ]},
+      {id:"s12",name:"分装房的门锁",hint:"锁是新的。",open:2,req:{clue:"c09"},clue:null,miss:[
+        ["narr","分装房的门锁是新的，铜色锃亮，与门上其他铜件不是一个成色。"],
+        ["narr","你问掌事宫女：旧锁呢？"],
+        ["say","掌事宫女：「三月初四早上换的。说是坏了，锁舌卡住了。」"],
+        ["narr","三月初四早上。贵妃是寅时没的，卯时报的丧。"],
+        ["narr","换锁的人，起得真早。"]
+      ]}
+    ],
+    topics:[
+      {id:"t6",label:"问德妃 · 上巳节的礼，是谁经手",clues:[],react:"away",who:"德妃",body:[
+        ["narr","德妃正由宫女梳头，铜镜里映出半张脸。"],
+        ["say","「上巳节的礼，是本宫督办的。六宫一样，一宫不差。」她拨了下鬓边的赤金簪，「你要看单子，内务府有。」"],
+        ["narr","她说得坦荡。这一次谈话，你什么都没拿到。"],
+        ["narr","但你记住了两件事：一是节礼确实经她的手；二是她答题的速度——太快了，快得像早就想好了。"],
+        ["narr","而且她主动提了「单子」。内务府那张单子，你去看过没有？"]
+      ]},
+      {id:"t7",label:"呈证 · 御药房的领药档",show:["c09"],open:2,clues:["c22"],react:"guard",who:"德妃",body:[
+        ["narr","你把《御药房出入档》那页推到她面前。"],
+        ["narr","德妃的梳子停在半空。她只看了一瞬，就把纸推了回来。"],
+        ["say","「除虫的药末，也算罪证？」"],
+        ["narr","你还没有说出那是什么药。"],
+        ["narr","你还没有说，那是钩吻。"],
+        ["narr","她却已经答了——园里虫多，除虫的药末。"],
+        ["narr","（一个不知道自己宫里领过什么药的人，答不成这样齐整。）"]
+      ],wrong:[
+        ["narr","德妃看了一眼那张纸，笑了。"],
+        ["say","「司正拿这个问我？」她把纸轻轻推回来，「这上头没有本宫的名字，也没有本宫的印。」"],
+        ["narr","她答得滴水不漏。"],
+        ["narr","——你呈错了东西。她什么都没说。"]
+      ]}
+    ]
+  },
+
+  {
+    id:"xianfu", name:"咸福宫", sub:"西六宫 · 婉贵人 卫昭", ico:"院", open:1,
+    spots:[
+      {id:"s13",name:"婉贵人的书案",hint:"案上笔砚未收。",clue:null,miss:[
+        ["narr","砚中的墨干了一半，笔搁在笔山上，锋尖已经硬了。"],
+        ["narr","案角压着一叠信纸。你数了数——缺了三张。"],
+        ["narr","箱里的整叠是十二张，案上剩九张。"],
+        ["narr","她写过信。写了什么，信上哪儿去了，案上不会说。"]
+      ]},
+      {id:"s26",name:"婉贵人的妆匣",hint:"一只旧木匣，漆已剥落。",clue:"c23",body:[
+        ["narr","妆匣是旧的，漆已剥落，还是她入宫那年带来的。"],
+        ["narr","你启开匣盖。脂粉早见了底，剩几支铜簪、一把断齿的梳子。"],
+        ["narr","你伸手在匣里摸了一遍——木匣底下是活的。"],
+        ["narr","掀开那层薄板，下面压着一个折成方胜的纸包。"],
+        ["narr","白粉，约莫二钱，细腻无味。"],
+        ["narr","你把纸包托在掌心，看了很久。"],
+        ["narr","匣底夹层，本就不是放脂粉的位置。"]
+      ]},
+      {id:"s14",name:"咸福宫的膳房",hint:"看是否与毓秀宫有物事往来。",clue:null,miss:[
+        ["narr","咸福宫的膳房陈设简朴，与婉贵人失宠的身份相称。"],
+        ["narr","银匙三把俱在，无乌色。碗碟、食盒，件件都在架上，没有出过咸福宫的门。"],
+        ["narr","你问膳房的老妈子：婉贵人近日胃口如何？"],
+        ["say","老妈子：「贵人吃得少。这些日子，只嚷着要些清淡的。」"],
+        ["narr","这里没什么可查的了。"]
+      ]}
+    ],
+    topics:[
+      {id:"t8",label:"问婉贵人 · 宫宴上那句话",clues:["c04"],react:"away",who:"婉贵人",body:[
+        ["narr","咸福宫冷。婉贵人坐在窗下，面前的茶早已凉透。"],
+        ["say","「宫宴上那句话，是我说的。」她答得干脆，「我母家因『私通外藩』削爵流放。沈家的沈琮，当众拿这事取笑我。」"],
+        ["say","「我说『若我母家清白，我愿以命换命』——司正，你猜我要换谁的命？」"],
+        ["narr","她笑了一下，没等你答。"],
+        ["narr","退出来时，随行的内侍低声说：三月初三酉时，有人见咸福宫的宫人在毓秀宫外墙下徘徊过。"],
+        ["narr","（最像凶手的人，往往就站在你面前。）"]
+      ]},
+      {id:"t9",label:"呈证 · 那封未送出的信",show:["c12"],open:3,clues:["c20"],react:"low",who:"婉贵人",body:[
+        ["narr","你把那封信放在案上。婉贵人看了很久，久到茶彻底凉透了。"],
+        ["say","「是我的字。」"],
+        ["say","「我求她，不害她。」"],
+        ["say","「我母家没了，可我还有个弟弟在边地活着。我若背上杀贵妃的罪名，他也活不成。」"],
+        ["say","「『以命换命』——我说的是，以我三年寂寂，换我母家一纸清白。」"],
+        ["narr","她说这话时没有哭。"],
+        ["narr","你早核对过：三月初三酉时之后，她一直待在咸福宫，宫女内侍四人可证；她宫里那三把银匙，从未离过咸福宫的膳房；宫门酉时已闭，她的人根本进不去毓秀宫。"],
+        ["narr","这条线，断了。婉贵人与本案无关。"]
+      ],wrong:[
+        ["narr","婉贵人看了一眼那张纸，淡淡地说：「司正拿这个来问我？」"],
+        ["narr","她把它推了回来，重新看她的窗。"],
+        ["narr","——你呈错了东西。她什么都没说。"]
+      ]}
+    ]
+  },
+
+  {
+    id:"taiyi", name:"太医院", sub:"贵妃脉案 · 太医 周鹤", ico:"医", open:1,
+    spots:[
+      {id:"s15",name:"贵妃的脉案",hint:"太医院正本，按月装订。",clue:"c10",body:[
+        ["narr","你把贵妃的安胎方铺开，一行行看下去。"],
+        ["narr","原方含「生甘草」与「紫苏」——太医院按例配入，用以和药性、缓诸毒。"],
+        ["narr","你翻到三月初三那一页，手指停住了。"],
+        ["narr","此二味被朱笔勾去，改加「砂仁」。旁边一行小字批注：「脾胃不和，甘草性滞。」"],
+        ["narr","落笔的是周鹤。改了药方的人，就住在隔壁的值房里。"],
+        ["narr","改方之日，正是贵妃死的那一日。"]
+      ]},
+      {id:"s16",name:"药柜里的甘草与紫苏",hint:"太医院常备药材，按例取用。",clue:null,miss:[
+        ["narr","你拉开药柜。生甘草、紫苏，屉中俱满，取用记录一日不缺。"],
+        ["narr","你问药童：这两味作什么用？"],
+        ["say","药童：「和药性，缓诸毒。宫里凡长服的方子，都要按例配这一对——贵妃娘娘的安胎方里也有，太医特意交待过的。」"],
+        ["narr","你站在药柜前想了很久。"],
+        ["narr","「缓诸毒」三个字，在你脑子里撞了一下。"]
+      ]},
+      {id:"s17",name:"周鹤的值房",hint:"太医值房，夜间也有灯。",open:2,req:{clue:"c10"},clue:null,miss:[
+        ["narr","值房的案上摊着一份未写完的医案，墨迹断续，末一行只写了半个字，笔就搁下了。"],
+        ["narr","案角有半张被撕去的纸，边缘留着半句话——"],
+        ["narr","<strong>「……臣实奉命，非敢自专。」</strong>"],
+        ["narr","下面没有了。撕的人手很急，边缘毛糙。"],
+        ["narr","这半句话，是给谁的？"]
+      ]},
+      {id:"s27",name:"周鹤的私药匣",hint:"值房角落一只带锁的药匣，锁是坏的。",open:2,req:{clue:"c10"},clue:"c25",body:[
+        ["narr","值房角落搁着一只私药匣，扣着锁。你试了试——锁是坏的，一掰就开。"],
+        ["narr","匣里是些寻常东西：苏合香丸、几贴膏药、一叠旧方。"],
+        ["narr","最下一格，收着一小包药末。"],
+        ["narr","灰白色，细而微涩，气味极淡。"],
+        ["narr","你把它对着窗光看，越看越觉得，它与青玉盏底那层沉淀，像一个东西。"],
+        ["narr","你把纸包掂了掂，收进袖里。"]
+      ]}
+    ],
+    topics:[
+      {id:"t10",label:"问周鹤 · 贵妃的脉案",clues:["c06"],react:"low",who:"周鹤",body:[
+        ["narr","周鹤捧着脉案的手在抖。"],
+        ["say","「贵妃……孕已两月，胎象尚稳。此事宫中未宣，只脉案有记。」"],
+        ["say","「死因是钩吻。由口入，发作应在亥时之后。」"],
+        ["narr","他顿了顿，补了一句："],
+        ["say","「贵妃的安胎药，是每夜必服的。」"],
+        ["narr","孕两月，未宣。"],
+        ["narr","你心里过了一遍：中宫无子九年。若这一胎生下来，中宫的位置便悬了。"]
+      ]},
+      {id:"t11",label:"呈证 · 被勾去的那两味",show:["c10"],open:3,clues:["c17"],react:"shake",who:"周鹤",body:[
+        ["narr","你把那张脉案摊在他面前，指尖点在朱笔勾去的两味上。"],
+        ["narr","周鹤盯着那两点，看了很久。然后他跪下了。"],
+        ["say","「三月初三上午，长秋宫召臣入内。皇后隔着帘子说：『贵妃脾胃弱，甘草性滞，去了罢。紫苏也换掉。』」"],
+        ["say","「臣答：『此二味是太医院旧例。』」"],
+        ["say","「帘内答：『旧例是给常人定的。她的药，我说了算。』」"],
+        ["say","「臣……不敢再争。」"],
+        ["narr","他伏在地上，声音很低："],
+        ["say","「贵妃的药里若留着甘草、紫苏，钩吻之毒未必发得那样急。臣有罪。」"]
+      ],wrong:[
+        ["narr","周鹤看了一眼你呈上的东西，摇头。"],
+        ["say","「这个……臣无可奉告。」"],
+        ["narr","他把头低下去，不再说话。"],
+        ["narr","——你呈错了东西。他什么都没说。"]
+      ]},
+      {id:"t13",label:"送验 · 那包白粉",proveLabel:"送 验",show:["c23"],open:2,clues:["c24"],react:"guard",who:"药童",body:[
+        ["narr","你把那包白粉送到太医院，交给当值的药童。"],
+        ["narr","他拈起一点，凑近闻了闻，又蘸一点含在舌尖上，随即吐掉。"],
+        ["say","「不麻。」他摇头，「钩吻的末，入口舌根是要发紧的。这一个不麻。」"],
+        ["narr","再以水调开，粉沉底不散，指间一捻，细润如脂。"],
+        ["say","「珍珠粉。」他说得很快，像是怕你听不清，「宫里失宠的娘娘们惯用的。支不到脂粉，就自己买珠子磨。」"],
+        ["narr","他又替你翻了咸福宫的采买档——"],
+        ["say","「三月初三那一天，记着珍珠二两。」"],
+        ["narr","二钱白粉，对二两珍珠。她那一小盒珠子磨出来，差不多就是这个数。"],
+        ["narr","它不是毒。"]
+      ],wrong:[
+        ["narr","药童接过你递来的东西，看了看，又还给你。"],
+        ["say","「这个……小的验不出什么。」"],
+        ["narr","——你递错了东西。这一趟，白跑了。"]
+      ]},
+      {id:"t14",label:"问药童 · 认得这包药末么",proveLabel:"递 物 问 话",show:["c25"],open:2,clues:["c26"],react:"guard",who:"药童",body:[
+        ["narr","你把那包灰白的药末递给药童。"],
+        ["narr","他拈一点送进嘴里，尝了尝，又吐出来。"],
+        ["narr","脸色忽然变得很难看。"],
+        ["say","「这是生甘草和紫苏——磨成末的。」"],
+        ["narr","他说，周太医三月初三那天，把撤下来的两味各留了一份，夜里在值房研磨。"],
+        ["narr","你问他，太医研这个做什么？"],
+        ["say","「小的问了。太医只说了一句——『娘娘的药，我看着被撤的。』」"],
+        ["narr","你站在药柜前，把那包药末重新折好。"],
+        ["narr","他是不敢明着违中宫的话，才把这两味磨成粉，想寻个机会暗地里给贵妃补回去。"],
+        ["narr","这包灰白的末，不是毒。"]
+      ],wrong:[
+        ["narr","药童接过你递来的东西，翻来覆去看了半晌。"],
+        ["say","「这个……小的认不出。」"],
+        ["narr","——你递错了东西。这一趟，白跑了。"]
+      ]},
+      {id:"t16",label:"递物 · 这根针怎么乌了",proveLabel:"递 物 问 话",show:["c31"],open:3,clues:["c32"],react:"guard",who:"药童",body:[
+        ["narr","你把那根通体乌黑的银针放在药童的药案上。"],
+        ["narr","他看了一眼就笑了，笑得有点不好意思。"],
+        ["say","「司正，银针乌，那是碰到硫了。」"],
+        ["say","「宫里的蜜饯要熏硫防虫，药材要熏硫，连蜜瓶口那层封纸都熏过。银器沾了那个，一个时辰就乌。十验九乌，是常事。」"],
+        ["narr","你又问：那验钩吻呢？"],
+        ["narr","他把针推回来，摇头。"],
+        ["say","「钩吻是草木里的毒。银针验它不着。」"],
+        ["say","「真要认钩吻——看死人。看药案。老话讲『银针验毒』，验的是砒，不是这个。」"],
+        ["narr","你想起这三日里，你拿银针验过香囊、验过蜜、验过那包白粉。"],
+        ["narr","他收拾着药案，忽然又说了句闲话："],
+        ["say","「前几日清整宫器，把各宫的针都收走了。收它做什么？那东西本来也验不出什么。」"],
+        ["narr","你没答。"],
+        ["narr","你想起那张《知会签》上比常例早了六日的日子。"],
+        ["narr","收走一根没用的针，也要提前六日布置——做这件事的人，不是怕它有用。是要一样不剩。"]
+      ],wrong:[
+        ["narr","药童接过你递来的东西，翻来覆去看了半晌。"],
+        ["say","「司正，这个……小的说不上来。」"],
+        ["narr","——你递错了东西。这一趟，白跑了。"]
+      ]}
+    ]
+  },
+
+  {
+    id:"yaofang", name:"御药房", sub:"药材出入档册 · 老药童", ico:"药", open:2,
+    spots:[
+      {id:"s18",name:"三月初一的出库档",hint:"御药房档册按日装订。",clue:"c09",body:[
+        ["narr","御药房的档册按日装订，纸页发脆，翻起来簌簌地响。"],
+        ["narr","三月初一，辰时。一行字：景仁宫小太监林忠，领「钩吻末」三钱，用途「除园中虫豸」。"],
+        ["narr","你把这一行看了三遍，然后叫来当值的老药童。"],
+        ["say","老药童：「钩吻外用杀虫，是老方子。可这些年园子都归花匠管，用药有定数——正经领这个的，五六年没见过了。」"],
+        ["narr","他翻给你看：往前翻三年，整本档册里，「钩吻」二字只出现过一次。"],
+        ["narr","就是三月初一这一行。"],
+        ["narr","三钱。你想起太医说过，钩吻的致死之量。"]
+      ]},
+      {id:"s19",name:"外用杀虫药的抽屉",hint:"一整排贴着标签的抽屉。",clue:null,miss:[
+        ["narr","你拉开那一排抽屉。十七种外用杀虫药，编号齐整，标签都是新的。"],
+        ["narr","只有一格空着。"],
+        ["narr","标签上写着两个字：钩吻。"],
+        ["narr","抽屉底还留着浅浅一层药末，灰白色。"],
+        ["narr","——可惜这一格是空的。领出去的那三钱，早就不在宫里了。"]
+      ]}
+    ],
+    topics:[]
+  },
+
+  {
+    id:"neiwufu", name:"内务府档房", sub:"宫规文书 · 慎刑司案卷", ico:"档", open:2,
+    spots:[
+      {id:"s20",name:"上巳节礼分装单",hint:"六宫节礼，逐项开具。",clue:"c08",body:[
+        ["narr","《上巳节六宫节礼分装单》摊开有一丈长。六宫的份例，逐项列着。"],
+        ["narr","你一行行看下去：各宫例得「桂花蜜二瓶」。"],
+        ["narr","看到毓秀宫那一栏，你停住了。"],
+        ["narr","「二瓶」二字被刮去，旁边改书：「一瓶、蜜饯二盒」。"],
+        ["narr","改过的墨色，比其他行新。"],
+        ["narr","你叫来分装房的掌事宫女，问这笔是谁写的。"],
+        ["say","掌事宫女：「是……景仁宫的姐姐。她说，她们娘娘吩咐的。」"],
+        ["narr","六宫同批的节礼，偏毓秀宫那一瓶蜜被单独挑出来，换了一样东西进去。"],
+        ["narr","那一瓶，就是掺了毒的那一瓶。"]
+      ]},
+      {id:"s21",name:"宫器清整知会签",hint:"宫中大事，皆有知会签押。",clue:"c11",body:[
+        ["narr","「上巳后清整宫器」，收各宫银针、银箸、试毒之器，言「节后重验成色」。"],
+        ["narr","这是常例。上巳、中秋、岁末各验一次，二十年没断过。"],
+        ["narr","你翻到那张《知会签》。画押的传令内侍，名字你认得——在长秋宫的名册上。"],
+        ["narr","你又对了对往年的日子。"],
+        ["narr","这一次清整，比常例早了整整六日。"],
+        ["narr","毓秀宫的银针、银匙，也在被收之列。"],
+        ["narr","案发当夜，全宫试毒的手段被「合规地」撤走了。"],
+        ["narr","而传令的人，出自中宫。"]
+      ]},
+      {id:"s22",name:"节后的派差签条",hint:"各宫抽调人手，皆有条子。",clue:"c14",body:[
+        ["narr","三月初三戌时，各宫抽调人手搬运上巳赏赐的绸缎——这本是节后常事。"],
+        ["narr","你翻出毓秀宫那一张签条。"],
+        ["narr","转下画押的，不是内务府的值房，而是一枚长秋宫的私记。"],
+        ["narr","你去找春禧。她跪着，手一直在抖。"],
+        ["say","春禧：「那日戌时，有人来叫我，说绸缎多，人手不够。我想着是内务府的差，就去了。」"],
+        ["say","「回来时，娘娘已经……」"],
+        ["narr","她是毓秀宫的试毒宫女。每夜贵妃的汤，都要经她一口。"],
+        ["narr","她走后，毓秀宫当夜无人试毒。"]
+      ]},
+      {id:"s23",name:"慎刑司的案卷",hint:"押在慎刑司的人，卷宗在此。",open:3,clue:"c18",body:[
+        ["narr","慎刑司的案卷压在档房最下一格。"],
+        ["narr","押的是景仁宫小太监林忠，十九岁，罪名「私领禁药」。"],
+        ["narr","你翻他的供词——"],
+        ["say","林忠供：「三月初一，德妃娘娘命我去御药房领钩吻末，说是『园里虫多』。」"],
+        ["say","「三月初三酉时，娘娘又命我到分装房，把一瓶已备好的桂花蜜，换到毓秀宫那份里。」"],
+        ["say","「娘娘交代，瓶口封蜡要跟别的一样。」"],
+        ["narr","供词末尾附着刑部批注一句：「其所知仅此。」"],
+        ["narr","整份供词，从头到尾，他一次也没提到长秋宫。"],
+        ["narr","——德妃确实下了毒。但这桩案子，还有另一只手。"]
+      ]},
+      {id:"s30",name:"清整收回的试毒银针",hint:"上巳清整宫器，各宫银针在此封存。",open:3,req:{clue:"c11"},clue:"c31",body:[
+        ["narr","《知会签》上写着，上巳后清整宫器，各宫试毒之器统一收回重验。收上来的东西封在档房西角，装一只描漆木匣。"],
+        ["narr","你揭开匣盖。银针、银箸、银匙各归其位，签条上标着宫名。"],
+        ["narr","你逐根翻验那七根银针——翻到第三根时，手停住了。"],
+        ["narr","毓秀宫的针，通体乌黑，指腹擦之不去。"],
+        ["narr","你又翻其余几根。长秋宫的一根，乌；景仁宫的一根，也乌。七根里头，乌着四根。"],
+        ["narr","你把这根针捏在手里，对着窗光转了两圈。"],
+        ["narr","案发之前，这根针就乌了。"],
+        ["narr","——验出毒来的那根针，被人收走了；而用针的人，一个字都没报。"]
+      ]},
+      {id:"s31",name:"案卷里夹着的一张字条",hint:"《慎刑司案卷》还有几页你未细看。",open:3,req:{clue:"c18"},clue:"c33",body:[
+        ["narr","你把《慎刑司案卷》从头再翻一遍，核林忠供词与刑部批注的日期。"],
+        ["narr","翻到封卷那一页，指头忽然一顿——卷页之间夹着一张纸。"],
+        ["narr","不厚，折得很小，夹得极正，像是不想让它掉出来。"],
+        ["narr","展开。没头没尾，一行行写着——"],
+        ["say","「贵人之死，非病非疾。毓秀宫膳房有人下手，此事系咸福宫所为。以三日之期，必得其证。」"],
+        ["narr","你把这张纸与案卷的目录对了一遍。"],
+        ["narr","——目录上没有它。"],
+        ["narr","它不是卷里的东西。是有人把它放进来的。"]
+      ]}
+    ],
+    topics:[
+      {id:"t17",label:"问档房书吏 · 这纸是谁的",proveLabel:"递 物 问 话",show:["c33"],open:3,clues:["c34"],react:"guard",who:"书吏",body:[
+        ["narr","你把那张字条推到档房书吏面前。他先是一愣，随即把袖口往上撸了撸，凑近细看。"],
+        ["narr","他先看纸，捻了捻，又在指间搓了一下。"],
+        ["say","「竹纸。档房的竹纸，一领一刀，六宫都在用。领的时候不记名。」"],
+        ["narr","再看墨。他把纸举到窗下。"],
+        ["say","「寻常松烟墨。宫中处处有——侍书的、抄档的、各宫的姐姐们写帖子，都用这个。」"],
+        ["narr","最后看字。他把纸翻过来对着光，看了很久，摇头。"],
+        ["say","「反手写的。左手，从右往左倒着写。写字的人，不想让你认出笔迹。」"],
+        ["narr","你问他：这本案卷封存之后，有谁调看过？"],
+        ["say","「三月初四封的卷。」他想了想，「封卷之后……景仁宫的人来看过。长秋宫的人也来看过。」"],
+        ["narr","他把纸还给你，手在衣襟上擦了擦。"],
+        ["say","「司正，小的多一句嘴——这上头写的，小的一个字也不敢认。」"]
+      ],wrong:[
+        ["narr","书吏接过你递来的东西，翻了两下，又还给你。"],
+        ["say","「这个……小的看不出什么。」"],
+        ["narr","——你递错了东西。这一趟，白跑了。"]
+      ]}
+    ]
+  },
+
+  {
+    id:"gongmen", name:"宫门值房", sub:"夜禁值册 · 值夜内侍", ico:"门", open:3,
+    spots:[
+      {id:"s24",name:"三月初三的夜册",hint:"值夜一册，逐时记录。",clue:"c15",body:[
+        ["narr","《宫门值房夜册》摊在案上，墨迹一行行压得很实。"],
+        ["narr","戌时末：「长秋宫传令：今夜宫中有警，酉时后各宫无旨不得出入。」"],
+        ["narr","亥时：「毓秀宫宫女至门，求见太医。驳。由：夜禁。」"],
+        ["narr","子时：「毓秀宫宫女复至。驳。由：夜禁。」"],
+        ["narr","丑时：「毓秀宫宫女跪求。驳。由：夜禁。」"],
+        ["narr","你盯着那行「戌时末」看了很久。"],
+        ["narr","贵妃饮汤是在亥时。"],
+        ["narr","也就是说——这道禁令，比那盏汤还早。"],
+        ["narr","这不是事后补救。这是先把门关上，再等一件事发生。"]
+      ]},
+      {id:"s25",name:"门禁令的存根",hint:"每道门禁，皆有存根。",clue:null,miss:[
+        ["narr","门禁的存根按月装订，一道一张。"],
+        ["narr","三月初三这一册里，只夹着一张，是戌时末那道。"],
+        ["narr","上一道，是正月十五元宵夜。"],
+        ["narr","半年之间，宫中只下过两道门禁令。一道在上元，一道在三月初三。"],
+        ["narr","你翻来覆去地看这张存根。它什么都没多写——可它本身，就是一个不该出现的东西。"]
+      ]}
+    ],
+    topics:[
+      {id:"t12",label:"问值夜内侍 · 那一夜你在门内做什么",clues:["c16"],react:"low",who:"内侍",body:[
+        ["narr","值夜的内侍跪得很直，额头贴地。"],
+        ["say","「丑时，毓秀宫的宫女在门内哭求。卑职不敢做主，遣人疾走长秋宫禀报，说贵妃危殆。」"],
+        ["narr","你问：长秋宫如何回话？"],
+        ["say","「回话只有四个字：『知道了，候。』」"],
+        ["narr","「此后无人来，也无人遣医。卑职再问，回话是——『娘娘已歇』。」"],
+        ["narr","从丑时到寅时，贵妃在门内断了气。"],
+        ["narr","中宫不是来不及。中宫是知道了，然后歇了。"]
+      ]}
+    ]
+  }
+];
+
+/* ---------------- 场景（勘验 · 问话） ----------------
+   每处地点两幅：search = 勘验现场（带可点热区），talk = 问话场景（纯氛围）。
+   热区 id 一律对应 spots 的 id；标记点默认落在热区中心，可用 mx / my 覆盖。
+   未定义场景的地点，自动回退到原来的清单式排布。
+----------------------------------------------------- */
+/* ---------------- 场景绘制 kit ----------------
+   十一幅场景共用同一套底子：墙 / 地 / 光柱 / 匾 / 棂窗 / 门 / 案 / 柜 / 架 /
+   卷册 / 灯 / 炉 / 榻 / 人。改一处即全体生效，画风不会走散。
+   坐标系：viewBox 0 0 1120 460；地平线默认 y=356。
+---------------------------------------------------- */
+const KIT = (()=>{
+  let n = 0;
+  const U = ()=> "k" + (++n) + "x";
+
+  function defs(k,o){
+    o = o||{};
+    return `<defs>
+<linearGradient id="${k}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.w1||"#2d1f28"}"/><stop offset="1" stop-color="${o.w2||"#150e12"}"/></linearGradient>
+<linearGradient id="${k}f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.f1||"#1a1217"}"/><stop offset="1" stop-color="${o.f2||"#090507"}"/></linearGradient>
+<linearGradient id="${k}r" x1="0.6" y1="0" x2="0.1" y2="1"><stop offset="0" stop-color="#f4dc95" stop-opacity="0"/><stop offset=".3" stop-color="#f4dc95" stop-opacity=".12"/><stop offset=".72" stop-color="#f4dc95" stop-opacity=".045"/><stop offset="1" stop-color="#f4dc95" stop-opacity="0"/></linearGradient>
+<linearGradient id="${k}c" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0" stop-color="#c8d8ee" stop-opacity="0"/><stop offset=".3" stop-color="#c8d8ee" stop-opacity=".14"/><stop offset="1" stop-color="#c8d8ee" stop-opacity="0"/></linearGradient>
+<radialGradient id="${k}l"><stop offset="0" stop-color="#ffd88c" stop-opacity=".46"/><stop offset="1" stop-color="#ffd88c" stop-opacity="0"/></radialGradient>
+<pattern id="${k}b" width="112" height="42" patternUnits="userSpaceOnUse"><path d="M0 0H112M0 42H112" stroke="#d9b45b" stroke-opacity=".05" fill="none"/><path d="M56 0V42" stroke="#d9b45b" stroke-opacity=".035" fill="none"/></pattern>
+</defs>`;
+  }
+
+  /* 墙 · 地 · 光柱 · 竖柱；bg 画在墙面之上、地面之下 */
+  /* 房梁：给吊灯一个"挂点"，否则灯像悬在无形天花板上。beam:{x,w,h}
+     刻意画得很淡（只比墙面亮一点点），免得在缩略图里成一条抢眼的横杠 */
+  function beam(o){
+    o = o||{};
+    const list = Array.isArray(o.beam) ? o.beam : (o.beam ? [o.beam] : []);
+    return list.map(b=>{
+      const w = b.w||1120, x = b.x==null?0:b.x, h = b.h||13;
+      /* 梁 = 顶面受压的暗色 + 一条极淡的下缘高光 + 底部的投影，模拟枋木 */
+      return `<rect x="${x}" y="0" width="${w}" height="${h}" fill="#33222b" fill-opacity=".55"/>`
+        + `<path d="M${x} ${h-1}H${x+w}" stroke="#d9b45b" stroke-opacity=".11"/>`
+        + `<rect x="${x}" y="${h-2}" width="${w}" height="2" fill="#d9b45b" fill-opacity=".05"/>`
+        + `<rect x="${x}" y="${h}" width="${w}" height="7" fill="#080406" fill-opacity=".5"/>`
+        + `<rect x="${x}" y="0" width="2" height="${h}" fill="#d9b45b" fill-opacity=".07"/>`
+        + `<rect x="${x+w-2}" y="0" width="2" height="${h}" fill="#d9b45b" fill-opacity=".07"/>`;
+    }).join("");
+  }
+
+  function room(k,o){
+    o = o||{};
+    const fy = o.floorY==null ? 356 : o.floorY;
+    const cols = (o.cols||[]).map(x=>`<path d="M${x} 0V${fy}"/>`).join("");
+    return `<rect width="1120" height="${fy}" fill="url(#${k}w)"/>`
+      + (cols ? `<g stroke="#d9b45b" stroke-opacity=".04" fill="none">${cols}</g>` : "")
+      + (o.bg||"")
+      + `<rect y="${fy-2}" width="1120" height="${462-fy}" fill="url(#${k}f)"/>
+<rect y="${fy-2}" width="1120" height="${462-fy}" fill="url(#${k}b)"/>
+<path d="M0 ${fy-2}H1120" stroke="#d9b45b" stroke-opacity=".22"/>`
+      + (o.ray ? `<polygon points="${o.ray}" fill="url(#${k}r)"/>` : "")
+      + (o.beam ? beam(o) : "");
+  }
+
+  /* 匾额 / 条幅 */
+  function plaque(x,y,w,h,t,o){
+    o = o||{};
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="#241820" stroke="#d9b45b" stroke-opacity=".34"/>
+<rect x="${x+5}" y="${y+5}" width="${w-10}" height="${h-10}" fill="none" stroke="#d9b45b" stroke-opacity=".13"/>`
+      + (t ? `<text x="${x+w/2}" y="${y+h/2+(o.fs||20)*0.36}" text-anchor="middle" font-size="${o.fs||20}" fill="#d9b45b" fill-opacity=".6" letter-spacing="${o.ls||7}">${t}</text>` : "");
+  }
+
+  /* 墙上签条 */
+  function slip(x,y,w,h,t){
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#efe3ce" fill-opacity=".09" stroke="#d9b45b" stroke-opacity=".2"/>`
+      + (t ? `<text x="${x+w/2}" y="${y+h/2+5}" text-anchor="middle" font-size="12" fill="#d9b45b" fill-opacity=".42" letter-spacing="3">${t}</text>` : "");
+  }
+
+  /* 棂窗（可带月色） */
+  function lattice(x,y,w,h,o){
+    o = o||{};
+    let bars = "";
+    const st = o.step||27;
+    for(let i=x+st; i<x+w-4; i+=st) bars += `<path d="M${i} ${y}V${y+h}"/>`;
+    for(let j=y+st; j<y+h-4; j+=st) bars += `<path d="M${x} ${j}H${x+w}"/>`;
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#18222e" stroke="#d9b45b" stroke-opacity=".34"/>`
+      + (o.moon ? `<circle cx="${o.moon[0]}" cy="${o.moon[1]}" r="${o.moon[2]||13}" fill="#dfe8f2" fill-opacity=".2"/><circle cx="${o.moon[0]}" cy="${o.moon[1]}" r="${(o.moon[2]||13)*2.6}" fill="url(#${o.k}c)"/>` : "")
+      + `<g stroke="#d9b45b" stroke-opacity=".15" fill="none">${bars}</g>`;
+  }
+
+  /* 开着的门（透出夜色） */
+  function doorway(x,y,w,h,k,o){
+    o = o||{};
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#0b1017" stroke="#d9b45b" stroke-opacity=".32"/>
+<circle cx="${x+w*0.72}" cy="${y+h*0.2}" r="${o.moon||14}" fill="#dfe8f2" fill-opacity=".18"/>
+<rect x="${x}" y="${y}" width="${w*0.34}" height="${h}" fill="#3a2731" fill-opacity=".82" stroke="#d9b45b" stroke-opacity=".24"/>
+<path d="M${x+w*0.3} ${y+8}v${h-16}" stroke="#d9b45b" stroke-opacity=".2"/>
+<path d="M${x+w*0.82} ${y+h*0.52}h10" stroke="#d9b45b" stroke-opacity=".4"/>`;
+  }
+
+  /* 朱门 + 门钉 + 门环 */
+  function gate(x,y,w,h,o){
+    o = o||{};
+    const rows = o.rows||5, cols = o.cols||4;
+    const lw = w/2, mx = lw*0.15, my = h*0.075;
+    const cw = (lw - 2*mx)/cols, rh = (h - 2*my)/rows;
+    let studs = "";
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+      const cy = y + my + rh*(r+0.5);
+      [x, x+lw].forEach(lx=>{
+        const cx = lx + mx + cw*(c+0.5);
+        studs += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${Math.max(3.4,Math.min(5,rh*0.14)).toFixed(1)}" fill="#d9b45b" fill-opacity=".24" stroke="#d9b45b" stroke-opacity=".34"/>`;
+      });
+    }
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#4a151b" fill-opacity="${o.op||".5"}" stroke="#d9b45b" stroke-opacity=".28"/>
+<path d="M${x+w/2} ${y}V${y+h}" stroke="#d9b45b" stroke-opacity=".26"/>
+${studs}
+<circle cx="${x+w*0.4}" cy="${y+h*0.46}" r="9" fill="none" stroke="#d9b45b" stroke-opacity=".42" stroke-width="1.6"/>
+<circle cx="${x+w*0.6}" cy="${y+h*0.46}" r="9" fill="none" stroke="#d9b45b" stroke-opacity=".42" stroke-width="1.6"/>`;
+  }
+
+  /* 案 / 桌 */
+  function table(x,y,w,h,o){
+    o = o||{};
+    const th = o.th||13, ins = o.ins||10;
+    return `<rect x="${x}" y="${y}" width="${w}" height="${th}" fill="#3d2b34" stroke="#d9b45b" stroke-opacity=".34"/>
+<rect x="${x+ins}" y="${y+th}" width="${w-2*ins}" height="${Math.max(4,h-th)}" fill="#2b1c24" stroke="#d9b45b" stroke-opacity=".16"/>
+<path d="M${x+ins+2} ${y+th}V${y+h}M${x+w-ins-2} ${y+th}V${y+h}" stroke="#d9b45b" stroke-opacity=".15"/>`;
+  }
+
+  /* 抽屉柜（药柜 / 档格）empty:[col,row] */
+  function drawers(x,y,w,h,cols,rows,o){
+    o = o||{};
+    const cw = w/cols, rh = h/rows;
+    let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#2b1c22" stroke="#d9b45b" stroke-opacity=".34"/>`;
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+      const dx = x+c*cw, dy = y+r*rh;
+      const em = o.empty && o.empty[0]===c && o.empty[1]===r;
+      s += `<rect x="${dx+3}" y="${dy+3}" width="${cw-6}" height="${rh-6}" fill="${em?"#0d0a0b":"#efe3ce"}" fill-opacity="${em?".92":(o.fill||".09")}" stroke="#d9b45b" stroke-opacity="${em?".46":".19"}"/>`;
+      if(!em) s += `<circle cx="${dx+cw-9}" cy="${dy+rh/2}" r="2.2" fill="#d9b45b" fill-opacity=".4"/>`;
+    }
+    return s;
+  }
+
+  /* 木架（档架 / 书架） */
+  function rack(x,y,w,h,shelves,o){
+    o = o||{};
+    let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#261820" stroke="#d9b45b" stroke-opacity=".3"/>`;
+    for(let i=1;i<=shelves;i++){
+      const yy = y + i*h/(shelves+1);
+      s += `<path d="M${x} ${yy}H${x+w}" stroke="#d9b45b" stroke-opacity=".2"/>`;
+    }
+    return s + (o.items||"");
+  }
+
+  /* 一摞卷册 / 簿子（自下而上码） */
+  function stack(x,y,w,n,o){
+    o = o||{};
+    let s = "";
+    for(let i=0;i<n;i++){
+      const yy = y - (i+1)*(o.step||7);
+      s += `<rect x="${x+(i%3)*3}" y="${yy}" width="${w-(i%3)*6}" height="${(o.step||7)-1}" rx="1" fill="#efe3ce" fill-opacity="${(0.115+i*0.014).toFixed(3)}" stroke="#d9b45b" stroke-opacity=".2"/>`;
+    }
+    return s;
+  }
+
+  /* 摊开的长卷 / 文书（带界行） */
+  function scroll(x,y,w,h,o){
+    o = o||{};
+    const lines = [];
+    for(let i=1;i<(o.rows||5);i++) lines.push(`<path d="M${x+6} ${y+i*h/(o.rows||5)}H${x+w-6}"/>`);
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#efe3ce" fill-opacity=".15" stroke="#d9b45b" stroke-opacity=".3"/>
+<g stroke="#d9b45b" stroke-opacity=".16" fill="none">${lines.join("")}</g>`
+      + (o.seal ? `<rect x="${x+w-30}" y="${y+h-26}" width="17" height="17" rx="2" fill="#a8232d" fill-opacity=".55" stroke="#d9b45b" stroke-opacity=".34"/>` : "")
+      + (o.mark ? `<path d="M${x+w*0.42} ${y+6}v${h-12}" stroke="#c9303a" stroke-opacity=".6" stroke-width="1.6"/>` : "");
+  }
+
+  /* 木匣 / 漆盒 */
+  function box(x,y,w,h,o){
+    o = o||{};
+    const col = o.lacquer ? "#6d2028" : "#3d2b34";
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${col}" fill-opacity=".78" stroke="#d9b45b" stroke-opacity=".4"/>
+<rect x="${x}" y="${y}" width="${w}" height="${h*0.3}" fill="#efe3ce" fill-opacity=".07" stroke="#d9b45b" stroke-opacity=".24"/>
+<path d="M${x+w/2} ${y+h*0.3}v${h*0.7}" stroke="#d9b45b" stroke-opacity=".18"/>
+<rect x="${x+w*0.42}" y="${y+h*0.5}" width="${w*0.16}" height="${h*0.22}" rx="1.5" fill="#d9b45b" fill-opacity=".42" stroke="#d9b45b" stroke-opacity=".6"/>`;
+  }
+
+  /* 灯：挂灯（cord 可给）+ 灯焰光晕 */
+  function lamp(x,y,r,o){
+    o = o||{};
+    return `<circle cx="${x}" cy="${y}" r="${r}" fill="url(#${o.k}l)"/>
+<path d="M${x} ${y-r*0.6}v${-(o.cord==null?26:o.cord)}" stroke="#d9b45b" stroke-opacity=".3"/>
+<ellipse cx="${x}" cy="${y}" rx="9" ry="3.5" fill="#d9b45b" fill-opacity=".24"/>
+<circle cx="${x}" cy="${y-9}" r="${Math.max(6,r*0.3).toFixed(1)}" fill="url(#${o.k}l)"/>
+<path d="M${x} ${y-5}q3.6-9.5 0-15.5-3.6 6 0 15.5" fill="#ffd88c" fill-opacity=".78"/>`;
+  }
+
+  /* 博山炉（熏香） */
+  function burner(x,y,o){
+    o = o||{};
+    return `<path d="M${x} ${y}v-26" stroke="#d9b45b" stroke-opacity=".3"/>
+<ellipse cx="${x}" cy="${y}" rx="17" ry="5" fill="#3b2a26" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x-15} ${y-26}q0-19 15-19t15 19z" fill="#4a3a30" fill-opacity=".8" stroke="#d9b45b" stroke-opacity=".38"/>
+<path d="M${x-11} ${y-42}q4-9 11-9t11 9z" fill="#5b4738" fill-opacity=".7" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x} ${y-56}v-8" stroke="#d9b45b" stroke-opacity=".22"/>
+<path d="M${x-6} ${y-74}q6-9 0-16 6 7 12 0-6 7 0 16" fill="none" stroke="#f4dc95" stroke-opacity=".24" stroke-width="1.2"/>`;
+  }
+
+  /* 榻 / 坐具 */
+  function couch(x,y,w,h,o){
+    o = o||{};
+    /* 座面在 y，底在 y+h。坐上去的人要用 fig(px, y+h, "seat") —— 以榻底为落座线，
+       人才是「坐在榻里」而不是「被榻挡住半个身子」。 */
+    return `<rect x="${x}" y="${y+16}" width="${w}" height="${h-16}" fill="#33232b" stroke="#d9b45b" stroke-opacity=".24"/>
+<rect x="${x+8}" y="${y}" width="${w-16}" height="22" rx="8" fill="#5b4650" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M${x+30} ${y+6}q-6 10 0 16M${x+w-30} ${y+6}q6 10 0 16" fill="none" stroke="#d9b45b" stroke-opacity=".12"/>
+<path d="M${x+10} ${y+h}v14M${x+w-10} ${y+h}v14" stroke="#d9b45b" stroke-opacity=".2"/>`;
+  }
+
+  /* 人：深色发廓 + 浅色脸 + 顶上一个发髻（避免两个圆髻画成米老鼠）
+     y = 落地 / 落座线；pose: stand | seat | kneel */
+  function person(x,y,pose,o){
+    o = o||{};
+    const R  = o.robe  || "#453139";
+    const R2 = o.robe2 || "#57414c";
+    const HA = "#241820", FA = "#5a4553";
+    const op = o.op==null ? .95 : o.op;
+    const G  = ".38";
+    const f  = v => (+v).toFixed(1);
+
+    function head(hx,hy,rx,ry){
+      return `<ellipse cx="${hx}" cy="${f(hy+ry*0.06)}" rx="${f(rx*1.1)}" ry="${f(ry*1.06)}" fill="${HA}" stroke="#d9b45b" stroke-opacity=".22"/>
+<ellipse cx="${hx}" cy="${f(hy+ry*0.4)}" rx="${f(rx*0.94)}" ry="${f(ry*0.86)}" fill="${FA}" stroke="#d9b45b" stroke-opacity="${G}"/>
+<ellipse cx="${hx}" cy="${f(hy-ry*0.74)}" rx="${f(rx*0.8)}" ry="${f(ry*0.5)}" fill="${HA}" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M${f(hx-rx*0.66)} ${f(hy-ry*1.08)}h${f(rx*1.32)}" stroke="#d9b45b" stroke-opacity=".46" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M${f(hx-rx*0.4)} ${f(hy+ry*0.66)}q${f(rx*0.4)} ${f(ry*0.24)} ${f(rx*0.8)} 0" fill="none" stroke="#efe3ce" stroke-opacity=".1"/>`;
+    }
+
+    if(pose==="kneel"){
+      return `<g opacity="${op}">
+<path d="M${x-62} ${y}Q${x-54} ${y-36} ${x-24} ${y-42}L${x+24} ${y-42}Q${x+54} ${y-36} ${x+62} ${y}Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x-34} ${y-8}q34 11 68 0" fill="none" stroke="#d9b45b" stroke-opacity=".1"/>
+<path d="M${x-30} ${y-42}L${x-34} ${y-100}Q${x} ${y-114} ${x+34} ${y-100}L${x+30} ${y-42}Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".32"/>
+<path d="M${x-33} ${y-64}q33 11 66 0l3 14q-36 12-72 0z" fill="${R2}" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x-11} ${y-100}q11 20 22 0" fill="none" stroke="#d9b45b" stroke-opacity=".36"/>
+<ellipse cx="${x}" cy="${y-54}" rx="25" ry="10" fill="${R2}" stroke="#d9b45b" stroke-opacity=".28"/>
+<path d="M${x-5} ${y-122}v16M${x+5} ${y-122}v16" stroke="#d9b45b" stroke-opacity=".22"/>
+${head(x, y-142, 15, 17)}
+</g>`;
+    }
+
+    if(pose==="seat"){
+      return `<g opacity="${op}">
+<path d="M${x-52} ${y+2}q-4-30 16-38h72q20 8 16 38z" fill="${R}" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x-36} ${y-36}q36 12 72 0L${x+38} ${y-100}q-38 12-76 0Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".34"/>
+<path d="M${x-34} ${y-62}q34 11 68 0l2 14q-36 12-72 0z" fill="${R2}" stroke="#d9b45b" stroke-opacity=".32"/>
+<path d="M${x-11} ${y-100}q11 20 22 0" fill="none" stroke="#d9b45b" stroke-opacity=".4"/>
+<path d="M${x-36} ${y-98}q-20 30-12 62 9 7 19-3" fill="none" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.6"/>
+<path d="M${x+36} ${y-98}q20 30 12 62-9 7-19-3" fill="none" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.6"/>
+<ellipse cx="${x-30}" cy="${y-30}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".26"/>
+<ellipse cx="${x+30}" cy="${y-30}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M${x-5} ${y-122}v18M${x+5} ${y-122}v18" stroke="#d9b45b" stroke-opacity=".22"/>
+${head(x, y-140, 15, 17)}
+</g>`;
+    }
+
+    return `<g opacity="${op}">
+<path d="M${x-30} ${y-150}Q${x-39} ${y-74} ${x-47} ${y}L${x+47} ${y}Q${x+39} ${y-74} ${x+30} ${y-150}Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".32"/>
+<path d="M${x-11} ${y-150}q11 20 22 0" fill="none" stroke="#d9b45b" stroke-opacity=".4"/>
+<path d="M${x-34} ${y-88}q34 11 68 0l3 15q-37 12-74 0z" fill="${R2}" stroke="#d9b45b" stroke-opacity=".32"/>
+<path d="M${x-30} ${y-146}q-24 32-16 82 8 6 18-4" fill="none" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.6"/>
+<path d="M${x+30} ${y-146}q24 32 16 82-8 6-18-4" fill="none" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.6"/>
+<ellipse cx="${x-38}" cy="${y-62}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".26"/>
+<ellipse cx="${x+38}" cy="${y-62}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M${x-5} ${y-170}v16M${x+5} ${y-170}v16" stroke="#d9b45b" stroke-opacity=".22"/>
+${head(x, y-190, 16, 18)}
+</g>`;
+  }
+
+  /* ── 问话人物（可联动）──────────────────────────────
+     与 person() 分开：person 是「场景里的路人」，fig 是「被质问的那个人」。
+     差别在于 fig 带一套情绪参数 mood，问话时随话题切换重画，画面才有回应。
+       mood: calm 平坐 | low 低头 | away 别过脸 | rise 起身逼视 | shake 颤栗 | guard 戒惧抬手
+     o.tone 可覆盖衣裳色（皇后用正红、太医用药青），o.mark 是额上/袖口的金色小饰。
+     lamp 位置若给了 o.lampX/lampY，会在人物后补一团面光——呼应「审人的灯照着他」。 */
+  function fig(x,y,pose,o){
+    o = o||{};
+    const mood = o.mood || "calm";
+    const R  = o.tone   || "#43303a";
+    const R2 = o.tone2  || (o.tone ? o.tone : "#57414c");
+    const HA = "#241820", FA = "#5a4553";
+    const f  = v => (+v).toFixed(1);
+    const op = o.op==null ? 1 : o.op;
+
+    /* 情绪驱动的形变量：低头、别脸、前倾、抬手 */
+    const dy   = mood==="low"  ?  7 : mood==="rise" ? -6 : 0;
+    const dx   = mood==="away" ?  9 : mood==="rise" ? -3 : 0;
+    const tilt = mood==="low"  ?  3.5 : mood==="away" ? -4 : mood==="rise" ? -1.5 : 0;
+    const lean = mood==="rise" ?  6 : mood==="guard" ? -4 : 0;
+    const bob  = mood==="shake" ? .9 : 0;
+
+    function face(hx,hy,rx,ry){
+      return `<g transform="translate(${f(dx)} ${f(dy+bob)}) rotate(${f(tilt)} ${f(hx)} ${f(hy)})">
+<ellipse cx="${hx}" cy="${f(hy+ry*0.06)}" rx="${f(rx*1.1)}" ry="${f(ry*1.06)}" fill="${HA}" stroke="#d9b45b" stroke-opacity=".24"/>
+<ellipse cx="${hx}" cy="${f(hy+ry*0.4)}" rx="${f(rx*0.94)}" ry="${f(ry*0.86)}" fill="${FA}" stroke="#d9b45b" stroke-opacity=".4"/>
+<ellipse cx="${hx}" cy="${f(hy-ry*0.74)}" rx="${f(rx*0.8)}" ry="${f(ry*0.5)}" fill="${HA}" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M${f(hx-rx*0.66)} ${f(hy-ry*1.08)}h${f(rx*1.32)}" stroke="#d9b45b" stroke-opacity=".48" stroke-width="1.8" stroke-linecap="round"/>
+${mood==="low"||mood==="shake"?`<path d="M${f(hx-rx*0.46)} ${f(hy+ry*0.68)}q${f(rx*0.46)} ${f(ry*0.2)} ${f(rx*0.92)} 0" fill="none" stroke="#efe3ce" stroke-opacity=".13"/>`:""}
+</g>`;
+    }
+    /* 情绪驱动的衣纹：rise 时肩线拉开、away 时衣摆偏一侧 */
+    const shoulder = mood==="rise" ? 1.14 : 1;
+    const hemShift = mood==="away" ? dx*0.6 : 0;
+
+    if(pose==="kneel"){
+      /* 跪姿要"矮而宽"：衣摆铺开压得很低，上身只占站姿的一半高，才看得出来是跪着 */
+      return `<g opacity="${op}">
+<path d="M${x-72+hemShift} ${y}Q${x-70} ${y-22} ${x-34} ${y-26}L${x+34} ${y-26}Q${x+70} ${y-22} ${x+72+hemShift} ${y}Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x-44} ${y-6}q44 13 88 0" fill="none" stroke="#d9b45b" stroke-opacity=".09"/>
+<path d="M${f(x-40*shoulder)} ${y-26}L${f(x-42*shoulder)} ${y-62}Q${x+lean} ${y-74} ${f(x+42*shoulder)} ${y-62}L${f(x+40*shoulder)} ${y-26}Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".34"/>
+<path d="M${x-40} ${y-40}q40 12 80 0l3 13q-43 12-86 0z" fill="${R2}" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${f(x-12+lean)} ${y-64}q12 19 24 0" fill="none" stroke="#d9b45b" stroke-opacity=".4"/>
+${mood==="guard"?`<path d="M${x-38} ${y-36}q-24-6-28-28" fill="none" stroke="${R2}" stroke-opacity=".9" stroke-width="8" stroke-linecap="round"/>
+<path d="M${x+38} ${y-36}q20 8 18 28" fill="none" stroke="${R2}" stroke-opacity=".9" stroke-width="8" stroke-linecap="round"/>`:""}
+<ellipse cx="${x}" cy="${y-32}" rx="28" ry="10" fill="${R2}" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M${x-6} ${y-86}v14M${x+6} ${y-86}v14" stroke="#d9b45b" stroke-opacity=".24"/>
+${face(x, y-108, 15, 16)}
+</g>`;
+    }
+
+    /* 站立 / 端坐：只差下半身，上半身共用 */
+    const legs = pose==="seat"
+      ? `<path d="M${x-54} ${y+2}q-4-31 17-39h74q21 8 17 39z" fill="${R}" stroke="#d9b45b" stroke-opacity=".32"/>`
+      : `<path d="M${x-44} ${y-124}Q${x-50} ${y-52} ${x-56} ${y}L${x+56} ${y}Q${x+50} ${y-52} ${x+44} ${y-124}Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".3"/>`;
+
+    const arms = (pose==="seat")
+      ? `<path d="M${x-38} ${y-100}q-20 31-12 63 9 7 19-3" fill="none" stroke="#d9b45b" stroke-opacity=".32" stroke-width="1.6"/>
+<path d="M${x+38} ${y-100}q20 31 12 63-9 7-19-3" fill="none" stroke="#d9b45b" stroke-opacity=".32" stroke-width="1.6"/>
+<ellipse cx="${x-31}" cy="${y-30}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".28"/>
+<ellipse cx="${x+31}" cy="${y-30}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".28"/>`
+      : `<path d="M${x-32} ${y-148}q-25 33-17 84 8 6 19-4" fill="none" stroke="#d9b45b" stroke-opacity=".32" stroke-width="1.6"/>
+<path d="M${x+32} ${y-148}q25 33 17 84-8 6-19-4" fill="none" stroke="#d9b45b" stroke-opacity=".32" stroke-width="1.6"/>
+<ellipse cx="${x-40}" cy="${y-63}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".28"/>
+<ellipse cx="${x+40}" cy="${y-63}" rx="12" ry="7" fill="${R2}" stroke="#d9b45b" stroke-opacity=".28"/>`;
+
+    /* 端坐/站立时的两臂交叉于前——「戒惧」与「别脸」都靠这条小臂表达 */
+    const lap = (mood==="away"||mood==="guard")
+      ? `<path d="M${x-22} ${y-70}q22 15 44 0" fill="none" stroke="${R2}" stroke-opacity=".85" stroke-width="7" stroke-linecap="round"/>`
+      : "";
+
+    const top = pose==="seat" ? y-142 : y-192;
+    return `<g opacity="${op}">
+${legs}
+<path d="M${f(x-36*shoulder)} ${y-100}q36 12 72 0L${f(x+38*shoulder+lean)} ${top+42}q-38 12-76 0Z" fill="${R}" stroke="#d9b45b" stroke-opacity=".36"/>
+<path d="M${x-34} ${y-64}q34 11 68 0l2 14q-36 12-72 0z" fill="${R2}" stroke="#d9b45b" stroke-opacity=".32"/>
+<path d="M${f(x-11+lean)} ${top+42}q11 20 22 0" fill="none" stroke="#d9b45b" stroke-opacity=".42"/>
+${arms}${lap}
+<path d="M${x-5} ${f(top+22)}v18M${x+5} ${f(top+22)}v18" stroke="#d9b45b" stroke-opacity=".24"/>
+${o.mark||""}
+${face(x, top, 15, 17)}
+</g>`;
+  }
+
+  /* 一排卷册的册脊 */
+  function spines(x,y,w,h,n,o){
+    o = o||{};
+    const sw = w/n;
+    let s = "";
+    for(let i=0;i<n;i++){
+      const dx = x+i*sw, off = (i%3)*(o.jitter||2);
+      s += `<rect x="${(dx+1.5).toFixed(1)}" y="${y+off}" width="${(sw-3).toFixed(1)}" height="${h-off}" rx="1"`
+         + ` fill="#efe3ce" fill-opacity="${(0.055+(i%4)*0.016).toFixed(3)}" stroke="#d9b45b" stroke-opacity="${o.stroke||".13"}"/>`;
+      if(o.title && i%2===0) s += `<path d="M${(dx+sw/2).toFixed(1)} ${y+off+h*0.28}v${h*0.44}" stroke="#d9b45b" stroke-opacity=".16"/>`;
+    }
+    return s;
+  }
+
+  /* 挂着的签条 / 牌签 */
+  function tags(x,y,n,o){
+    o = o||{};
+    let s = `<path d="M${x} ${y}h${(o.w||26)*(n-1)}" stroke="#d9b45b" stroke-opacity=".2"/>`;
+    for(let i=0;i<n;i++){
+      const dx = x+i*(o.w||26);
+      s += `<path d="M${dx} ${y}v10" stroke="#d9b45b" stroke-opacity=".2"/>
+<rect x="${dx-8}" y="${y+10}" width="17" height="${o.h||34}" rx="1.5" fill="#efe3ce" fill-opacity=".1" stroke="#d9b45b" stroke-opacity=".26"/>
+<circle cx="${dx+0.5}" cy="${y+16}" r="2" fill="none" stroke="#d9b45b" stroke-opacity=".34"/>`;
+    }
+    return s;
+  }
+
+  /* 场景内的淡字注 */
+  function hint(x,y,t,o){
+    o = o||{};
+    return `<text x="${x}" y="${y}" text-anchor="${o.anchor||"middle"}" font-size="${o.fs||13}" fill="#d9b45b" fill-opacity="${o.op||".34"}" letter-spacing="${o.ls||5}">${t}</text>`;
+  }
+
+  return {U, defs, room, beam, plaque, slip, lattice, doorway, gate, table, drawers, rack,
+          stack, scroll, box, lamp, burner, couch, person, fig, hint, spines, tags};
+})();
+const K = KIT;
+
+
+const SCENES = {
+  yuxiu:{
+    search:{
+      cap:"毓秀宫 · 寝殿",
+      hot:[
+        {id:"s1", x:112,y:248, w:192,h:66, rx:8},
+        {id:"s3", x:300,y:176, w:38, h:62, rx:10},
+        {id:"s2", x:514,y:242, w:42, h:36, rx:10},
+        {id:"s4", x:618,y:220, w:40, h:54, rx:8},
+        {id:"s5", x:688,y:248, w:76, h:28, rx:5},
+        {id:"s6", x:856,y:282, w:74, h:78, rx:10},
+        {id:"s28",x:988,y:184, w:96, h:120,rx:10}
+      ],
+      svg:`
+<defs>
+  <linearGradient id="yuS-wall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2d1f28"/><stop offset="1" stop-color="#150e12"/>
+  </linearGradient>
+  <linearGradient id="yuS-floor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1a1217"/><stop offset="1" stop-color="#090507"/>
+  </linearGradient>
+  <linearGradient id="yuS-ray" x1="0.6" y1="0" x2="0.1" y2="1">
+    <stop offset="0" stop-color="#f4dc95" stop-opacity=".15"/>
+    <stop offset=".45" stop-color="#f4dc95" stop-opacity=".06"/>
+    <stop offset="1" stop-color="#f4dc95" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="yuS-flame">
+    <stop offset="0" stop-color="#ffd88c" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#ffd88c" stop-opacity="0"/>
+  </radialGradient>
+  <pattern id="yuS-brick" width="112" height="42" patternUnits="userSpaceOnUse">
+    <path d="M0 0H112M0 42H112" stroke="#d9b45b" stroke-opacity=".05" fill="none"/>
+    <path d="M56 0V42" stroke="#d9b45b" stroke-opacity=".035" fill="none"/>
+  </pattern>
+</defs>
+
+<rect width="1120" height="360" fill="url(#yuS-wall)"/>
+<rect x="0" y="0" width="1120" height="13" fill="#33222b" fill-opacity=".55"/>
+<path d="M0 12H1120" stroke="#d9b45b" stroke-opacity=".11"/>
+<rect x="0" y="11" width="1120" height="2" fill="#d9b45b" fill-opacity=".05"/>
+<rect x="0" y="13" width="1120" height="7" fill="#080406" fill-opacity=".5"/>
+<rect x="0" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect x="1118" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<g stroke="#d9b45b" stroke-opacity=".04" fill="none">
+  <path d="M56 0V360M196 0V360M960 0V360M1096 0V360"/>
+</g>
+
+<rect x="0" y="0" width="1120" height="13" fill="#33222b" fill-opacity=".55"/>
+<path d="M0 12H1120" stroke="#d9b45b" stroke-opacity=".11"/>
+<rect x="0" y="11" width="1120" height="2" fill="#d9b45b" fill-opacity=".05"/>
+<rect x="0" y="13" width="1120" height="7" fill="#080406" fill-opacity=".5"/>
+<rect x="0" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect x="1118" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+
+<rect x="642" y="36" width="156" height="88" fill="#efe3ce" fill-opacity=".045" stroke="#d9b45b" stroke-opacity=".24"/>
+<rect x="650" y="44" width="140" height="72" fill="none" stroke="#d9b45b" stroke-opacity=".12"/>
+<path d="M664 96q22-30 38-6t30-6" fill="none" stroke="#efe3ce" stroke-opacity=".13"/>
+<circle cx="716" cy="66" r="6" fill="#efe3ce" fill-opacity=".11"/>
+<rect x="770" y="94" width="12" height="18" fill="#a8232d" fill-opacity=".45"/>
+
+<rect y="356" width="1120" height="104" fill="url(#yuS-floor)"/>
+<rect y="356" width="1120" height="104" fill="url(#yuS-brick)"/>
+<path d="M0 356H1120" stroke="#d9b45b" stroke-opacity=".24"/>
+<polygon points="848,100 958,100 700,460 410,460" fill="url(#yuS-ray)"/>
+
+<g>
+  <path d="M62 154Q200 110 338 154" fill="none" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.4"/>
+  <path d="M62 154L58 316Q74 332 94 316L98 154Z" fill="#3b2731" fill-opacity=".7" stroke="#d9b45b" stroke-opacity=".16"/>
+  <path d="M338 154L334 316Q318 332 300 316L302 154Z" fill="#3b2731" fill-opacity=".7" stroke="#d9b45b" stroke-opacity=".16"/>
+  <path d="M94 318v16M302 318v16" stroke="#c9303a" stroke-opacity=".45"/>
+  <rect x="102" y="252" width="196" height="66" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".2"/>
+  <rect x="118" y="262" width="172" height="48" rx="11" fill="#4d3b41" stroke="#d9b45b" stroke-opacity=".16"/>
+  <path d="M152 264q-7 24 0 44M238 264q7 24 0 44" fill="none" stroke="#d9b45b" stroke-opacity=".1"/>
+  <path d="M146 288h120" stroke="#d9b45b" stroke-opacity=".09"/>
+  <rect x="106" y="250" width="46" height="26" rx="9" fill="#3e2e35" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M114 318v38M286 318v38" stroke="#d9b45b" stroke-opacity=".18"/>
+</g>
+
+<g>
+  <path d="M318 156v24" stroke="#d9b45b" stroke-opacity=".38"/>
+  <ellipse cx="318" cy="196" rx="12" ry="15" fill="#6d4f3c" stroke="#d9b45b" stroke-opacity=".42"/>
+  <path d="M312 210l6 18 6-18" fill="none" stroke="#c9303a" stroke-opacity=".45"/>
+</g>
+
+<g>
+  <ellipse cx="474" cy="202" rx="46" ry="56" fill="#1b1216" stroke="#d9b45b" stroke-opacity=".4"/>
+  <ellipse cx="474" cy="202" rx="36" ry="46" fill="#332b36" fill-opacity=".85"/>
+  <path d="M474 258v12" stroke="#d9b45b" stroke-opacity=".3"/>
+  <rect x="390" y="240" width="58" height="30" rx="3" fill="#3a2830" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M390 252h58" stroke="#d9b45b" stroke-opacity=".16"/>
+  <rect x="376" y="270" width="206" height="13" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <rect x="388" y="283" width="182" height="54" fill="#241820" stroke="#d9b45b" stroke-opacity=".14"/>
+  <path d="M454 283v54" stroke="#d9b45b" stroke-opacity=".09"/>
+  <path d="M398 337v19M560 337v19" stroke="#d9b45b" stroke-opacity=".18"/>
+  <ellipse cx="534" cy="256" rx="15" ry="6" fill="#6f9c86" fill-opacity=".3" stroke="#6f9c86" stroke-opacity=".6"/>
+  <path d="M519 256q2 17 15 17t15-17" fill="#6f9c86" fill-opacity=".14" stroke="#6f9c86" stroke-opacity=".48"/>
+  <path d="M396 270v-32" stroke="#d9b45b" stroke-opacity=".28"/>
+  <ellipse cx="396" cy="237" rx="9" ry="3.5" fill="#d9b45b" fill-opacity=".22"/>
+  <circle cx="396" cy="228" r="24" fill="url(#yuS-flame)"/>
+  <path d="M396 232q3.5-9 0-14.5-3.5 5.5 0 14.5" fill="#ffd88c" fill-opacity=".75"/>
+</g>
+
+<g>
+  <rect x="622" y="146" width="178" height="124" fill="#241820" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M622 188h178M622 230h178M682 146v124" stroke="#d9b45b" stroke-opacity=".17"/>
+  <rect x="634" y="198" width="32" height="28" fill="#efe3ce" fill-opacity=".08" stroke="#d9b45b" stroke-opacity=".16"/>
+  <circle cx="742" cy="214" r="13" fill="#efe3ce" fill-opacity=".06" stroke="#d9b45b" stroke-opacity=".14"/>
+  <rect x="608" y="270" width="212" height="13" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M618 283v73M808 283v73" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M618 302h190" stroke="#d9b45b" stroke-opacity=".09"/>
+  <path d="M638 270q-9-7-9-19 0-12 11-14v-8h-9v-6h30v6h-9v8q11 2 11 14 0 12-9 19z"
+        fill="#8a6a3c" fill-opacity=".5" stroke="#d9b45b" stroke-opacity=".48"/>
+  <rect x="694" y="256" width="64" height="15" fill="#efe3ce" fill-opacity=".12" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M726 256v15" stroke="#d9b45b" stroke-opacity=".2"/>
+</g>
+
+<g>
+  <rect x="840" y="86" width="124" height="150" fill="#18222e" stroke="#d9b45b" stroke-opacity=".38"/>
+  <circle cx="928" cy="124" r="14" fill="#dfe8f2" fill-opacity=".16"/>
+  <g stroke="#d9b45b" stroke-opacity=".18" fill="none">
+    <rect x="850" y="96" width="104" height="130"/>
+    <path d="M850 130h104M850 162h104M850 194h104M884 96v130M919 96v130"/>
+  </g>
+  <rect x="832" y="236" width="140" height="9" fill="#33232b" stroke="#d9b45b" stroke-opacity=".24"/>
+  <ellipse cx="892" cy="292" rx="26" ry="9" fill="#3b2a26" stroke="#d9b45b" stroke-opacity=".32"/>
+  <path d="M866 292q3 47 26 47t26-47" fill="#2e2020" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M874 339v17M885 341v15M901 341v15M912 339v17" stroke="#d9b45b" stroke-opacity=".18"/>
+  <rect x="838" y="320" width="16" height="11" fill="#efe3ce" fill-opacity=".09" stroke="#d9b45b" stroke-opacity=".18"/>
+  <rect x="838" y="334" width="16" height="11" fill="#efe3ce" fill-opacity=".09" stroke="#d9b45b" stroke-opacity=".18"/>
+  <rect x="938" y="326" width="16" height="11" fill="#efe3ce" fill-opacity=".09" stroke="#d9b45b" stroke-opacity=".18"/>
+</g>
+
+<g>
+  <rect x="982" y="116" width="108" height="240" fill="#0c0708" stroke="#d9b45b" stroke-opacity=".32"/>
+  <rect x="990" y="124" width="92" height="232" fill="#170f14"/>
+  <path d="M1012 196h30" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M1027 196v104" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M1004 200q23-7 46 0l6 84q-29 7-58 0z" fill="#4a3b40" fill-opacity=".78" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M1008 234l18 9M1008 260l18 9" stroke="#d9b45b" stroke-opacity=".1"/>
+  <path d="M1090 116l20 12v216l-20 12z" fill="#2c1e26" stroke="#d9b45b" stroke-opacity=".2"/>
+  <text x="1036" y="150" text-anchor="middle" font-size="13" fill="#d9b45b" fill-opacity=".5" letter-spacing="4">宫人房</text>
+</g>
+`
+    },
+    talk:{
+      cap:"毓秀宫 · 问话 · 大宫女 秋棠",
+      /* 秋棠跪在殿心答话。cast 是默认姿态，话题里的 react 覆写情绪 */
+      cast:{x:520, y:404, pose:"kneel", tone:"#3a2a32", tone2:"#4a3742", mood:"low"},
+      svg:`
+<defs>
+  <linearGradient id="yuT-wall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2a1c25"/><stop offset="1" stop-color="#130c10"/>
+  </linearGradient>
+  <linearGradient id="yuT-floor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#181015"/><stop offset="1" stop-color="#080406"/>
+  </linearGradient>
+  <radialGradient id="yuT-lamp">
+    <stop offset="0" stop-color="#ffd88c" stop-opacity=".42"/>
+    <stop offset="1" stop-color="#ffd88c" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+
+<rect width="1120" height="360" fill="url(#yuT-wall)"/>
+<rect x="0" y="0" width="1120" height="13" fill="#33222b" fill-opacity=".55"/>
+<path d="M0 12H1120" stroke="#d9b45b" stroke-opacity=".11"/>
+<rect x="0" y="11" width="1120" height="2" fill="#d9b45b" fill-opacity=".05"/>
+<rect x="0" y="13" width="1120" height="7" fill="#080406" fill-opacity=".5"/>
+<rect x="0" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect x="1118" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect y="356" width="1120" height="104" fill="url(#yuT-floor)"/>
+<path d="M0 356H1120" stroke="#d9b45b" stroke-opacity=".22"/>
+
+<g>
+  <rect x="786" y="66" width="300" height="290" fill="#251a20" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M886 66v290M986 66v290" stroke="#d9b45b" stroke-opacity=".13"/>
+  <path d="M812 292q44-64 84-22t70-16" fill="none" stroke="#efe3ce" stroke-opacity=".07"/>
+  <circle cx="936" cy="148" r="34" fill="none" stroke="#d9b45b" stroke-opacity=".13"/>
+  <circle cx="936" cy="148" r="25" fill="#efe3ce" fill-opacity=".03"/>
+</g>
+
+<circle cx="200" cy="146" r="92" fill="url(#yuT-lamp)"/>
+<path d="M200 21v47" stroke="#d9b45b" stroke-opacity=".3"/>
+<rect x="178" y="68" width="44" height="9" rx="2" fill="#3a2630" stroke="#d9b45b" stroke-opacity=".3"/>
+<ellipse cx="200" cy="118" rx="30" ry="36" fill="#3a2630" stroke="#d9b45b" stroke-opacity=".32"/>
+<path d="M200 82v72" stroke="#d9b45b" stroke-opacity=".14"/>
+<path d="M176 102q24 12 48 0M176 134q24 12 48 0" fill="none" stroke="#d9b45b" stroke-opacity=".09"/>
+<rect x="180" y="154" width="40" height="8" rx="2" fill="#3a2630" stroke="#d9b45b" stroke-opacity=".28"/>
+<path d="M200 162v16" stroke="#c9303a" stroke-opacity=".5"/>
+
+<polygon points="700,40 780,40 560,460 300,460" fill="#f4dc95" fill-opacity=".045"/>
+
+<ellipse cx="520" cy="410" rx="150" ry="36" fill="#261a20" stroke="#d9b45b" stroke-opacity=".16"/>
+<ellipse cx="520" cy="404" rx="130" ry="28" fill="#33232b" fill-opacity=".62"/>
+`
+    }
+  },
+
+  jingren:{
+    search:{
+      cap:"景仁宫 · 分装房",
+      hot:[
+        {id:"s10",x:84, y:252, w:126,h:70, rx:8},
+        {id:"s29",x:300,y:228, w:68, h:50, rx:8},
+        {id:"s11",x:676,y:238, w:84, h:34, rx:5},
+        {id:"s12",x:886,y:242, w:64, h:56, rx:8}
+      ],
+      svg:`
+<defs>
+  <linearGradient id="jrS-wall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2a1f24"/><stop offset="1" stop-color="#141014"/>
+  </linearGradient>
+  <linearGradient id="jrS-floor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1a1418"/><stop offset="1" stop-color="#090608"/>
+  </linearGradient>
+  <radialGradient id="jrS-fire">
+    <stop offset="0" stop-color="#ffb36b" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#ffb36b" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="jrS-ray" x1="0.1" y1="0" x2="0.7" y2="1">
+    <stop offset="0" stop-color="#f4dc95" stop-opacity=".13"/>
+    <stop offset="1" stop-color="#f4dc95" stop-opacity="0"/>
+  </linearGradient>
+  <pattern id="jrS-brick" width="104" height="40" patternUnits="userSpaceOnUse">
+    <path d="M0 0H104M0 40H104" stroke="#d9b45b" stroke-opacity=".05" fill="none"/>
+    <path d="M52 0V40" stroke="#d9b45b" stroke-opacity=".033" fill="none"/>
+  </pattern>
+</defs>
+
+<rect width="1120" height="360" fill="url(#jrS-wall)"/>
+<rect x="0" y="0" width="1120" height="13" fill="#33222b" fill-opacity=".55"/>
+<path d="M0 12H1120" stroke="#d9b45b" stroke-opacity=".11"/>
+<rect x="0" y="11" width="1120" height="2" fill="#d9b45b" fill-opacity=".05"/>
+<rect x="0" y="13" width="1120" height="7" fill="#080406" fill-opacity=".5"/>
+<rect x="0" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect x="1118" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<g stroke="#d9b45b" stroke-opacity=".04" fill="none">
+  <path d="M240 0V360M820 0V360M1084 0V360"/>
+</g>
+
+<rect x="392" y="30" width="196" height="52" fill="#2b1c1c" stroke="#d9b45b" stroke-opacity=".3"/>
+<text x="490" y="65" text-anchor="middle" font-size="22" fill="#d9b45b" fill-opacity=".62" letter-spacing="8">分 装 房</text>
+<g>
+  <path d="M272 86v40M312 78v48M352 90v36" stroke="#d9b45b" stroke-opacity=".13"/>
+  <rect x="260" y="126" width="24" height="36" fill="#efe3ce" fill-opacity=".07" stroke="#d9b45b" stroke-opacity=".15"/>
+  <rect x="300" y="126" width="24" height="36" fill="#efe3ce" fill-opacity=".07" stroke="#d9b45b" stroke-opacity=".15"/>
+  <rect x="340" y="126" width="24" height="36" fill="#efe3ce" fill-opacity=".07" stroke="#d9b45b" stroke-opacity=".15"/>
+  <path d="M268 138h8M268 148h8M308 138h8M308 148h8M348 138h8M348 148h8" stroke="#d9b45b" stroke-opacity=".14"/>
+</g>
+
+<rect y="356" width="1120" height="104" fill="url(#jrS-floor)"/>
+<rect y="356" width="1120" height="104" fill="url(#jrS-brick)"/>
+<path d="M0 356H1120" stroke="#d9b45b" stroke-opacity=".24"/>
+<polygon points="856,150 990,150 620,460 380,460" fill="url(#jrS-ray)"/>
+
+<g>
+  <rect x="50" y="78" width="184" height="262" fill="#241820" stroke="#d9b45b" stroke-opacity=".24"/>
+  <path d="M50 164h184M50 250h184" stroke="#d9b45b" stroke-opacity=".2"/>
+  <path d="M142 78v262" stroke="#d9b45b" stroke-opacity=".14"/>
+  <rect x="64" y="94" width="28" height="54" rx="2" fill="#b9a98d" fill-opacity=".16" stroke="#d9b45b" stroke-opacity=".2"/>
+  <rect x="156" y="100" width="26" height="46" rx="2" fill="#b9a98d" fill-opacity=".13" stroke="#d9b45b" stroke-opacity=".18"/>
+  <rect x="70" y="180" width="24" height="58" rx="2" fill="#b9a98d" fill-opacity=".14" stroke="#d9b45b" stroke-opacity=".18"/>
+  <ellipse cx="172" cy="206" rx="17" ry="19" fill="#b9a98d" fill-opacity=".13" stroke="#d9b45b" stroke-opacity=".18"/>
+  <rect x="62" y="262" width="32" height="64" rx="2" fill="#c9b794" fill-opacity=".2" stroke="#d9b45b" stroke-opacity=".26"/>
+  <rect x="100" y="252" width="58" height="76" rx="3" fill="#c9b794" fill-opacity=".22" stroke="#d9b45b" stroke-opacity=".32"/>
+  <path d="M100 274h58M100 300h58" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M164 256h52v72h-52z" fill="#c9b794" fill-opacity=".18" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M172 268h36M172 284h36M172 300h36" stroke="#d9b45b" stroke-opacity=".18"/>
+</g>
+
+<g>
+  <rect x="286" y="266" width="524" height="15" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <rect x="300" y="281" width="496" height="46" fill="#241820" stroke="#d9b45b" stroke-opacity=".14"/>
+  <path d="M418 281v46M596 281v46M700 281v46" stroke="#d9b45b" stroke-opacity=".09"/>
+  <path d="M306 327v29M790 327v29" stroke="#d9b45b" stroke-opacity=".18"/>
+  <ellipse cx="334" cy="278" rx="30" ry="10" fill="#3b2a26" stroke="#d9b45b" stroke-opacity=".26"/>
+  <circle cx="334" cy="264" r="30" fill="url(#jrS-fire)"/>
+  <path d="M330 274q6-14 0-22-6 8 0 22" fill="#ffb36b" fill-opacity=".6"/>
+  <path d="M312 280q22 10 44 0" fill="none" stroke="#d9b45b" stroke-opacity=".2"/>
+  <path d="M348 276l10-6 2 8z" fill="#c9a24b" fill-opacity=".6"/>
+  <path d="M362 272l12-5 1 9z" fill="#c9a24b" fill-opacity=".45"/>
+  <g>
+    <path d="M436 266q-8-6-8-17 0-11 10-13v-7h-8v-5h28v5h-8v7q10 2 10 13 0 11-8 17z" fill="#8a6a3c" fill-opacity=".42" stroke="#d9b45b" stroke-opacity=".4"/>
+    <path d="M476 266q-8-6-8-17 0-11 10-13v-7h-8v-5h28v5h-8v7q10 2 10 13 0 11-8 17z" fill="#8a6a3c" fill-opacity=".42" stroke="#d9b45b" stroke-opacity=".4"/>
+    <path d="M516 266q-8-6-8-17 0-11 10-13v-7h-8v-5h28v5h-8v7q10 2 10 13 0 11-8 17z" fill="#8a6a3c" fill-opacity=".42" stroke="#d9b45b" stroke-opacity=".4"/>
+    <rect x="552" y="240" width="46" height="26" rx="3" fill="#7a3a32" fill-opacity=".4" stroke="#d9b45b" stroke-opacity=".24"/>
+    <path d="M566 240v-12M586 240v-12" stroke="#c9303a" stroke-opacity=".5"/>
+    <path d="M618 248h42v17h-42z" fill="#6b5a44" fill-opacity=".45" stroke="#d9b45b" stroke-opacity=".26"/>
+    <ellipse cx="639" cy="248" rx="21" ry="6" fill="#8a7554" fill-opacity=".5" stroke="#d9b45b" stroke-opacity=".3"/>
+    <circle cx="600" cy="256" r="10" fill="#a8232d" fill-opacity=".38" stroke="#d9b45b" stroke-opacity=".2"/>
+  </g>
+  <rect x="676" y="238" width="84" height="28" fill="#efe3ce" fill-opacity=".12" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M718 238v28" stroke="#d9b45b" stroke-opacity=".2"/>
+  <path d="M688 246h22M688 256h22M726 246h22M726 256h22" stroke="#d9b45b" stroke-opacity=".13"/>
+</g>
+
+<g>
+  <text x="920" y="118" text-anchor="middle" font-size="14" fill="#d9b45b" fill-opacity=".4" letter-spacing="5">库 房</text>
+  <rect x="852" y="90" width="136" height="266" fill="#0c0708" stroke="#d9b45b" stroke-opacity=".32"/>
+  <rect x="860" y="98" width="120" height="258" fill="#150f13"/>
+  <path d="M920 98v258" stroke="#d9b45b" stroke-opacity=".1"/>
+  <ellipse cx="920" cy="242" rx="17" ry="14" fill="#c9a24b" fill-opacity=".5" stroke="#d9b45b" stroke-opacity=".45"/>
+  <path d="M920 256v20" stroke="#d9b45b" stroke-opacity=".35"/>
+  <ellipse cx="920" cy="282" rx="12" ry="5" fill="none" stroke="#d9b45b" stroke-opacity=".3"/>
+  <path d="M896 224q-10 10 0 22" fill="none" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M872 106l96 8" stroke="#d9b45b" stroke-opacity=".07"/>
+</g>
+`
+    },
+    talk:{
+      cap:"景仁宫 · 问话 · 德妃 陈妙真",
+      cast:{x:676, y:420, pose:"seat", tone:"#3d2b34", tone2:"#4a3742", mood:"calm",
+            mark:`<path d="M698 202l22-12" stroke="#d9b45b" stroke-opacity=".7" stroke-width="2"/>
+<circle cx="722" cy="188" r="3.5" fill="#f4dc95" fill-opacity=".65"/>`},
+      svg:`
+<defs>
+  <linearGradient id="jrT-wall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2c1e27"/><stop offset="1" stop-color="#130c10"/>
+  </linearGradient>
+  <linearGradient id="jrT-floor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#181015"/><stop offset="1" stop-color="#080406"/>
+  </linearGradient>
+  <radialGradient id="jrT-lamp">
+    <stop offset="0" stop-color="#ffd88c" stop-opacity=".38"/>
+    <stop offset="1" stop-color="#ffd88c" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+
+<rect width="1120" height="360" fill="url(#jrT-wall)"/>
+<rect x="0" y="0" width="1120" height="13" fill="#33222b" fill-opacity=".55"/>
+<path d="M0 12H1120" stroke="#d9b45b" stroke-opacity=".11"/>
+<rect x="0" y="11" width="1120" height="2" fill="#d9b45b" fill-opacity=".05"/>
+<rect x="0" y="13" width="1120" height="7" fill="#080406" fill-opacity=".5"/>
+<rect x="0" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect x="1118" y="0" width="2" height="13" fill="#d9b45b" fill-opacity=".07"/>
+<rect y="356" width="1120" height="104" fill="url(#jrT-floor)"/>
+<path d="M0 356H1120" stroke="#d9b45b" stroke-opacity=".22"/>
+<g stroke="#d9b45b" stroke-opacity=".05" fill="none">
+  <path d="M120 0V356M1000 0V356"/>
+</g>
+
+<circle cx="152" cy="92" r="88" fill="url(#jrT-lamp)"/>
+<path d="M152 21v17" stroke="#d9b45b" stroke-opacity=".28"/>
+<rect x="130" y="38" width="44" height="9" rx="2" fill="#3a2630" stroke="#d9b45b" stroke-opacity=".28"/>
+<ellipse cx="152" cy="88" rx="30" ry="36" fill="#3a2630" stroke="#d9b45b" stroke-opacity=".3"/>
+<path d="M152 52v72" stroke="#d9b45b" stroke-opacity=".13"/>
+<path d="M128 72q24 12 48 0M128 104q24 12 48 0" fill="none" stroke="#d9b45b" stroke-opacity=".08"/>
+<rect x="132" y="124" width="40" height="8" rx="2" fill="#3a2630" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M152 132v14" stroke="#c9303a" stroke-opacity=".45"/>
+
+<g>
+  <rect x="196" y="386" width="172" height="13" rx="4" fill="#33232b" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M282 358v28" stroke="#d9b45b" stroke-opacity=".24"/>
+  <ellipse cx="282" cy="228" rx="78" ry="96" fill="#1b1216" stroke="#d9b45b" stroke-opacity=".3"/>
+  <ellipse cx="282" cy="228" rx="69" ry="86" fill="#2e2b38" fill-opacity=".7"/>
+  <g opacity=".5">
+    <path d="M282 232q-30 3-30 33l1 14q29 9 58 0l1-14q0-30-30-33z" fill="#5a4552" fill-opacity=".5" stroke="#d9b45b" stroke-opacity=".14"/>
+    <path d="M271 236l11 19 11-19" fill="none" stroke="#d9b45b" stroke-opacity=".13"/>
+    <ellipse cx="282" cy="203" rx="17" ry="19" fill="#5c4753" fill-opacity=".6" stroke="#d9b45b" stroke-opacity=".18"/>
+    <path d="M267 191q-4 15 1 24" stroke="#2b1d25" stroke-width="5" fill="none" stroke-linecap="round" stroke-opacity=".9"/>
+    <path d="M297 191q4 15-1 24" stroke="#2b1d25" stroke-width="5" fill="none" stroke-linecap="round" stroke-opacity=".9"/>
+    <ellipse cx="282" cy="183" rx="15" ry="11" fill="#2b1d25" stroke="#d9b45b" stroke-opacity=".18"/>
+    <path d="M290 177l13-7" stroke="#d9b45b" stroke-opacity=".34"/>
+  </g>
+</g>
+
+<ellipse cx="676" cy="420" rx="146" ry="34" fill="#261a20" stroke="#d9b45b" stroke-opacity=".14"/>
+
+<g>
+  <rect x="836" y="298" width="176" height="12" fill="#33232b" stroke="#d9b45b" stroke-opacity=".22"/>
+  <rect x="852" y="310" width="144" height="46" fill="#241820" stroke="#d9b45b" stroke-opacity=".13"/>
+  <path d="M862 322h124M862 336h124" stroke="#d9b45b" stroke-opacity=".1"/>
+  <path d="M900 286q-10-14 4-24" fill="none" stroke="#efe3ce" stroke-opacity=".1"/>
+</g>
+
+<polygon points="700,40 776,40 560,460 300,460" fill="#f4dc95" fill-opacity=".04"/>
+`
+    }
+  },
+
+  changqiu:{
+    search:(()=>{ const k=K.U(); return {
+      cap:"长秋宫 · 中宫正殿",
+      hot:[
+        {id:"s7", x:272,y:198, w:62, h:108,rx:8},
+        {id:"s8", x:784,y:236, w:142,h:96, rx:8},
+        {id:"s9", x:950,y:102, w:112,h:216,rx:10}
+      ],
+      svg:`
+${K.defs(k,{w1:"#31202a", w2:"#160f13"})}
+${K.room(k,{beam:{}, cols:[56,196,924,1064], ray:"700,40 862,40 680,460 400,460",
+  bg: K.plaque(452,14,216,52,"中 宫 正 殿") + K.hint(1022,94,"通 宫 人 住 处",{fs:11,ls:3,op:".3"}) })}
+
+<g>
+  <rect x="392" y="90" width="340" height="220" fill="#241820" stroke="#d9b45b" stroke-opacity=".34"/>
+  <rect x="404" y="102" width="316" height="196" fill="#efe3ce" fill-opacity=".035" stroke="#d9b45b" stroke-opacity=".15"/>
+  <path d="M562 136q-32 28-36 66 28-15 36-49 8 34 36 49-4-38-36-66z" fill="#d9b45b" fill-opacity=".13" stroke="#d9b45b" stroke-opacity=".3"/>
+  <path d="M462 222q50-30 100 0 50 30 100 0" fill="none" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M462 252q50-26 100 0 50 26 100 0" fill="none" stroke="#d9b45b" stroke-opacity=".11"/>
+  <path d="M404 102v196M720 102v196" stroke="#d9b45b" stroke-opacity=".12"/>
+</g>
+
+<g>
+  <rect x="376" y="310" width="372" height="16" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <rect x="394" y="326" width="336" height="16" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".22"/>
+  <rect x="412" y="342" width="300" height="14" fill="#241820" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M512 310v-22h100v22z" fill="#3b2731" stroke="#d9b45b" stroke-opacity=".3"/>
+  <path d="M520 288v-40q40-22 84 0v40z" fill="#4d3b41" fill-opacity=".8" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M534 260q28-16 56 0" fill="none" stroke="#d9b45b" stroke-opacity=".24"/>
+  <path d="M534 296h56" stroke="#d9b45b" stroke-opacity=".1"/>
+</g>
+
+<g>
+  <rect x="376" y="310" width="372" height="16" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <rect x="394" y="326" width="336" height="16" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".22"/>
+  <rect x="412" y="342" width="300" height="14" fill="#241820" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M512 310v-30h100v30z" fill="#3b2731" stroke="#d9b45b" stroke-opacity=".3"/>
+  <path d="M520 280v-46q40-22 84 0v46z" fill="#4d3b41" fill-opacity=".8" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M534 248q28-16 56 0" fill="none" stroke="#d9b45b" stroke-opacity=".24"/>
+  <path d="M534 296h56" stroke="#d9b45b" stroke-opacity=".1"/>
+</g>
+
+<g>
+  <rect x="272" y="298" width="62" height="11" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M281 309v47M325 309v47" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M281 336h44" stroke="#d9b45b" stroke-opacity=".08"/>
+  ${K.burner(303,298)}
+</g>
+
+<g>
+  ${K.table(792,262,138,94,{ins:12})}
+  ${K.scroll(806,238,64,24,{rows:2})}
+  ${K.stack(886,262,36,5)}
+</g>
+
+<g>
+  ${K.doorway(958,108,96,196,k,{moon:12})}
+  <rect x="944" y="306" width="70" height="42" fill="#33232b" stroke="#d9b45b" stroke-opacity=".3"/>
+  <path d="M944 320h70" stroke="#d9b45b" stroke-opacity=".16"/>
+  <rect x="1024" y="292" width="66" height="56" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M1024 310h66" stroke="#d9b45b" stroke-opacity=".14"/>
+  <rect x="994" y="328" width="80" height="28" fill="#241820" stroke="#d9b45b" stroke-opacity=".2"/>
+</g>
+
+${K.lamp(122,132,96,{k,cord:63})}
+${K.hint(560,430,"殿 上 沉 水 香 , 日 日 不 歇",{fs:12,ls:6,op:".26"})}
+`
+    };})(),
+
+    talk:(()=>{ const k=K.U(); return {
+      cap:"长秋宫 · 皇后 韩令仪",
+      /* 皇后端坐榻上，手捻一串沉香佛珠，不曾抬眼。（y 落在榻底 292+64） */
+      cast:{x:560, y:356, pose:"seat", tone:"#3d2b34", tone2:"#503a45", mood:"calm"},
+      svg:`
+${K.defs(k,{w1:"#31202a", w2:"#160f13"})}
+${K.room(k,{beam:{}, cols:[56,196,924,1064], ray:"690,40 842,40 660,460 400,460"})}
+
+<rect x="356" y="72" width="408" height="234" fill="#241820" stroke="#d9b45b" stroke-opacity=".32"/>
+<rect x="368" y="84" width="384" height="210" fill="#efe3ce" fill-opacity=".03" stroke="#d9b45b" stroke-opacity=".14"/>
+<path d="M560 118q-32 28-36 66 28-15 36-49 8 34 36 49-4-38-36-66z" fill="#d9b45b" fill-opacity=".11" stroke="#d9b45b" stroke-opacity=".26"/>
+
+${K.couch(408,292,304,64)}
+<g>
+<path d="M540 284q30 26 62 4" fill="none" stroke="#d9b45b" stroke-opacity=".38" stroke-width="1.2"/>
+<g fill="#d9b45b" fill-opacity=".5">
+  <circle cx="549" cy="288" r="2.6"/><circle cx="559" cy="294" r="2.6"/><circle cx="571" cy="299" r="2.6"/>
+  <circle cx="585" cy="300" r="2.6"/><circle cx="596" cy="295" r="2.6"/><circle cx="602" cy="286" r="2.6"/>
+</g>
+</g>
+
+${K.person(886,356,"stand",{robe:"#33232b",robe2:"#40303a",op:".9"})}
+
+${K.lamp(140,128,100,{k,cord:57})}
+${K.hint(560,428,"她 不 曾 抬 眼",{fs:13,ls:8,op:".3"})}
+`
+    };})()
+  },
+
+  xianfu:{
+    search:(()=>{ const k=K.U(); return {
+      cap:"咸福宫 · 西厢",
+      hot:[
+        {id:"s13",x:56, y:232,w:296,h:98, rx:8},
+        {id:"s26",x:486,y:228,w:154,h:112,rx:8},
+        {id:"s14",x:788,y:184,w:294,h:162,rx:10}
+      ],
+      svg:`
+${K.defs(k,{w1:"#2c2129", w2:"#131015", f1:"#181419"})}
+${K.room(k,{beam:{}, cols:[36,340,660,1084], ray:"210,40 350,40 230,460 40,460",
+  bg: K.plaque(452,22,216,54,"咸 福 宫") })}
+
+${K.lattice(64,56,236,142,{k,moon:[250,98,12],step:26})}
+
+<g>
+  ${K.table(64,240,280,116,{ins:14})}
+  <ellipse cx="126" cy="234" rx="24" ry="9" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M108 240l-6-30" stroke="#d9b45b" stroke-opacity=".32" stroke-width="1.8"/>
+  <path d="M98 214q8-8 18-2" fill="none" stroke="#d9b45b" stroke-opacity=".18"/>
+  ${K.stack(196,240,58,6,{step:5})}
+  <path d="M282 240v-16h20v16" fill="#efe3ce" fill-opacity=".07" stroke="#d9b45b" stroke-opacity=".2"/>
+</g>
+
+<g>
+  ${K.table(496,272,132,84,{ins:12})}
+  <ellipse cx="562" cy="208" rx="22" ry="22" fill="#1b1216" stroke="#d9b45b" stroke-opacity=".34"/>
+  <ellipse cx="562" cy="208" rx="16" ry="16" fill="#3b3543" fill-opacity=".8"/>
+  <path d="M562 230v14" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.6"/>
+  <path d="M544 246h36" stroke="#d9b45b" stroke-opacity=".3" stroke-width="1.6"/>
+  ${K.box(520,244,84,40)}
+  <path d="M560 244v-8" stroke="#d9b45b" stroke-opacity=".22"/>
+</g>
+
+<g>
+  <rect x="398" y="316" width="74" height="40" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M398 330h74" stroke="#d9b45b" stroke-opacity=".18"/>
+  <path d="M435 316v40" stroke="#d9b45b" stroke-opacity=".14"/>
+  <ellipse cx="698" cy="344" rx="26" ry="12" fill="#33232b" stroke="#d9b45b" stroke-opacity=".24"/>
+  <path d="M672 344q4 16 26 16t26-16" fill="#241820" stroke="#d9b45b" stroke-opacity=".18"/>
+</g>
+
+<g>
+  ${K.rack(800,176,270,58,1,{items:K.spines(806,186,258,38,9,{title:true})})}
+  <rect x="812" y="252" width="236" height="104" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".24"/>
+  <path d="M812 276h236M812 322h236" stroke="#d9b45b" stroke-opacity=".12"/>
+  <ellipse cx="880" cy="264" rx="30" ry="11" fill="#3b2a26" stroke="#d9b45b" stroke-opacity=".28"/>
+  <path d="M850 264q3 20 30 20t30-20" fill="#2e2020" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M878 248q8-14 0-24 10 10 16 0-6 14 2 24" fill="none" stroke="#efe3ce" stroke-opacity=".12"/>
+  <path d="M960 290h60v50h-60z" fill="#efe3ce" fill-opacity=".05" stroke="#d9b45b" stroke-opacity=".16"/>
+</g>
+
+${K.lamp(600,118,84,{k,cord:57})}
+${K.hint(160,432,"檐 下 无 人 走 动",{fs:12,ls:6,op:".26"})}
+`
+    };})(),
+
+    talk:(()=>{ const k=K.U(); return {
+      cap:"咸福宫 · 婉贵人 卫昭",
+      cast:{x:450, y:356, pose:"seat", tone:"#33303c", tone2:"#413d4c", mood:"away"},
+      svg:`
+${K.defs(k,{w1:"#2c2129", w2:"#131015", f1:"#181419"})}
+${K.room(k,{beam:{}, cols:[36,340,660,1084]})}
+${K.lattice(64,60,246,168,{k,moon:[252,112,13],step:27})}
+<polygon points="170,228 332,228 452,460 230,460" fill="url(#${k}c)"/>
+
+${K.couch(300,288,300,68)}
+
+${K.table(646,282,112,74,{ins:11})}
+<ellipse cx="702" cy="272" rx="26" ry="10" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".26"/>
+<path d="M676 272q4 16 26 16t26-16" fill="#241820" stroke="#d9b45b" stroke-opacity=".22"/>
+<path d="M700 258q-6-10 2-18" fill="none" stroke="#efe3ce" stroke-opacity=".1"/>
+
+<g opacity=".55">
+  <path d="M884 108v40" stroke="#d9b45b" stroke-opacity=".24"/>
+  <ellipse cx="884" cy="164" rx="16" ry="20" fill="#241820" stroke="#d9b45b" stroke-opacity=".2"/>
+  <path d="M868 148h32" stroke="#d9b45b" stroke-opacity=".16"/>
+</g>
+
+${K.hint(470,430,"茶 凉 了 , 也 没 人 换",{fs:13,ls:7,op:".3"})}
+`
+    };})()
+  },
+
+  taiyi:{
+    search:(()=>{ const k=K.U(); return {
+      cap:"太医院",
+      hot:[
+        {id:"s16",x:58, y:122,w:356,h:238,rx:8},
+        {id:"s15",x:454,y:234,w:228,h:126,rx:8},
+        {id:"s17",x:784,y:84, w:184,h:240,rx:8},
+        {id:"s27",x:970,y:256,w:114,h:86, rx:8}
+      ],
+      svg:`
+${K.defs(k,{w1:"#2b2228", w2:"#130e11"})}
+${K.room(k,{beam:{x:160,w:820}, cols:[40,420,780,1064], ray:"600,36 742,36 620,460 400,460",
+  bg: K.plaque(220,22,200,52,"太 医 院") })}
+
+<g>
+  ${K.drawers(70,132,330,218,5,5,{empty:[4,3]})}
+  ${K.hint(235,120,"药 柜 · 甘 草 紫 苏 皆 在",{fs:11,ls:4,op:".3"})}
+</g>
+
+<g>
+  ${K.table(470,262,196,94,{ins:13})}
+  ${K.scroll(486,238,86,24,{rows:2,seal:true})}
+  <ellipse cx="616" cy="252" rx="22" ry="8" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".24"/>
+  <path d="M594 252q2 14 22 14t22-14" fill="#241820" stroke="#d9b45b" stroke-opacity=".2"/>
+</g>
+
+<g>
+  ${K.doorway(800,96,150,214,k,{moon:11})}
+  <rect x="786" y="308" width="178" height="10" fill="#33232b" stroke="#d9b45b" stroke-opacity=".22"/>
+  <path d="M792 318v38M958 318v38" stroke="#d9b45b" stroke-opacity=".16"/>
+  ${K.lamp(716,150,64,{k,cord:101})}
+</g>
+
+<g>
+  ${K.box(982,268,94,66,{lacquer:true})}
+  <path d="M982 288h94" stroke="#d9b45b" stroke-opacity=".2"/>
+  <path d="M1000 268l-8-26M1020 268l-4-28M1040 268l2-26" stroke="#d9b45b" stroke-opacity=".34" stroke-width="1.4"/>
+</g>
+`
+    };})(),
+
+    talk:(()=>{ const k=K.U(); return {
+      cap:"太医院 · 太医 周鹤",
+      /* 两个人：周鹤坐在案前受问，药童立在右侧。问谁，谁就亮起来作答 */
+      cast:[
+        {name:"周鹤", x:520, y:288, pose:"seat", tone:"#3a2f36", tone2:"#483a42", mood:"low", dim:.5},
+        {name:"药童", x:860, y:356, pose:"stand", tone:"#33232b", tone2:"#40303a", mood:"calm", dim:.5}
+      ],
+      svg:`
+${K.defs(k,{w1:"#2b2228", w2:"#130e11"})}
+${K.room(k,{beam:{x:160,w:820}, cols:[40,420,780,1064], ray:"560,36 700,36 580,460 360,460"})}
+
+${K.drawers(60,148,280,204,4,4)}
+${K.plaque(500,24,220,50,"悬 壶 济 世")}
+
+<g>
+  ${K.scroll(494,222,54,20,{rows:2})}
+  <path d="M508 242q-6 12 0 20M532 242q6 12 0 20" stroke="#efe3ce" stroke-opacity=".08" fill="none"/>
+  ${K.table(430,292,272,64,{th:12})}
+  <ellipse cx="646" cy="284" rx="20" ry="7" fill="#2a1a22" stroke="#d9b45b" stroke-opacity=".22"/>
+</g>
+
+${K.lamp(160,124,104,{k,cord:51})}
+${K.hint(560,430,"捧 脉 案 的 手 , 在 抖",{fs:13,ls:7,op:".3"})}
+`
+    };})()
+  },
+
+  yaofang:{
+    search:(()=>{ const k=K.U(); return {
+      cap:"御药房",
+      hot:[
+        {id:"s18",x:48, y:236,w:432,h:120,rx:8},
+        {id:"s19",x:588,y:116,w:444,h:246,rx:10}
+      ],
+      svg:`
+${K.defs(k,{w1:"#292128", w2:"#120e11"})}
+${K.room(k,{beam:{x:300,w:700}, cols:[40,540,1084], ray:"700,36 862,36 760,460 520,460",
+  bg: K.plaque(600,22,220,52,"御 药 房") })}
+
+<g>
+  ${K.table(60,270,410,86,{ins:14})}
+  ${K.scroll(76,242,200,28,{rows:3,seal:true})}
+  ${K.stack(300,270,86,7,{step:6})}
+  <path d="M418 270v-26h34v26" fill="#efe3ce" fill-opacity=".06" stroke="#d9b45b" stroke-opacity=".18"/>
+</g>
+
+<g>
+  ${K.drawers(600,132,420,216,7,4,{empty:[5,2]})}
+  ${K.hint(810,120,"外 用 杀 虫 · 十 七 种",{fs:11,ls:4,op:".3"})}
+</g>
+
+${K.lamp(520,108,84,{k,cord:47})}
+${K.hint(220,432,"档 册 按 日 装 订",{fs:12,ls:6,op:".26"})}
+`
+    };})()
+  },
+
+  neiwufu:{
+    search:(()=>{ const k=K.U(); return {
+      cap:"内务府档房",
+      hot:[
+        {id:"s22",x:132,y:136,w:184,h:88, rx:8},
+        {id:"s21",x:432,y:90, w:216,h:126,rx:8},
+        {id:"s20",x:420,y:230,w:352,h:76, rx:8},
+        {id:"s31",x:794,y:244,w:114,h:40, rx:8},
+        {id:"s23",x:944,y:86, w:160,h:118,rx:8},
+        {id:"s30",x:958,y:236,w:134,h:70, rx:8}
+      ],
+      svg:`
+${K.defs(k,{w1:"#2c2127", w2:"#120e11"})}
+${K.room(k,{beam:{}, cols:[36,400,700,1084], ray:"640,36 800,36 700,460 460,460",
+  bg: K.plaque(404,22,240,50,"内 务 府 档 房") })}
+
+<g>
+  ${K.rack(40,76,340,244,3)}
+  ${K.spines(52,78,316,58,11,{title:true})}
+  ${K.tags(158,140,5,{w:26,h:34})}
+  ${K.spines(52,200,316,58,12)}
+  ${K.spines(52,261,316,58,10,{title:true})}
+</g>
+
+<g>
+  <rect x="440" y="94" width="200" height="118" fill="#efe3ce" fill-opacity=".1" stroke="#d9b45b" stroke-opacity=".3"/>
+  <rect x="448" y="102" width="184" height="102" fill="none" stroke="#d9b45b" stroke-opacity=".13"/>
+  <path d="M462 124h156M462 142h156M462 160h118" stroke="#d9b45b" stroke-opacity=".18"/>
+  <rect x="592" y="166" width="26" height="26" rx="2" fill="#a8232d" fill-opacity=".55" stroke="#d9b45b" stroke-opacity=".3"/>
+  ${K.hint(540,88,"宫 器 清 整 知 会 签",{fs:11,ls:3,op:".32"})}
+</g>
+
+<g>
+  ${K.table(420,272,520,84,{ins:16})}
+  ${K.scroll(436,244,330,30,{rows:3,mark:true})}
+  ${K.scroll(800,250,100,24,{rows:1})}
+  <path d="M850 232v-16" stroke="#d9b45b" stroke-opacity=".2"/>
+</g>
+
+<g>
+  ${K.rack(950,86,148,78,1)}
+  ${K.spines(956,92,136,44,5,{title:true})}
+  ${K.hint(1024,78,"慎 刑 司 案 卷",{fs:11,ls:3,op:".3"})}
+</g>
+
+<g>
+  ${K.stack(966,276,66,4)}
+</g>
+
+<g>
+  <rect x="958" y="288" width="134" height="12" fill="#33232b" stroke="#d9b45b" stroke-opacity=".26"/>
+  <path d="M966 300v56M1084 300v56" stroke="#d9b45b" stroke-opacity=".18"/>
+  ${K.box(966,196,118,58,{lacquer:true})}
+  <path d="M998 196l-6-14M1024 196l-2-16M1050 196l4-14" stroke="#d9b45b" stroke-opacity=".34" stroke-width="1.4"/>
+  <path d="M966 254h118" stroke="#d9b45b" stroke-opacity=".16"/>
+</g>
+
+${K.lamp(500,106,86,{k,cord:43})}
+${K.hint(180,432,"卷 册 封 存 , 调 看 有 记",{fs:12,ls:6,op:".24"})}
+`
+    };})(),
+
+    talk:(()=>{ const k=K.U(); return {
+      cap:"内务府档房 · 书吏",
+      cast:{name:"书吏", x:856, y:356, pose:"stand", tone:"#3a2f36", tone2:"#483a42", mood:"calm"},
+      svg:`
+${K.defs(k,{w1:"#2c2127", w2:"#120e11"})}
+${K.room(k,{beam:{}, cols:[36,400,700,1084], ray:"620,36 780,36 680,460 440,460"})}
+
+${K.rack(40,80,300,240,3)}
+${K.spines(52,82,276,58,10)}
+${K.spines(52,203,276,58,11,{title:true})}
+${K.spines(52,264,276,58,9)}
+${K.plaque(880,86,180,66,"慎 刑 司")}
+
+<g>
+  ${K.scroll(586,232,68,22,{rows:1})}
+  <path d="M600 254q-4 16 4 26M636 254q4 16-4 26" stroke="#efe3ce" stroke-opacity=".08" fill="none"/>
+  <rect x="470" y="300" width="330" height="14" fill="#33232b" stroke="#d9b45b" stroke-opacity=".28"/>
+  <rect x="484" y="314" width="302" height="30" fill="#241820" stroke="#d9b45b" stroke-opacity=".13"/>
+  <path d="M492 344v12M786 344v12" stroke="#d9b45b" stroke-opacity=".16"/>
+  ${K.stack(516,300,56,4,{step:6})}
+</g>
+
+${K.lamp(200,124,100,{k,cord:53})}
+${K.hint(620,430,"这 纸 是 谁 的",{fs:13,ls:8,op:".28"})}
+`
+    };})()
+  },
+
+  gongmen:{
+    search:(()=>{ const k=K.U(); return {
+      cap:"宫门值房",
+      hot:[
+        {id:"s24",x:78, y:232,w:356,h:100,rx:8},
+        {id:"s25",x:454,y:244,w:280,h:110,rx:8}
+      ],
+      svg:`
+${K.defs(k,{w1:"#261d24", w2:"#100b0e", f1:"#141016"})}
+${K.room(k,{beam:{x:480,w:640}, cols:[36,430,740,1084],
+  bg: K.plaque(520,22,200,50,"宫 门 值 房") })}
+
+${K.lattice(48,64,160,170,{k,moon:[150,114,13],step:24})}
+<polygon points="60,234 212,234 300,460 90,460" fill="url(#${k}c)"/>
+
+<g>
+  ${K.gate(760,60,300,300,{rows:5,cols:4})}
+  <rect x="800" y="238" width="220" height="17" rx="3" fill="#3a2731" stroke="#d9b45b" stroke-opacity=".34"/>
+  <path d="M810 246h200" stroke="#d9b45b" stroke-opacity=".14"/>
+  ${K.hint(910,50,"夜 禁 · 无 旨 不 得 出 入",{fs:11,ls:4,op:".3"})}
+</g>
+
+<g>
+  ${K.table(90,268,380,88,{ins:14})}
+  ${K.scroll(106,242,196,26,{rows:3})}
+  ${K.stack(330,268,90,6,{step:6})}
+</g>
+
+<g>
+  ${K.rack(470,150,250,206,2)}
+  ${K.spines(490,156,214,58,9)}
+  ${K.scroll(496,258,110,28,{rows:2})}
+  ${K.stack(622,287,58,4)}
+  ${K.slip(500,314,90,26,"存 根")}
+</g>
+
+${K.lamp(660,112,100,{k,cord:41})}
+${K.hint(240,432,"门 内 那 盏 灯 , 一 直 亮 着",{fs:12,ls:6,op:".28"})}
+`
+    };})(),
+
+    talk:(()=>{ const k=K.U(); return {
+      cap:"宫门值房 · 值夜内侍",
+      /* 值夜内侍跪在殿心答话——「丑时有个宫女在门内哭求」 */
+      cast:{x:470, y:356, pose:"kneel", tone:"#33232b", tone2:"#40303a", mood:"calm"},
+      svg:`
+${K.defs(k,{w1:"#261d24", w2:"#100b0e", f1:"#141016"})}
+${K.room(k,{beam:{x:480,w:640}, cols:[36,430,740,1084]})}
+
+${K.gate(790,84,250,272,{rows:5,cols:3,op:".34"})}
+<rect x="828" y="316" width="174" height="13" rx="3" fill="#3a2731" stroke="#d9b45b" stroke-opacity=".24"/>
+${K.lamp(660,112,104,{k,cord:39})}
+${K.hint(915,64,"门 未 开",{fs:12,ls:8,op:".32"})}
+
+${K.hint(470,430,"额 头 贴 地",{fs:13,ls:8,op:".3"})}
+
+<g>
+  ${K.table(80,272,300,84,{ins:13})}
+  ${K.scroll(96,246,150,26,{rows:3})}
+</g>
+${K.hint(880,430,"丑 时 · 寅 时",{fs:12,ls:8,op:".24"})}
+`
+    };})()
+  }
+
+};
+
+const PLACE_MAP = {}; PLACES.forEach(p=>PLACE_MAP[p.id]=p);
+
+/* ---------------- 状态 ---------------- */
+const S = {
+  round:1, ap:0,
+  apMax:{1:15,2:17,3:14},
+  found:{}, done:{}, denied:{},
+  current:null, tab:null, view:null,
+  settled:0, verdict:null,
+  tapSel:null, pick:null
+};
+const $ = s=>document.querySelector(s);
+const app = ()=>$("#app");
+const clueCount = ()=>Object.keys(S.found).length;
+const TOTAL_CLUES = Object.keys(CLUES).length;
+
+/* ---------------- 环境探测 / 滚动定位 ----------------
+   窄屏是单列布局：宫城条 → 案台 → 线索簿。任何操作后都不该滚到整页顶端
+   （那样会停在宫城条上，看不到刚读到的内容），而要停在「案台」本身。
+----------------------------------------------------- */
+const mq = q => !!(window.matchMedia && window.matchMedia(q).matches);
+const isNarrow = ()=> mq("(max-width:820px)");
+const isTouch  = ()=> (navigator.maxTouchPoints||0) > 0 || ("ontouchstart" in window);
+const calm     = ()=> mq("(prefers-reduced-motion: reduce)");
+function topbarH(){
+  const tb = document.querySelector(".topbar");
+  return (tb && getComputedStyle(tb).position === "sticky") ? tb.offsetHeight : 0;
+}
+function scrollToEl(el, pad){
+  if(!el || !el.getBoundingClientRect) return;
+  const y = el.getBoundingClientRect().top
+          + (window.pageYOffset || document.documentElement.scrollTop || 0)
+          - (pad||0);
+  const top = Math.max(0, Math.round(y));
+  try{ window.scrollTo({top, behavior: calm() ? "auto" : "smooth"}); }
+  catch(e){ window.scrollTo(0, top); }
+}
+/* 重绘后等一帧再滚，保证拿到的是新布局的位置 */
+function scrollToStage(){
+  requestAnimationFrame(()=>{
+    const el = document.getElementById("stage");
+    scrollToEl(el, isNarrow() ? topbarH() + 8 : 14);
+  });
+}
+/* 窄屏才好用：大屏上案台始终在视野里，滚动反而晃眼 */
+function focusStage(force){
+  if(force || isNarrow()) scrollToStage();
+}
+
+/* ---------------- 开场 ---------------- */
+function renderIntro(){
+  app().innerHTML = `
+  <section id="intro" class="frame">
+    <div class="intro-top">
+      <div>
+        <div class="kicker">Dossier · Palace Intrigue</div>
+        <h1 class="intro-title">上巳血案</h1>
+        <div class="intro-sub">大昭 · 景和十七年 · 单人推理本</div>
+      </div>
+      <div class="seal">内廷司正</div>
+    </div>
+
+    <div class="docket">
+      <div><dt>案发时辰</dt><dd>景和十七年三月初四 寅时</dd></div>
+      <div><dt>案发地点</dt><dd>皇城 · 西六宫 · 毓秀宫</dd></div>
+      <div><dt>亡者</dt><dd>贵妃 沈婉（年二十四）</dd></div>
+      <div><dt>勘断</dt><dd>钩吻中毒 · 由口入</dd></div>
+      <div><dt>限期</dt><dd>三日 · 不得惊动六宫</dd></div>
+    </div>
+
+    <div class="intro-body">
+      <p>三月三，上巳。太液池畔设宴，六宫俱在。宴上贵妃沈氏落了皇后的面子，宴散时未向皇后辞行，满宫都看在眼里。</p>
+      <p>当夜亥时，贵妃饮下一盏安神蜜汤。寅时，人没了。</p>
+      <p style="color:var(--gold-2)">次日天明，圣上密召你入殿，只说了两句话：「三日之内，查清贵妃怎么没的。」「查到谁，就报谁，不必顾着谁的脸。」</p>
+      <hr class="rule">
+      <p><strong style="color:#f0d68a">你的身份：内廷司正 · 谢绥。</strong>前大理寺司直，因父获罪没入宫籍，擅刑名，为尚宫所拔，掌宫规稽核。宫中人怕你，也叫你「查案的谢司正」。</p>
+      <p><strong style="color:#f0d68a">你的权限：</strong>三日之内，可行走六宫、勘验现场、调阅内务府与太医院档册、传唤宫人问话。你手里的不是腰牌，是三日的命。</p>
+    </div>
+
+    <div class="intro-note">
+      <b style="color:var(--gold)">本子规则</b>
+      <ol>
+        <li>共三日，<b>每日十五筹上下</b>，三日共四十六筹。<b>每勘验一处、每问一句话、每呈一次证，皆耗一筹。</b>本子经精算：只要方向不错，<b>全部三十四条线索都拿得到</b>；余下十二筹，够你搜错几处、呈错几回。你缺的从来不是筹，是判断。</li>
+        <li>入一处，先选<b>「勘验」</b>还是<b>「问话」</b>。<b>勘验</b>是搜现场——八处地点皆是一幅现场长卷，<b>你去点画面里的物事</b>。物事有明有暗，<b>搜错了，筹也照样花出去</b>；下方的提示语，是给你判方向的。</li>
+        <li>窄屏（手机）上画面可<b>左右滑动</b>看全；轻触物事只<b>先看清是什么</b>，<b>再点一次才真的勘验</b>——免得手指一滑白花一筹。</li>
+        <li>有些话<b>空口问不进去</b>（标为虚线者，须先握有凭据）。有些话须得<b>呈证逼问</b>——由你从线索簿里挑一条证据推过去。挑对了，他才开口；<b>挑错了，筹白花</b>。但你手上若根本没有能与他对质的东西，他会直说——这一筹不花。</li>
+        <li>线索分三日投放：<b>第一日建立疑点，第二日制造矛盾，第三日拿出决定性证据。</b>一日查不完，来日可补。</li>
+        <li><b style="color:#e79aa2">线索不都是真的。</b>有一类线索，指向写得很明白，看着也像铁证——可分两种：<b>一种是「指向错人」</b>，东西是真的，安错了人；<b>一种是「证据无效」</b>，指向的人也许没错，可这条证据本身什么都证明不了——因为<u>那样的东西，满宫都有</u>。六条这样的线索藏在案子里，<b>每一条都必定有另一条线索能推翻它</b>，绝不会是死胡同。结案时你要交代：<b>哪一条，你认为不可采信。</b></li>
+        <li>终局须指认：<b>下毒之人</b>、<b>断其生路之人</b>，<b>呈上关键证据</b>，并<b>剔去一条不可采信的线索</b>。<b>本案不止一只手，也不止一个坑。</b></li>
+      </ol>
+    </div>
+
+    <div class="intro-actions">
+      <button class="btn primary" onclick="startGame()">入 宫 查 案</button>
+      <span class="dim" style="font-size:12.5px;letter-spacing:.14em">—— 三人死于一句闲话，六宫各有各的算盘。</span>
+    </div>
+  </section>`;
+}
+
+function startGame(){
+  S.round=1; S.ap=S.apMax[1]; S.found={}; S.done={}; S.denied={};
+  S.current=null; S.tab=null; S.view=null; S.settled=0; S.verdict=null; S.tapSel=null;
+  renderGame();
+  backToTop();
+}
+
+/* ---------------- 可用性 ---------------- */
+function spotsOf(p){ return p.spots || []; }
+function topicsOf(p){ return p.topics || []; }
+function spotVisible(sp){ return (sp.open||1) <= S.round; }
+function spotLocked(sp){ return !!(sp.req && !S.found[sp.req.clue]); }
+function topicVisible(t){ return (t.open||1) <= S.round; }
+function topicLocked(t){ return !!(t.req && !S.found[t.req.clue]); }
+
+/* ---------------- 主界面 ---------------- */
+function renderGame(){
+  const pips = [1,2,3].map(r=>{
+    const cls = r===S.round ? "pip on" : (r<S.round ? "pip done" : "pip");
+    return `<span class="${cls}">${["第一日","第二日","第三日"][r-1]}</span>`;
+  }).join("");
+  const dots = Array.from({length:S.apMax[S.round]},(_,i)=>`<span class="apdot ${i<S.ap?"on":""}"></span>`).join("");
+
+  const places = PLACES.map(p=>{
+    const locked = p.open > S.round;
+    const vis = spotsOf(p).filter(spotVisible).length + topicsOf(p).filter(topicVisible).length;
+    const got = spotsOf(p).filter(sp=>spotVisible(sp)&&S.done[sp.id]).length
+              + topicsOf(p).filter(t=>topicVisible(t)&&S.done[t.id]).length;
+    let badge = "";
+    if(locked) badge = `<span class="p-badge" style="color:var(--paper-3)">未开</span>`;
+    else if(vis>0) badge = `<span class="p-badge">${got}/${vis}</span>`;
+    return `<div class="place ${S.current===p.id?"on":""} ${locked?"locked":""}"
+      ${locked?"":`onclick="selectPlace('${p.id}')"`}>
+      <div class="p-ico">${p.ico}</div>
+      <div style="flex:1;min-width:0">
+        <div class="p-name">${p.name}</div>
+        <div class="p-sub">${p.sub}</div>
+      </div>${badge}
+    </div>`;
+  }).join("");
+
+  app().innerHTML = `
+  <section id="game">
+    <div class="topbar">
+      <div class="brand">上巳血案<small>大昭 · 景和十七年</small></div>
+      <div class="daypips">${pips}</div>
+      <div class="spacer"></div>
+      <div class="apbox">
+        <span class="lab">余 筹</span>
+        <div class="apdots">${dots}</div>
+        <span style="color:var(--gold-2);font-size:14px;min-width:20px;text-align:right">${S.ap}</span>
+      </div>
+      <button class="btn sm ghost" onclick="endDay(true)">结束本日</button>
+    </div>
+
+    <div class="layout">
+      <div class="panel col-left">
+        <div class="panel-h"><span>宫 城</span><span style="color:var(--paper-3);font-size:10.5px">六宫 + 三司</span></div>
+        <div class="panel-b">
+          <div class="places">${places}</div>
+          <div class="stats" style="margin-top:12px;padding-top:11px;border-top:1px solid var(--line);font-size:11.5px;color:var(--paper-3);line-height:1.9">
+            <span>已获线索 <b style="color:var(--gold)">${clueCount()}</b> / ${TOTAL_CLUES}</span>
+            <span>勘验 · 问话 <b style="color:var(--gold)">${S.settled}</b> 次</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel col-mid">
+        <div class="panel-h"><span>${S.current?PLACE_MAP[S.current].name:"查 案 台"}</span>
+          <span style="color:var(--paper-3);font-size:10.5px">${["第一日 · 疑点","第二日 · 矛盾","第三日 · 定谳"][S.round-1]}</span></div>
+        <div class="stage" id="stage">${renderStage()}</div>
+      </div>
+
+      <div class="panel col-right">
+        <div class="panel-h"><span>线 索 簿</span><span style="color:var(--paper-3);font-size:10.5px">${clueCount()} 条</span></div>
+        <div class="cluebox">${renderCluebook()}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderStage(){
+  if(!S.current){
+    return `<div class="stage-empty">
+      <div class="big">卷</div>
+      <p>案卷已启。左侧为宫中可往之处。<br>入一处，先择「勘验」或「问话」。</p>
+      <p class="dim" style="font-size:12.5px">今日余筹 ${S.ap}。勘验一处、问话一次、呈证一回，各耗一筹。</p>
+    </div>`;
+  }
+  if(S.view) return renderRead();
+
+  const p = PLACE_MAP[S.current];
+  const sps = spotsOf(p).filter(spotVisible);
+  const tps = topicsOf(p).filter(topicVisible);
+  const hasS = sps.length>0, hasT = tps.length>0;
+
+  if(!hasS && !hasT){
+    return `<div class="stage-h"><div><h2>${p.name}</h2><div class="sub">${p.sub}</div></div></div>
+    <div class="stage-empty" style="min-height:300px">
+      <div class="big">闭</div><p>今日此处无事可查。<br><span class="dim">换个地方，或结束本日。</span></p>
+    </div>`;
+  }
+
+  let tab = S.tab;
+  if(!hasS) tab="talk";
+  if(!hasT) tab="search";
+  if(tab!=="search"&&tab!=="talk") tab = hasS?"search":"talk";
+  S.tab = tab;
+
+  const tabsHtml = (hasS&&hasT) ? `<div class="tabs">
+      <div class="tab ${tab==="search"?"on":""}" onclick="setTab('search')">勘 验<span class="cnt">${sps.filter(sp=>!S.done[sp.id]).length} 处</span></div>
+      <div class="tab ${tab==="talk"?"on":""}" onclick="setTab('talk')">问 话<span class="cnt">${tps.filter(t=>!S.done[t.id]).length} 人</span></div>
+    </div>` : "";
+
+  const sc = (SCENES[p.id] && SCENES[p.id][tab]) || null;
+  const note = tab==="search"
+    ? (sc
+        ? `<div class="tabnote">此间可以走动了。物事有明有暗，<b style="color:#d98b7a">搜错了，筹也照样花出去。</b></div>`
+        : `<div class="tabnote">现场之物有明有暗，每处那句提示语是给你判方向的——<b style="color:#d98b7a">搜错了，筹也照样花出去。</b>虚线者，是你还没想到要查的去处。</div>`)
+    : `<div class="tabnote">虚线者，<b style="color:#d98b7a">空口问不进去</b>，须先握有凭据。<span style="color:#e79aa2">朱色者，须呈证逼问</span>——由你挑一条证据推过去，挑对了，他才开口。</div>`;
+
+  const sceneHtml = sc ? renderScene(sc, p, tab) : "";
+
+  let listHtml = "";
+  if(tab==="search"){
+    listHtml = `<div class="sec-lab">案 上 清 单 · 可见 ${sps.length} 处</div><div class="spotgrid">${sps.map(sp=>{
+      const done = S.done[sp.id];
+      const lk = !done && spotLocked(sp);
+      const pick = !done && !lk && S.pick===sp.id;      /* 已选中、待确认 */
+      const cls = done ? (sp.clue?"hit":"miss") : (lk?"locked":(pick?"pick":""));
+      const sf = done ? (sp.clue?"✓ 得":"已勘") : (lk?"——":(pick?"待勘":"可勘"));
+      const sub = done ? (sp.clue?("已录："+CLUES[sp.clue].name):"已勘，无所得")
+                       : (lk?"（尚无线索可依，想不到该查此处）":sp.hint);
+      const act = done ? `onclick="showSpotResult('${sp.id}')"` : (lk?"":`onclick="pickSpot('${sp.id}')"`);
+      return `<div class="spot ${cls}" ${act}>
+        <div class="sf">${sf}</div>
+        <div class="sn">${sp.name}</div>
+        <div class="sh">${sub}</div>
+        ${pick?`<div class="sdock">
+          <span class="sdock-t">此 处 勘 验 · 耗 一 筹</span>
+          <button class="btn sm primary" onclick="event.stopPropagation();doSpot('${sp.id}')">勘 验</button>
+          <button class="btn sm ghost" onclick="event.stopPropagation();clearPick()">再 想 想</button>
+        </div>`:""}
+      </div>`;
+    }).join("")}</div>`;
+  } else {
+    listHtml = `<div class="sec-lab">从 何 问 起 · ${tps.length} 项</div><div class="actlist">${tps.map(t=>{
+      const done = S.done[t.id];
+      const lk = !done && topicLocked(t);
+      const isProve = !!t.show;
+      const pick = !done && !lk && S.pick===t.id;
+      const cls = done?"done":(lk?"locked":(isProve?"prove":(pick?"pick":"")));
+      const no = done?"✓":(lk?"无凭":(isProve?(S.ap>0?"呈证":"无筹"):(pick?"待问":"可问")));
+      const cost = done?"已录":(lk?"须先得凭据":(S.ap>0?"耗 1 筹":"无筹"));
+      const tag = (t.clues&&t.clues.length) ? "" : '<span class="dim" style="font-size:12px">（未必有得）</span>';
+      const click = done?`onclick="showTopicResult('${t.id}')"` : (lk?"":`onclick="pickTopic('${t.id}')"`);
+      const act = isProve ? `openProve('${t.id}')` : `doTopic('${t.id}')`;
+      return `<div class="act ${cls}" ${click}>
+        <span class="a-no">${no}</span>
+        <span class="a-txt">${t.label}${tag}</span>
+        <span class="a-cost">${cost}</span>
+        ${pick?`<div class="adock">
+          <button class="btn sm primary" onclick="event.stopPropagation();${act}">${isProve?"呈 证":"问 话"}</button>
+          <button class="btn sm ghost" onclick="event.stopPropagation();clearPick()">再 想 想</button>
+        </div>`:""}
+      </div>`;
+    }).join("")}</div>`;
+  }
+
+  return `<div class="stage-h">
+      <div><h2>${p.name}</h2><div class="sub">${p.sub}</div></div>
+      <div style="text-align:right"><div class="kicker">今日余筹</div><div style="color:var(--gold-2);font-size:20px">${S.ap}</div></div>
+    </div>
+    ${tabsHtml}${note}${sceneHtml}${listHtml}`;
+}
+
+/* ---------------- 场景渲染 ---------------- */
+/* 问话幕的「谁在答话 + 什么情绪」：
+   cast 可以是一个人（对象）或一排人（数组）。每个话题用 who 指明问的是谁、react 指明情绪。
+   规则优先级：当前选中的话题 → 最近问过的那个人的话题 → 默认。
+   于是点不同的话题，画面里的人会各自换姿态——这就是问话幕的联动。 */
+function talkCast(sc){
+  const c = sc.cast;
+  return Array.isArray(c) ? c : (c ? [c] : []);
+}
+function talkState(sc, tps){
+  const cast = talkCast(sc);
+  const pickId = S.pick;
+  const named = cast.find(c=>c.name);
+
+  /* 选中某话题：那个人摆出该话题的 react */
+  if(pickId){
+    const t = tps.find(x=>x.id===pickId);
+    if(t) return {who:t.who||(named?named.name:null), mood:t.react||"calm"};
+  }
+  /* 已问过：停在最后一个被问过的人身上 */
+  const doneT = tps.filter(x=>S.done[x.id] && x.react);
+  if(doneT.length){
+    const t = doneT[doneT.length-1];
+    return {who:t.who||(named?named.name:null), mood:t.react};
+  }
+  return {who:named?named.name:null, mood:(named&&named.mood)||"calm"};
+}
+function renderScene(sc, place, tab){
+  const sps = spotsOf(place).filter(spotVisible);
+  const byId = {}; sps.forEach(s=>byId[s.id]=s);
+  const hot = (sc.hot||[]).filter(h=>byId[h.id]);
+
+  const marks = hot.map(h=>{
+    const sp = byId[h.id];
+    const done = !!S.done[sp.id];
+    const cls = done ? (sp.clue ? "hit" : "miss") : "todo";
+    const mx = h.mx!=null ? h.mx : h.x + h.w/2;
+    const my = h.my!=null ? h.my : h.y + h.h/2;
+    return `<g class="hsm ${cls}"><circle cx="${mx}" cy="${my}" r="${done?4:3.2}"/>`
+         + (done && sp.clue ? `<circle class="ring" cx="${mx}" cy="${my}" r="8"/>` : "")
+         + `</g>`;
+  }).join("");
+
+  /* 问话幕：按当前状态重画被问的人，叠在底景之上（底景里已不画人） */
+  let figLayer = "";
+  if(tab==="talk" && sc.cast){
+    const tps = topicsOf(place).filter(topicVisible);
+    const st = talkState(sc, tps);
+    figLayer = talkCast(sc).map(c=>{
+      const active = !c.name || !st.who || c.name===st.who;
+      const mood = active ? st.mood : (c.mood||"calm");
+      const rx = (c.react||{})[mood] || {};
+      return K.fig(c.x + (rx.dx||0), c.y + (rx.dy||0), c.pose||"seat",
+                   Object.assign({mood, tone:c.tone, tone2:c.tone2, mark:c.mark, op:active?(c.op==null?1:c.op):(c.dim||.5)}, rx));
+    }).join("");
+  }
+
+  const rects = hot.map(h=>{
+    const sp = byId[h.id];
+    const done = !!S.done[sp.id];
+    const lk = !done && spotLocked(sp);
+    const cls = done ? "fin" : (lk ? "lock" : "");
+    const act = done ? `showSpotResult('${sp.id}')` : (lk ? "" : `hsClick('${sp.id}')`);
+    return `<rect class="hs ${cls}${S.tapSel===sp.id?" sel":""}" data-spot="${sp.id}" x="${h.x}" y="${h.y}" width="${h.w}" height="${h.h}" rx="${h.rx||6}"`
+         + (act ? ` onclick="${act}"` : "") + `></rect>`;
+  }).join("");
+
+  const touch = isTouch();
+  /* 只有勘验页（有热区、要点选）才需要横滑保精度；问话页是纯插画，缩放看全就好 */
+  const tapable = hot.length > 0;
+
+  const def = tab==="search"
+    ? (touch
+        ? "轻触物事，先看清是什么；<b>再点一次才勘验</b> —— 有明有暗，搜错了，筹照花。"
+        : "把光标移到场景中的物事上 —— 有明有暗，看不清的，筹也照花。")
+    : (sc.cast && S.pick ? "她看住你问的这句话。点下方朱色按钮，才算真问出口。" : "她就在那儿。从下方择一处问起。");
+
+  return `<div class="scene">
+    <div class="scene-scroll${tapable?" tapable":""}" onmouseover="sceneHover(event)" onmouseout="sceneOut(event)">
+      <svg viewBox="0 0 1120 460" xmlns="http://www.w3.org/2000/svg">${sc.svg}${figLayer}${marks}${rects}</svg>
+    </div>
+    ${tapable ? `<div class="scene-pan">← 左 右 滑 动 看 全 景 →</div>` : ""}
+    <div class="scene-tip" id="sceneTip" data-def="${def.replace(/<[^>]+>/g,"")}"><i>${def}</i></div>
+  </div>`;
+}
+
+function sceneHover(e){
+  const t = e.target;
+  if(!t || !t.classList || !t.classList.contains("hs")) return;
+  hsTip(t.getAttribute("data-spot"));
+}
+function sceneOut(e){
+  const t = e.target;
+  if(!t || !t.classList || !t.classList.contains("hs")) return;
+  hsTipOff();
+}
+function hsTip(sid){
+  const el = document.getElementById("sceneTip"); if(!el || !sid) return;
+  const p = PLACE_MAP[S.current]; if(!p) return;
+  const sp = spotsOf(p).find(x=>x.id===sid); if(!sp) return;
+  const done = !!S.done[sid];
+  const lk = !done && spotLocked(sp);
+  const picked = !done && !lk && isTouch() && S.tapSel===sid;
+  const st = done ? (sp.clue ? "已录 · "+CLUES[sp.clue].name : "已勘 · 无所得")
+                  : (lk ? "尚无由头" : (picked ? "再点一次 · 勘验" : "可勘 · 耗 1 筹"));
+  const col = picked ? "#e79aa2" : (done ? "var(--jade)" : (lk ? "var(--paper-3)" : "var(--gold-2)"));
+  el.className = "scene-tip on";
+  el.innerHTML = `<b>${sp.name}</b><span style="color:var(--paper-3)">${done?"点击可回看":sp.hint}</span>`
+               + `<span style="margin-left:auto;white-space:nowrap;color:${col}">${st}</span>`;
+}
+function hsTipOff(){
+  /* 触屏没有「移开」这回事，别把刚点中的提示抹掉 */
+  if(isTouch() && S.tapSel && !S.done[S.tapSel]){ hsTip(S.tapSel); return; }
+  const el = document.getElementById("sceneTip"); if(!el) return;
+  el.className = "scene-tip";
+  el.innerHTML = `<i>${el.dataset.def||""}</i>`;
+}
+function paintSel(sid){
+  const rs = document.querySelectorAll(".scene-scroll .hs");
+  for(let i=0;i<rs.length;i++) rs[i].classList.toggle("sel", rs[i].getAttribute("data-spot")===sid);
+}
+/* 场景热区点击：触屏分两段——第一段只「看清」，第二段才真花那一筹 */
+function hsClick(sid){
+  const p = PLACE_MAP[S.current]; if(!p) return;
+  const sp = spotsOf(p).find(x=>x.id===sid); if(!sp) return;
+  if(S.done[sid]){ showSpotResult(sid); return; }
+  if(spotLocked(sp) || (isTouch() && S.tapSel!==sid)){
+    S.tapSel = sid; paintSel(sid); hsTip(sid); return;
+  }
+  doSpot(sid);
+}
+function backToTop(){
+  try{ window.scrollTo({top:0, behavior: calm() ? "auto" : "smooth"}); }
+  catch(e){ window.scrollTo(0,0); }
+}
+function updToTop(){
+  const b = document.getElementById("toTop"); if(!b) return;
+  b.classList.toggle("show", isNarrow() && (window.pageYOffset||0) > 420);
+}
+window.addEventListener("scroll", updToTop, {passive:true});
+window.addEventListener("resize", updToTop);
+
+function renderRead(){
+  const v = S.view;
+  const body = v.body.map(([k,t])=>{
+    if(k==="say") return `<p class="say">${t}</p>`;
+    if(k==="narr") return `<p class="narr">${t}</p>`;
+    return `<p>${t}</p>`;
+  }).join("");
+
+  const cards = (v.clues||[]).map(cid=>{
+    const c = CLUES[cid];
+    const ml = !!c.mislead;
+    return `<div class="cluepop">
+      <div class="ch">
+        <span class="tag ${c.type}">${c.type}</span>
+        <span class="ct">${c.name}</span>
+        <span style="margin-left:auto;font-size:10.5px;color:var(--paper-3);letter-spacing:.1em">${cid.toUpperCase()} · 得自${c.from}</span>
+      </div>
+      <div class="cd">${c.desc}</div>
+      <div class="cp"><b>指向 · </b>${c.point}</div>
+    </div>`;
+  }).join("");
+
+  return `<div class="stage-h">
+      <div><h2>${PLACE_MAP[S.current].name}</h2><div class="sub">${v.label}</div></div>
+      <button class="btn sm ghost" onclick="backToPlace()">返 回</button>
+    </div>
+    <div class="read"><div class="dialogue ${(v.clues&&v.clues.length)?'':'barren'}">${body}</div>${cards}</div>
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" onclick="backToPlace()">继续查别处</button>
+      <button class="btn ghost" onclick="renderGame()">回到案台</button>
+    </div>`;
+}
+
+function renderCluebook(){
+  if(!clueCount()) return `<div class="empty-note">线索簿空着。<br>去搜，去问，去翻档册。</div>`;
+  const groups = {"物证":[],"证词":[],"时间":[]};
+  Object.keys(S.found).forEach(cid=>{ groups[CLUES[cid].type].push(cid); });
+  let html = "";
+  ["物证","证词","时间"].forEach(t=>{
+    if(!groups[t].length) return;
+    html += `<div class="cluegrp"><div class="gh">${t} · ${groups[t].length}</div>`;
+    groups[t].forEach(cid=>{
+      html += `<div class="cluecard" onclick="showClue('${cid}')">
+        <span class="cid">${cid.toUpperCase()}</span>${CLUES[cid].name}</div>`;
+    });
+    html += `</div>`;
+  });
+  return html;
+}
+
+/* ---------------- 操作 ---------------- */
+function selectPlace(id){
+  S.current=id; S.view=null; S.tab=null; S.tapSel=null; S.pick=null; renderGame(); focusStage();
+}
+function setTab(t){
+  S.tab=t; S.view=null; S.tapSel=null; S.pick=null; renderGame(); focusStage();
+}
+function backToPlace(){ S.view=null; S.tapSel=null; renderGame(); focusStage(); }
+
+/* 清单两段式：先选中看清这是什么，再按按钮才真花那一筹。
+   规则同触屏热区——点条目只「选中」，确认键才执行；点同一项可撤销。 */
+function pickSpot(sid){
+  if(S.done[sid]){ showSpotResult(sid); return; }
+  const sp = spotsOf(PLACE_MAP[S.current]).find(x=>x.id===sid);
+  if(!sp || spotLocked(sp)) return;
+  S.pick = (S.pick===sid) ? null : sid;
+  if(S.pick) S.tapSel = sid; else S.tapSel = null;
+  renderGame(); focusStage();
+}
+function pickTopic(tid){
+  if(S.done[tid]){ showTopicResult(tid); return; }
+  const t = topicsOf(PLACE_MAP[S.current]).find(x=>x.id===tid);
+  if(!t || topicLocked(t)) return;
+  /* 呈证型不必先选中再确认——它本来就要在弹层里挑证据，多一层反而累 */
+  if(t.show){ openProve(tid); return; }
+  S.pick = (S.pick===tid) ? null : tid;
+  renderGame(); focusStage();
+}
+function clearPick(sid){ S.pick=null; S.tapSel=null; renderGame(); focusStage(); }
+
+function spend(){
+  if(S.ap>0){ S.ap--; S.settled++; return true; }
+  toast("今日余筹已尽。","请结束本日，明日再来。");
+  return false;
+}
+
+function doSpot(sid){
+  const p = PLACE_MAP[S.current];
+  const sp = spotsOf(p).find(x=>x.id===sid);
+  if(!sp || S.done[sid]) return;
+  if(!spend()) return;
+  S.done[sid]=true;
+  if(sp.clue) S.found[sp.clue]=true;
+  S.tapSel=null; S.pick=null;
+  S.view = {label: sp.name+(sp.clue?"":" · 勘验记录"), body: sp.clue?sp.body:sp.miss, clues: sp.clue?[sp.clue]:[]};
+  renderGame(); scrollToStage();
+}
+function showSpotResult(sid){
+  const sp = spotsOf(PLACE_MAP[S.current]).find(x=>x.id===sid);
+  if(!sp) return;
+  S.tapSel=null; S.pick=null;
+  S.view = {label: sp.name+(sp.clue?"":" · 勘验记录"), body: sp.clue?sp.body:sp.miss, clues: sp.clue?[sp.clue]:[]};
+  renderGame(); scrollToStage();
+}
+
+function doTopic(tid){
+  const t = topicsOf(PLACE_MAP[S.current]).find(x=>x.id===tid);
+  if(!t || S.done[tid] || topicLocked(t) || t.show) return;
+  if(!spend()) return;
+  S.done[tid]=true;
+  (t.clues||[]).forEach(c=>S.found[c]=true);
+  S.pick=null; S.tapSel=null;
+  S.view = {label:t.label, body:t.body, clues:t.clues||[]};
+  renderGame(); scrollToStage();
+}
+function showTopicResult(tid){
+  const t = topicsOf(PLACE_MAP[S.current]).find(x=>x.id===tid);
+  if(!t) return;
+  S.pick=null;
+  S.view = {label:t.label, body:t.body, clues:t.clues||[]};
+  renderGame(); scrollToStage();
+}
+
+/* ---- 呈证 ---- */
+function openProve(tid){
+  if(S.ap<=0){ toast("今日余筹已尽。","请结束本日，明日再来。"); return; }
+  const ids = Object.keys(S.found);
+  if(!ids.length){ toast("你手上没有凭据。","空口问不进去——先去搜，去查，回头再来。"); return; }
+  const t = topicsOf(PLACE_MAP[S.current]).find(x=>x.id===tid);
+  if(!t) return;
+  /* 手上若根本没有能与他对质的东西，就不让他白花这一筹 */
+  const can = ids.filter(cid => (t.show||[]).includes(cid) && !S.denied[tid+":"+cid]);
+  if(!can.length){
+    toast("他还没有开口的由头。","空口问不进去。你手上这些东西，推到他面前，他只会看一眼，还给你。","（这一筹，不必花。先去别处搜一搜、翻一翻，手里有了东西再来。）");
+    return;
+  }
+  S.pick=null;        /* 弹层已开，清单上的选中态撤掉，免得回来时还亮着 */
+  const rows = ids.map(cid=>{
+    const c = CLUES[cid];
+    const dead = S.denied[tid+":"+cid];
+    return `<div class="pv ${dead?"dead":""}" ${dead?"":`onclick="commitProve('${tid}','${cid}')"`}>
+      <span class="pid">${cid.toUpperCase()}</span>
+      <span>${c.name}</span>
+      <span class="ptype">${dead?"已呈·被否":c.type}</span>
+    </div>`;
+  }).join("");
+  const isVerify = !!t.proveLabel;
+  const m = document.createElement("div");
+  m.className="modal"; m.onclick=e=>{if(e.target===m)m.remove();};
+  m.innerHTML = `<div class="modal-in">
+    <h3>${t.proveLabel || "呈 证 逼 问"}</h3>
+    <div class="ms">${t.label}</div>
+    <p class="muted" style="font-size:13.5px;line-height:1.9">${isVerify?"挑一样东西递过去。":"挑一条凭据推过去。"}<b style="color:#e79aa2">${isVerify?"递错了，这一筹就白花了。":"挑错了，这一筹就白花了。"}</b>已被否认过的，不必再试。</p>
+    <div class="provegrid" style="margin-top:16px">${rows}</div>
+    <div style="margin-top:18px;text-align:right"><button class="btn sm ghost" onclick="this.closest('.modal').remove()">再 想 想</button></div>
+  </div>`;
+  document.body.appendChild(m);
+}
+function commitProve(tid,cid){
+  document.querySelectorAll(".modal").forEach(x=>x.remove());
+  const t = topicsOf(PLACE_MAP[S.current]).find(x=>x.id===tid);
+  if(!t) return;
+  if(!spend()) return;
+  S.pick=null; S.tapSel=null;
+  if((t.show||[]).includes(cid)){
+    S.done[tid]=true;
+    (t.clues||[]).forEach(c=>S.found[c]=true);
+    S.view = {label:t.label, body:t.body, clues:t.clues||[]};
+  } else {
+    S.denied[tid+":"+cid]=true;
+    S.view = {label:t.label+" · 呈证未果", body:t.wrong, clues:[]};
+  }
+  renderGame(); scrollToStage();
+}
+
+function showClue(cid){
+  const c = CLUES[cid];
+  const m = document.createElement("div");
+  m.className="modal"; m.onclick=e=>{if(e.target===m)m.remove();};
+  m.innerHTML = `<div class="modal-in">
+    <h3>${c.name}</h3>
+    <div class="ms">${c.type} · ${cid.toUpperCase()} · 得自${c.from}</div>
+    <div class="cd" style="color:#ded2bc;font-size:14.5px">${c.desc}</div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+      <div class="cp"><b>指向 · </b>${c.point}</div>
+      <div class="cp warn" style="margin-top:9px"><b>复 核 · </b>${c.warn}</div>
+    </div>
+    <div style="margin-top:20px;text-align:right"><button class="btn sm" onclick="this.closest('.modal').remove()">收 起</button></div>
+  </div>`;
+  document.body.appendChild(m);
+}
+
+function toast(t,s,small){
+  const m = document.createElement("div");
+  m.className="modal";
+  m.innerHTML = `<div class="modal-in" style="max-width:430px;text-align:center">
+    <h3>${t}</h3><p class="muted" style="font-size:13.5px;margin:10px 0 ${small?"7px":"18px"}">${s||""}</p>
+    ${small?`<p class="dim" style="font-size:12.5px;margin-bottom:18px">${small}</p>`:""}
+    <button class="btn primary sm" onclick="this.closest('.modal').remove()">知 道 了</button></div>`;
+  m.onclick=e=>{if(e.target===m)m.remove();};
+  document.body.appendChild(m);
+}
+
+function endDay(confirmFirst){
+  const left = PLACES.filter(p=>p.open<=S.round).reduce((n,p)=>
+    n + spotsOf(p).filter(sp=>spotVisible(sp)&&!S.done[sp.id]).length
+      + topicsOf(p).filter(t=>topicVisible(t)&&!S.done[t.id]).length, 0);
+  if(confirmFirst && S.ap>0 && left>0){
+    const m=document.createElement("div"); m.className="modal";
+    m.innerHTML=`<div class="modal-in" style="max-width:470px;text-align:center">
+      <h3>今日尚有 ${S.ap} 筹未用</h3>
+      <p class="muted" style="font-size:13.5px;margin:10px 0 8px">这一日未查的去处，来日未必仍想得起来。<br>可筹用尽了，就真的没有了。</p>
+      <p class="dim" style="font-size:12.5px;margin-bottom:16px">线索簿：已获 ${clueCount()} 条，尚有 <b style="color:var(--gold)">${TOTAL_CLUES-clueCount()}</b> 条未入手——来日仍可回头补。</p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:18px">
+        <button class="btn" onclick="this.closest('.modal').remove()">再 查 一 会</button>
+        <button class="btn primary" onclick="this.closest('.modal').remove();forceEndDay()">结 束 本 日</button>
+      </div></div>`;
+    m.onclick=e=>{if(e.target===m)m.remove();};
+    document.body.appendChild(m); return;
+  }
+  forceEndDay();
+}
+function forceEndDay(){
+  if(S.round>=3){ renderVerdict(); return; }
+  S.round++; S.ap=S.apMax[S.round]; S.current=null; S.view=null; S.tab=null; S.tapSel=null;
+  renderGame(); backToTop();
+}
+
+/* ---------------- 结案 ---------------- */
+const SUSPECTS = ["德妃 陈妙真","皇后 韩令仪","婉贵人 卫昭","大宫女 秋棠","太医 周鹤"];
+const D_CHAIN = ["c07","c08","c09","c18","c22"];
+const E_CHAIN = ["c10","c11","c14","c15","c16","c17","c19","c21","c26"];
+
+function renderVerdict(){
+  const evIds = Object.keys(S.found);
+  const need = Math.min(3, evIds.length);
+  const evHtml = evIds.length ? evIds.map(cid=>{
+    const c=CLUES[cid];
+    return `<div class="ev" data-cid="${cid}" onclick="toggleEv(this)">
+      <span class="box">✓</span>
+      <span class="eid">${cid.toUpperCase()}</span>
+      <span>${c.name}</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--paper-3)">${c.type}</span>
+    </div>`;
+  }).join("") : `<div class="empty-note">你什么都没查到。<br>这一案，只能凭猜。</div>`;
+
+  const misHtml = evIds.length ? (evIds.map(cid=>{
+    const c=CLUES[cid];
+    return `<div class="opt" data-v="${cid}" onclick="pick('q4',this)">
+      <span class="dot"></span><span>${cid.toUpperCase()} · ${c.name}</span>
+      <span class="ohint">${c.type}</span></div>`;
+  }).join("") + `<div class="opt" data-v="__none__" onclick="pick('q4',this)">
+      <span class="dot"></span><span>皆可采信 · 我没有发现伪证</span></div>`)
+    : `<div class="empty-note">你什么都没查到，也无从剔除。</div>`;
+
+  app().innerHTML = `
+  <section id="verdict">
+    <div class="vhead frame" style="padding:34px 26px 26px">
+      <div class="kicker">Final Statement</div>
+      <h1>结 案 陈 词</h1>
+      <p>三日已尽 · 呈报圣裁</p>
+    </div>
+
+    <div class="frame" style="margin-top:16px">
+      <div class="q">
+        <div class="qn">第 一 问</div>
+        <h4>是 谁 在 贵 妃 的 蜜 中 下 了 毒 ？</h4>
+        <div class="opts" id="q1">
+          ${SUSPECTS.map((s,i)=>`<div class="opt" data-v="${i}" onclick="pick('q1',this)">
+            <span class="dot"></span><span>${s}</span>${['<span class="ohint">协办六宫节礼</span>','<span class="ohint">与贵妃结怨最深</span>','<span class="ohint">匣底藏着一包白粉</span>','<span class="ohint">端汤的人</span>','<span class="ohint">改药方的人</span>'][i]||''}</div>`).join("")}
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="qn">第 二 问</div>
+        <h4>是 谁 取 走 了 贵 妃 的 活 路 ， 使 其 必 死 ？</h4>
+        <div class="opts" id="q2">
+          ${SUSPECTS.map((s,i)=>`<div class="opt" data-v="${i}" onclick="pick('q2',this)">
+            <span class="dot"></span><span>${s}</span></div>`).join("")}
+          <div class="opt" data-v="9" onclick="pick('q2',this)">
+            <span class="dot"></span><span>无人 · 只是毒发太快，来不及救</span></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="qn">第 三 问</div>
+        <h4>呈 上 关 键 证 据</h4>
+        <p class="dim" style="font-size:12.5px;margin-bottom:12px">你三日所获共 ${evIds.length} 条，可呈 <b style="color:var(--gold)">${need}</b> 条。</p>
+        <div class="evpick" id="q3">${evHtml}</div>
+      </div>
+
+      <div class="q">
+        <div class="qn">第 四 问</div>
+        <h4>三 日 所 获 之 中 ， 哪 一 条 不 可 采 信 ？</h4>
+        <p class="dim" style="font-size:12.5px;margin-bottom:12px">线索不都是真的。有的指向写得很明白，却是错的；有的看着像铁证，其实什么都证明不了。<b style="color:#e79aa2">这一案里必定有这样的东西</b>——把它挑出来。若你断定所获皆实，可选末一项。</p>
+        <div class="opts" id="q4" style="max-height:280px;overflow:auto">${misHtml}</div>
+      </div>
+
+      <div class="q" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <button class="btn primary" onclick="submitVerdict()">呈 报 圣 裁</button>
+        <button class="btn ghost" onclick="renderVerdict()">重 新 填 写</button>
+        <span id="vErr" style="color:#dd8e84;font-size:13px"></span>
+      </div>
+    </div>
+    <div class="foot">所举不必尽，所断不可疑。</div>
+  </section>`;
+  backToTop();
+}
+
+function pick(gid, el){
+  el.parentNode.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+  el.classList.add("sel");
+}
+function toggleEv(el){
+  const cap = Math.min(3, document.querySelectorAll("#q3 .ev").length);
+  const sel = el.parentNode.querySelectorAll(".ev.sel");
+  if(!el.classList.contains("sel") && sel.length>=cap){ toast(`只呈 ${cap} 条。`,"关键证据贵精不贵多。"); return; }
+  el.classList.toggle("sel");
+}
+
+function submitVerdict(){
+  const q1 = document.querySelector("#q1 .opt.sel");
+  const q2 = document.querySelector("#q2 .opt.sel");
+  const q4 = document.querySelector("#q4 .opt.sel");
+  const evs = [...document.querySelectorAll("#q3 .ev.sel")].map(e=>e.dataset.cid);
+  const err = document.getElementById("vErr");
+  if(!q1||!q2){ err.textContent="前两问皆须作答。"; return; }
+  const need = Math.min(3, Object.keys(S.found).length);
+  if(evs.length < need){ err.textContent=`须举足 ${need} 条证据。`; return; }
+  if(Object.keys(S.found).length>0 && !q4){ err.textContent="第四问须作答——剔出一条，或声明皆可采信。"; return; }
+
+  const a1 = +q1.dataset.v, a2 = +q2.dataset.v;
+  const dHit = evs.filter(x=>D_CHAIN.includes(x)).length;
+  const eHit = evs.filter(x=>E_CHAIN.includes(x)).length;
+  const dropped = q4 ? q4.dataset.v : "__none__";
+  const badEv = evs.filter(x=>CLUES[x].mislead);
+  S.verdict = {a1,a2,evs,dHit,eHit,dropped,badEv};
+  renderReveal();
+  backToTop();
+}
+
+/* ---------------- 复盘 ---------------- */
+function renderReveal(){
+  const v = S.verdict;
+  const ok1 = v.a1===0, ok2 = v.a2===1;
+  const both = ok1&&ok2, one = ok1||ok2;
+  const dropped = (v.dropped && v.dropped!=="__none__") ? v.dropped : null;
+  const droppedOk = !!(dropped && CLUES[dropped].mislead);
+  const droppedWrong = !!(dropped && !CLUES[dropped].mislead);
+  const badEv = v.badEv || [];
+  const cleanEv = badEv.length===0;
+  const full = both && v.dHit>=1 && v.eHit>=1 && cleanEv;
+  let rank, rsub, rbody;
+
+  if(full && droppedOk){
+    rank="明镜高悬"; rsub="上 上 考";
+    rbody="两只手你都指认了，两头的证据你都握在手里，还自己揪出了那条安在别人身上的伪证。三日之内做到这一步，靠的不是运气——你看的不是「谁最可疑」，是谁在什么时候关了哪一扇门。";
+  }else if(full){
+    rank="明镜高悬"; rsub="中 考";
+    rbody="这一案你断对了：下毒的是德妃，断生路的是皇后，两头的证据也都立得住。可那条明摆着的伪证，你还当它是真的。断对了案，未必看得清证据——真到有人翻案的时候，这半条会被拿住。";
+  }else if(both){
+    rank="明镜高悬"; rsub="中 考";
+    rbody="两个人你都指对了。但呈上的证据偏于一头，链条的另一半还虚着。若朝上有人翻案，你未必接得住。断案断得对，还要立得住。";
+  }else if(one){
+    rank="雾里看花"; rsub="下 考";
+    rbody="你摸到了一半。这桩案子有两只手：一只下了毒，一只把门关上、把解药撤了、把试毒的人调走。你只抓住了其中一只——剩下那只，此刻大概正在长秋宫里饮茶。";
+  }else{
+    rank="风波亭外"; rsub="不 第";
+    rbody="你指错了人。这一案里最像凶手的是婉贵人，最容易被人忽略的是皇后。三日的筹，你用在了看得到的地方。宫里的案子从来不靠动机断，靠时辰、靠档册、靠谁在什么时候说了什么话。";
+  }
+  let extra="";
+  if(v.a1===2||v.a2===2) extra+='<br><span class="dim" style="font-size:13px">（婉贵人那条线：C23 妆匣夹层里那包白粉，其实是珍珠粉——入口不麻、无味、细润如脂，钩吻之末不是这个样子。她失宠后支不到脂粉，自己买珠子磨的，采买档上还记着「珍珠二两」。）</span>';
+  if(v.a1===3||v.a2===3) extra+='<br><span class="dim" style="font-size:13px">（秋棠那条线：C27 她袖袋里那个空纸包，装的是薄荷与冰片——醒神散。她夜里守着贵妃，怕自己睡过去。她从头到尾只想让娘娘活下来。）</span>';
+  if(v.a1===4||v.a2===4) extra+='<br><span class="dim" style="font-size:13px">（周鹤那条线：C25 他私药匣里那包灰白药末，是生甘草与紫苏——被皇后撤下来的两味。他偷偷留着，是想寻个机会给贵妃补回去。）</span>';
+  if(droppedWrong) extra+='<br><span class="dim" style="font-size:13px">（你剔除的 '+dropped.toUpperCase()+'「'+CLUES[dropped].name+'」，是一条实打实的证据。剔除它不是网开一面，是自断臂膀。）</span>';
+
+  const evRows = v.evs.length ? v.evs.map(cid=>{
+    const c=CLUES[cid];
+    const side = D_CHAIN.includes(cid) ? '<span style="color:#d59a5e">德妃链</span>'
+              : (E_CHAIN.includes(cid) ? '<span style="color:#8fb3c9">皇后链</span>' : '<span class="dim">旁证</span>');
+    return `<div class="chainli"><span class="cn">${cid.toUpperCase()}</span><span>${c.name} —— ${side}</span></div>`;
+  }).join("") : `<p class="dim">你没有呈上任何证据。</p>`;
+
+  app().innerHTML = `
+  <section id="reveal">
+    <div class="score frame">
+      <div class="kicker">Verdict</div>
+      <div class="rank">${rank}</div>
+      <div class="rsub">${rsub}</div>
+      <div class="rbody">${rbody}${extra}</div>
+      <div class="checks">
+        <span class="chk ${ok1?"ok":"no"}">下毒之人 · ${ok1?"断对":"断错（应为德妃）"}</span>
+        <span class="chk ${ok2?"ok":"no"}">断其生路之人 · ${ok2?"断对":"断错（应为皇后）"}</span>
+        <span class="chk ${v.dHit>=1&&v.eHit>=1?"ok":"no"}">双侧证据 · 德妃链 ${v.dHit} / 皇后链 ${v.eHit}</span>
+        <span class="chk ${cleanEv?"ok":"no"}">所举证据 · ${cleanEv?"无伪证":("混入 "+badEv.map(x=>x.toUpperCase()).join(" / ")+" 伪证")}</span>
+        <span class="chk ${droppedOk?"ok":"no"}">识破伪证 · ${droppedOk?("揪出 "+dropped.toUpperCase()):(dropped?"剔错（"+dropped.toUpperCase()+" 是实据）":"未剔（此案有坑）")}</span>
+      </div>
+      <div class="checks" style="margin-top:8px">
+        <span class="chk" style="color:var(--paper-2);border-color:var(--line)">三日获线索 ${Object.keys(S.found).length} / ${TOTAL_CLUES}</span>
+        <span class="chk" style="color:var(--paper-2);border-color:var(--line)">勘验 · 问话 ${S.settled} 次</span>
+        ${Object.keys(S.found).length>=TOTAL_CLUES?'<span class="chk ok">线索保全 · 全数入手</span>':''}
+      </div>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">壹</span>真 相 全 貌</h2>
+      <p>贵妃沈婉不是死于一个人的手，而是死于两个人的默契。</p>
+      <p><b style="color:var(--gold-2)">德妃陈氏</b>在上巳节礼的桂花蜜里下了钩吻末——她要贵妃死，因为沈家正与她父陈邕争两淮盐运，也因为贵妃之子一日日长，压着她的皇三子。她办六宫节礼，便有了单独调换那一瓶蜜的便利；她宫里的林忠，恰在御药房当过差。</p>
+      <p><b style="color:var(--gold-2)">皇后韩氏</b>知道这件事。她在德妃身边有耳目。她没有揭发，也没有阻止。她做了三件事：<br>
+      ——命太医撤去贵妃药中的生甘草与紫苏，让钩吻之毒发作时无所缓冲；<br>
+      ——借「上巳后清整宫器」的常例，收走各宫试毒之器，调开毓秀宫的试毒宫女；<br>
+      ——传下夜禁令，把两次求医的人关在门内，并在丑时明知贵妃垂危之后，回了四个字：「知道了，候。」</p>
+      <p>德妃下的是毒。皇后断的是生路。<b style="color:#ffd9a0">没有德妃，贵妃不会中毒；没有皇后，贵妃未必会死。</b>这两个人加在一起，才是一条完整的因果链。</p>
+      <p class="dim">而皇后最深的一层动机，藏在太医院的脉案里——贵妃孕已两月，未宣。中宫无子九年，这一胎是她的催命符，所以她才会对宫人说：「贵妃这一胎，是留不住的。留不住的东西，何必让她费心。」</p>
+      <p style="margin-top:12px"><b style="color:var(--gold-2)">还有一支手：</b>案发之后，有人往《慎刑司案卷》里夹了一张反手写的字条，把罪按在婉贵人头上（C33/C34）。纸是档房通用的竹纸，墨是宫中处处有的松烟墨，笔迹是故意反着写的——它指不出任何人，你也不该用它断任何人。可它说明了一件事：<b>你翻哪一本卷、查到哪一步，都有人在看着。</b>封卷之后来调看过这本书的，有景仁宫的人，也有长秋宫的人。</p>
+      <p class="dim">——这一案里值得分辨的，从来不只「谁最可疑」，还有「哪一条证据根本立不住」。</p>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">贰</span>三 月 初 三 · 全 时 序</h2>
+      <table class="tbl">
+        <tr><th style="width:150px">时辰</th><th style="width:130px">地点</th><th>发生的事</th></tr>
+        <tr><td>三月初一 辰时</td><td>御药房</td><td>景仁宫小太监林忠领「钩吻末」三钱，用途记「除虫」。</td></tr>
+        <tr><td>三月初三 上午</td><td>长秋宫</td><td>皇后召太医周鹤，命撤贵妃药方中生甘草、紫苏，改加砂仁：「她的药，我说了算。」</td></tr>
+        <tr class="key"><td>三月初三 上午</td><td>长秋宫</td><td>皇后对宫人说：「贵妃这一胎，是留不住的。」——当日上午，她已有预判。</td></tr>
+        <tr><td>三月初三 申时</td><td>太液池</td><td>上巳宫宴。皇后赐酒，贵妃推辞，皇后当众失颜。沈琮与陈邕争盐引。婉贵人言「我愿以命换命」。</td></tr>
+        <tr><td>三月初三 酉时</td><td>内务府分装房</td><td>林忠将一瓶掺毒的桂花蜜换入毓秀宫那份，封蜡照旧。</td></tr>
+        <tr class="key"><td>三月初三 戌时</td><td>六宫</td><td>内务府传「清整宫器」令，收各宫银针试毒之器；毓秀宫试毒宫女春禧被长秋宫签条调走。当夜无人试毒。</td></tr>
+        <tr class="key"><td>三月初三 戌时末</td><td>宫门</td><td>长秋宫传令：「酉时后各宫无旨不得出入。」——此令早于贵妃饮汤。</td></tr>
+        <tr><td>三月初三 亥时</td><td>毓秀宫</td><td>贵妃饮安神蜜汤半盏，觉口麻，命秋棠去请太医。宫门以「夜禁」驳回。</td></tr>
+        <tr><td>三月初四 子时</td><td>毓秀宫</td><td>贵妃腹痛。秋棠再求，仍被驳回。</td></tr>
+        <tr class="key"><td>三月初四 丑时</td><td>宫门 / 长秋宫</td><td>秋棠跪求。值夜内侍遣人疾走长秋宫禀报贵妃危殆，长秋宫回话四字：「知道了，候。」此后无人来，亦无人遣医。</td></tr>
+        <tr><td>三月初四 寅时</td><td>毓秀宫</td><td>贵妃殒命。</td></tr>
+        <tr><td>三月初四 卯时</td><td>乾清宫</td><td>天明报丧。圣上密召内廷司正谢绥，限三日。</td></tr>
+      </table>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">叁</span>手 法 拆 解</h2>
+      <p><b style="color:#d59a5e">德妃的两步：</b>其一，借协办六宫节礼之便，涂改《分装单》，使毓秀宫那份由「蜜二瓶」改为「蜜一瓶、蜜饯二盒」，从而把掺毒的那一瓶单独隔离、单独交付；其二，命旧识林忠在分装房换瓶，封蜡照旧，使外观与他宫无异。钩吻末出自御药房外用杀虫的常例药，非禁药，不易引人起疑。</p>
+      <p><b style="color:#8fb3c9">皇后的三步：</b>其一，<b style="color:var(--gold)">撤解药</b>——贵妃方中的生甘草、紫苏按例有和缓之效，撤去后毒性无所缓冲，发作骤急；其二，<b style="color:var(--gold)">去防备</b>——借常例收走试毒之器、调开试毒宫女，使贵妃无从自保；其三，<b style="color:var(--gold)">断生路</b>——传夜禁令，拦下亥、子、丑三次求医，丑时明知垂危仍不遣医。前两步是布局，第三步是决定。</p>
+      <p class="dim">本案最狠的地方在于：皇后从头到尾没有碰过那瓶蜜。她做的每一件事，写在档册上都是「合规」的——清整宫器是常例，改药方是关切，夜禁是戒备。所以只查「谁下了毒」，永远查不到她。</p>
+      <p style="margin-top:12px"><b style="color:var(--gold-2)">附论 · 宫里的「试毒」是怎么一回事：</b>本朝的试毒之制，靠的是银器。可银针验的是<b>硫</b>，不是钩吻——蜜饯熏硫、药材熏硫，连蜜瓶口的封纸都熏过，六宫的银针本来就乌，六宫的银匙本来就干净。这一案的死者身边有三重防线：一根银针、一名试毒宫女、一个每夜必服的安胎方。银针验不出钩吻，试毒宫女被一纸差遣调走，安胎方里两味缓毒的药被朱笔勾掉。<b style="color:#ffd9a0">三重防线，没有一重是真的。</b></p>
+      <p class="dim">所以这一案真正的题眼不是「谁下了毒」，是「<b>谁在什么时候把防护一层层拆掉，且每一层都拆得合规</b>」。银针那一条，是留给细心的玩家的：你若从头到尾信银器，这案子的三个关键判断都会歪。</p>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">肆</span>完 整 线 索 链</h2>
+      <p class="dim" style="margin-bottom:14px">每个关键结论，都有两条以上独立线索指向。这就是为什么这一案可以被「推理」出来，而不是靠猜。</p>
+      <div class="chain">
+        <div class="chainli"><span class="cn">结论一</span><span><b style="color:var(--gold-2)">毒在蜜里，不在汤里，且是分装后被掺入的。</b><br>
+        → C01（遗体勘验：毒自口入，非暴卒）<br>
+        → C02（盏底灰白沉淀，未化开——下毒在蜜盛瓶之后）<br>
+        → C07（六宫同批节礼，唯毓秀宫这一瓶有毒）</span></div>
+
+        <div class="chainli"><span class="cn">结论二</span><span><b style="color:var(--gold-2)">掺毒的是德妃。</b><br>
+        → C08（分装单被涂改，「二瓶」改「一瓶、蜜饯二盒」，改笔出自景仁宫）<br>
+        → C09（三月初一，景仁宫林忠领取钩吻末，宫中三年唯一一笔）<br>
+        → C22（你还没说那是什么药，她已答「除虫的药末」——说辞早备好了）<br>
+        → C18（林忠供词：德妃命其领药、命其换瓶、嘱其封蜡照旧）</span></div>
+
+        <div class="chainli"><span class="cn">结论三</span><span><b style="color:var(--gold-2)">皇后在当日上午就知道贵妃要死，并撤去了她的缓冲。</b><br>
+        → C10（药方被改，撤去生甘草、紫苏）<br>
+        → C17（周鹤翻供：改方之命出自长秋宫，「她的药，我说了算」）<br>
+        → C19（皇后当日对宫人言：「贵妃这一胎，是留不住的」）</span></div>
+
+        <div class="chainli"><span class="cn">结论四</span><span><b style="color:var(--gold-2)">皇后在当夜撤走了贵妃的自保手段。</b><br>
+        → C11（「清整宫器」令，收试毒之器，传令内侍出自长秋宫）<br>
+        → C14（试毒宫女春禧被调走，派差签条由长秋宫转下）<br>
+        → C13（案发前一日，秋棠之弟被长秋宫的人扣押，秋棠被警告「别多问」）</span></div>
+
+        <div class="chainli"><span class="cn">结论五</span><span><b style="color:var(--gold-2)">皇后把三次求医关在门内，并在明知垂危后不遣医——这是「故意」，不是「疏忽」。</b><br>
+        → C15（夜册：戌时末下夜禁令，早于亥时饮汤；亥、子、丑三次求医被驳）<br>
+        → C16（门吏供词：丑时禀报长秋宫，回话「知道了，候」，无人来、无人遣医）<br>
+        → C21（那一碗没端上的安胎药，被同一道夜禁挡在门外）</span></div>
+
+        <div class="chainli"><span class="cn">误导线 · 甲</span><span><b style="color:#dd8e84">婉贵人：最像凶手的人。</b><br>
+        → C04（她说「以命换命」，宫人曾在毓秀宫外徘徊）<br>
+        → C12（那封信是求情信，落在长秋宫宫人箱底，被人监视）<br>
+        → C20（酉时宫门已闭，她的人进不去；三把银匙皆在，无可疑）<br>
+        <span class="dim">外层的烟幕，由证词破除。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导线 · 乙</span><span><b style="color:#dd8e84">太医周鹤：手里握着灰白的药末。</b><br>
+        → C25（私药匣里那包末，与盏底沉淀同色）<br>
+        → C26（药童辨认：生甘草与紫苏，他偷偷留下研磨的）<br>
+        <span class="dim">他的心虚不是因为杀了人，是因为偷偷留了药。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导线 · 丙</span><span><b style="color:#dd8e84">秋棠：端汤的人袖里有纸包。</b><br>
+        → C27（旧褙子袖袋里的空纸包，纸上一圈白）<br>
+        → C28（醒神散：薄荷与冰片，她怕自己守夜睡过去）<br>
+        <span class="dim">她从头到尾，只想让娘娘活下来。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导线 · 丁</span><span><b style="color:#dd8e84">封蜡相同，就是同一个人？——这条指向对了人，证据却是废的。</b><br>
+        → C29（分装房工具台上的残蜡，与毒蜜瓶口同色同纹）<br>
+        → C30（掌事宫女与库册：六宫封蜡本是一炉出，一个色儿）<br>
+        <span class="dim">误导线必须能被证伪，不能是死胡同——这是本子的规矩，六条皆如此。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导线 · 戊</span><span><b style="color:#dd8e84">发乌的银针：本朝验毒之制，原是一层纸。</b><br>
+        → C31（清整收回的七根银针里，乌着四根，包括毓秀宫那根）<br>
+        → C32（药童：银针验的是硫，不是钩吻；十验九乌）<br>
+        <span class="dim">这一条不打人，打的是制度。本案的三重防线——银针、试毒宫女、安胎方，没有一重是真的。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导线 · 己</span><span><b style="color:#dd8e84">夹在案卷里的字条：有人替你准备好了一个答案。</b><br>
+        → C33（「此事系咸福宫所为」——反手写的匿名字条）<br>
+        → C34（纸墨手三样皆无从溯源；封卷后两宫都来调看过）<br>
+        <span class="dim">它把矛头指向婉贵人，与 C12 那封真信恰成对照：一个是被偷走的真心，一个是送到你手边的假话。</span></span></div>
+      </div>
+
+      <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)">
+        <div class="kicker" style="margin-bottom:10px">你呈上的证据</div>
+        ${evRows}
+      </div>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">伍</span>本 案 的 误 导 线 索</h2>
+      <p class="dim" style="margin-bottom:8px">本子里有六件「看着像铁证」的东西，分两型——</p>
+      <p class="dim" style="margin-bottom:14px">
+        <b style="color:#dd8e84">甲、乙、丙 ·「指向错人」</b>：东西是真的，安错了人。三个干净的人，各有各的心虚。<br>
+        <b style="color:#dd8e84">丁、戊、己 ·「证据无效」</b>：指向的人也许没错，可这条证据本身什么都证明不了——<b>那样东西，满宫都有。</b>封蜡是一炉出的，银针是硫熏乌的，字条的纸是档房通用的。<br>
+        六条都不是死胡同，每一条都必有另一条线索能把它推翻。<b style="color:#e79aa2">误导线索的规矩是：可以被骗，但不能被骗死。</b>
+      </p>
+      <div class="chain">
+        <div class="chainli"><span class="cn">误导 · 甲</span><span><b style="color:#dd8e84">C23 妆匣夹层里的白粉</b>　<span class="dim">指向「婉贵人私藏毒粉」</span><br>
+        <b style="color:var(--paper-2)">看起来：</b>失宠的贵人，把二钱白粉藏在匣底夹层。匣底夹层本就不是放脂粉的位置。<br>
+        <b style="color:var(--paper-2)">真相：</b>珍珠粉。入口不麻、以水调开则沉底不散——钩吻之末才入口发麻、舌根发紧。她失宠后支不到脂粉，自己买珠子磨的。<br>
+        <b style="color:var(--gold-2)">推翻它的线索：C24</b>（送验太医院：入口不麻、粉沉底不散；咸福宫采买档上记着「珍珠二两」）</span></div>
+
+        <div class="chainli"><span class="cn">误导 · 乙</span><span><b style="color:#dd8e84">C25 私药匣里的一包药末</b>　<span class="dim">指向「太医周鹤投毒」</span><br>
+        <b style="color:var(--paper-2)">看起来：</b>改药方的是他，改方之日正是贵妃死的那一日；他私匣里还藏着一包灰白药末，而贵妃盏底正沉着灰白色的粉。<br>
+        <b style="color:var(--paper-2)">真相：</b>生甘草与紫苏，被撤下来的两味。他不敢明着违中宫的话，偷偷磨成末，想寻个机会给贵妃补回去。<br>
+        <b style="color:var(--gold-2)">推翻它的线索：C26</b>（药童亲尝辨认：「娘娘的药，我看着被撤的」）<br>
+        <span class="dim">这一条最狠：它是被真凶的另一只手逼出来的——皇后撤了药，才有了这包末。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导 · 丙</span><span><b style="color:#dd8e84">C27 秋棠袖袋里的纸包</b>　<span class="dim">指向「端汤的宫女下手」</span><br>
+        <b style="color:var(--paper-2)">看起来：</b>那一夜汤是她端的，她袖里揣着一个空纸包，纸上留着一圈白。屋里没有第二个人碰过那盏汤。<br>
+        <b style="color:var(--paper-2)">真相：</b>醒神散。她夜里守着贵妃，怕自己睡过去，困了就抿一点薄荷冰片。<br>
+        <b style="color:var(--gold-2)">推翻它的线索：C28</b>（她说另一只袖子里还有半包；翻出来一验，辛凉刺鼻）</span></div>
+
+        <div class="chainli"><span class="cn">误导 · 丁</span><span><b style="color:#dd8e84">C29 分装房里的封蜡残块</b>　<span class="dim">证据无效——这一条最特别</span><br>
+        <b style="color:var(--paper-2)">看起来：</b>毒蜜瓶口的蜡，与景仁宫分装房那半块，同色同厚，连压出的纹路都像。换瓶的手，就在这间房里。<br>
+        <b style="color:var(--paper-2)">真相：</b>宫中封蜡本由内务府一炉熬制、按宫分发。<b style="color:#e79aa2">它指向的人是对的（确是德妃），可它本身什么都证明不了。</b><br>
+        <b style="color:var(--gold-2)">推翻它的线索：C30</b>（掌事宫女与库册：一炉出的，一个色儿）<br>
+        <span class="dim">甲、乙、丙是「指向错人」，丁是「指向对了、证据是废的」。断案最容易栽在后一种——因为你正高兴。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导 · 戊</span><span><b style="color:#dd8e84">C31 通体发乌的试毒银针</b>　<span class="dim">证据无效——看着像「毒已经验出来了」</span><br>
+        <b style="color:var(--paper-2)">看起来：</b>毓秀宫那根试毒银针通体乌黑。毒物早在案发之前就经了她的手、验了出来，却被收回去，没人报一句。试毒的人知情不报。<br>
+        <b style="color:var(--paper-2)">真相：</b>银针乌，是碰到了<b>硫</b>——蜜饯、药材、蜜瓶口的封纸都熏过硫。它验不出钩吻；而七根银针里，乌着四根。<b style="color:#e79aa2">春禧不曾瞒报，她守的那道防线，一直是一层纸。</b><br>
+        <b style="color:var(--gold-2)">推翻它的线索：C32</b>（药童：银针验的是砒，不是钩吻；「收它做什么？那东西本来也验不出什么」）<br>
+        <span class="dim">这一条最伤：它不只推翻 C31，还把整个「试毒之制」一起推翻了——连你自己验过的香囊、蜜、白粉，凡靠银针得的判断，都要重来。</span></span></div>
+
+        <div class="chainli"><span class="cn">误导 · 己</span><span><b style="color:#dd8e84">C33 案卷里夹着的一张字条</b>　<span class="dim">来源不明——看着像有人递给你内情</span><br>
+        <b style="color:var(--paper-2)">看起来：</b>《慎刑司案卷》里夹着一张没头没尾的字条：「毓秀宫膳房有人下手，此事系咸福宫所为。三日之内，必得其证。」有人知道内情，也愿意告诉你。<br>
+        <b style="color:var(--paper-2)">真相：</b>纸是档房通用的竹纸，墨是宫中处处有的松烟墨，字是<b>反手</b>写的——三样都无从溯源。它不是证据，是<b>诱饵</b>；有人算准了你会翻开这一页，也算准了你会想听那句话。<br>
+        <b style="color:var(--gold-2)">推翻它的线索：C34</b>（档房书吏：纸、墨、手，一样都指不出来；而封卷之后，景仁宫与长秋宫的人都来调看过）<br>
+        <span class="dim">这支手与婉贵人的真信，恰成一对：一封是她亲手写的求情书，落在别人箱底；一张是别人反手写的告密条，塞进你要翻的卷里。哪一封是真的，不看内容，看它从哪儿来。</span></span></div>
+      </div>
+      <p style="margin-top:16px">你剔除的是：<b style="color:${droppedOk?"var(--gold-2)":"#e79aa2"}">${dropped?dropped.toUpperCase()+"「"+CLUES[dropped].name+"」":"未剔除（你认为皆可采信）"}</b>${droppedOk?" —— 剔对了。":(droppedWrong?" —— 这一条是实打实的证据，剔错了。":" —— 这一案里，确实有伪证。")}</p>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">陆</span>人 物 · 动 机 与 秘 密</h2>
+      <div class="role">
+        <div class="rolecard"><div class="rn">皇后 韩令仪 · 三十二 · 正位中宫九年 · 无子</div>
+          <div class="rl"><span>动机｜</span>贵妃孕已两月未宣，其子在朝中被议立储；兄韩骥任御史中丞，方被沈家参劾。「中宫无子」四个字，是她的死穴。<br>
+          <span>秘密｜</span>她在德妃宫中安了耳目，三月初三之前就知道德妃要动手。她选了「不揭发，只补刀」。<br>
+          <span>不能说的理由｜</span>一旦承认「我早知道」，便等于承认知情不救——那比下毒更难辩解。<br>
+          <span>关系｜</span>与贵妃：三年不睦；与德妃：表面姐妹，实则互相提防、互相利用。</div></div>
+
+        <div class="rolecard"><div class="rn">德妃 陈妙真 · 二十八 · 育皇三子 · 三年前由贵妃位降为德妃</div>
+          <div class="rl"><span>动机｜</span>其子原最受喜爱，贵妃之子出生后失宠；父陈邕掌两淮盐运，与沈家争利，上巳宴上沈琮当众羞辱陈邕。<br>
+          <span>秘密｜</span>她下毒是真的，但她以为只要贵妃「病」上一场，便能拖住议储。她至今不知道自己下的毒有多重。<br>
+          <span>不能说的理由｜</span>领药的事有档可查，她只能靠「除虫」二字撑住。<br>
+          <span>关系｜</span>与贵妃：争宠争子争利；与皇后：她以为皇后不知情。</div></div>
+
+        <div class="rolecard"><div class="rn">婉贵人 卫昭 · 二十二 · 母家削爵流放</div>
+          <div class="rl"><span>动机｜</span>母家被沈家构陷，她当众说过「以命换命」——最大的动机，也是最响的烟幕。<br>
+          <span>秘密｜</span>她送信是求贵妃为母家说一句话，信被长秋宫截走；她根本不知道信落到了谁手里。<br>
+          <span>不能说的理由｜</span>承认送信，等于承认自己有事相求，反被当作动机。<br>
+          <span>关系｜</span>与贵妃：怨；与皇后：她曾在中宫当过差，皇后知道她每一步。</div></div>
+
+        <div class="rolecard"><div class="rn">太医 周鹤 · 四十 · 掌贵妃脉案</div>
+          <div class="rl"><span>动机｜</span>无杀人动机。他的问题是怕——怕丢官，怕丢命。<br>
+          <span>秘密｜</span>他改了贵妃的药方，一开始谎称是自己「诊察不精」，直到被呈上脉案，才吐出「出自长秋宫」那半张撕剩的纸。<br>
+          <span>不能说的理由｜</span>说了，便是把中宫拖下水，他一家老小都在京城。<br>
+          <span>关系｜</span>与皇后：受制；与婉贵人：旧识，曾为她母家诊治。</div></div>
+
+        <div class="rolecard"><div class="rn">大宫女 秋棠 · 二十 · 贵妃陪嫁入宫</div>
+          <div class="rl"><span>动机｜</span>无。她是这一案里唯一一个从头到尾只想救人的人。<br>
+          <span>秘密｜</span>她三月初二就被人捏住了软肋——弟弟被押，她被人警告「别多问」。所以三月初三夜里，她没敢再争。<br>
+          <span>不能说的理由｜</span>说出来，弟弟就没了。<br>
+          <span>关系｜</span>与贵妃：主仆情深；与长秋宫内侍：被要挟；与春禧：同宫姊妹。</div></div>
+
+        <div class="rolecard"><div class="rn">试毒宫女 春禧 · 十八 · 毓秀宫 · 每夜为贵妃试汤</div>
+          <div class="rl"><span>动机｜</span>无。她连贵妃喝的蜜里有什么都不知道。<br>
+          <span>秘密｜</span>三月初三戌时，她被一纸出自长秋宫的派差签条调去搬绸缎。她以为那是内务府的差事，走的时候还跟秋棠说了句「我去去就回」。<br>
+          <span>不能说的理由｜</span>她怕的是「试毒不力」四个字——本职没做，回来人已经没了。所以她一句也没敢提自己是被调走的。<br>
+          <span>关系｜</span>与秋棠：同宫姊妹；与长秋宫内侍：只见过那一张签条，没见过人。<br>
+          <span style="color:#e79aa2">她是 C31 那条误导线唯一的目标。</span>银针乌了、人又不在，看着就是她瞒报。可那根针，本来就是乌的。</div></div>
+
+        <div class="rolecard"><div class="rn">小太监 林忠 · 十九 · 景仁宫当差 · 曾在御药房</div>
+          <div class="rl"><span>动机｜</span>执行者。德妃许他一个去御膳房的缺。<br>
+          <span>秘密｜</span>整件事他从头到尾不知情由，只知道「娘娘吩咐的，照做」——所以他的供词干净、完整、只指向德妃。<br>
+          <span>关系｜</span>与德妃：家生奴才；与秋棠之弟：同是御膳房旧人。</div></div>
+      </div>
+    </div>
+
+    <div class="frame sec">
+      <h2><span class="num">柒</span>写 给 主 持 人 的 话</h2>
+      <p><b style="color:var(--gold-2)">卡壳预案（三级）：</b></p>
+      <p><b style="color:var(--gold)">一级 · 玩家卡在「毒从哪来」：</b>提示他去毓秀宫<b>勘验</b>那只青玉盏，看盏底没化开的粉末。指向 C02 / C07。</p>
+      <p><b style="color:var(--gold)">二级 · 玩家锁定了德妃，认为可以结案：</b>提示「贵妃亥时饮汤，寅时才断气。这三个时辰里，宫里发生了什么？」指向 C15 / C16。</p>
+      <p><b style="color:var(--gold)">三级 · 玩家思路全断：</b>直接让他去内务府档房勘验《宫器清整知会签》，再去宫门值房看夜册，自己读出「戌时末」与「亥时」的先后。</p>
+      <p><b style="color:var(--gold)">另备 · 玩家被伪证领走（指认了婉贵人 / 周鹤 / 秋棠）：</b>不要直接说「你错了」。只问他一句：「这条线索，还有没有第二样东西能说明它？」——C23 对 C24、C25 对 C26、C27 对 C28。让他自己去找那条推翻它的。</p>
+      <p><b style="color:var(--gold)">另备 · 玩家把 C29（那半块封蜡）当成铁证：</b>问他：「六宫节礼的封蜡，是不是本来就该是同一炉的？」再让他去景仁宫找掌事宫女问一句（C30）。这一课比抓错人更值钱——<b>指向对了，证据也可能是废的。</b></p>
+      <p><b style="color:var(--gold)">另备 · 玩家把 C31（发乌的银针）当成铁证、咬住春禧：</b>只问一句：「匣里七根针，为什么乌着四根？」让他拿着针去太医院递物问药童（C32）。这一条一旦破了，顺势要提醒他把前三日所有靠银针得到的判断重想一遍——C02、C07、C24 都不例外。（C24 的药童是靠<b>尝</b>辨出来的，不是靠针。）</p>
+      <p><b style="color:var(--gold)">另备 · 玩家信了 C33 那张字条：</b>问他两个问题：「这纸是哪来的？」「写字的人，为什么不署名？」再去内务府档房问书吏（C34）。要点在于：<b>这不是错线索，是有人替你准备好的答案。</b>顺手与 C12 那封真信对读——一封被偷走，一封被送来。</p>
+      <p><b style="color:var(--gold)">进阶提问（给想深一层的玩家）：</b>「本案死者身边有几重防线？」引导他数出三重——银针、试毒宫女、每夜必服的安胎方。然后问：「哪一重是真的？」答案是：没有一重。</p>
+      <hr class="rule">
+      <p><b style="color:var(--gold-2)">复盘收束（本子的体验就落在这里）：</b>把「德妃下毒 + 皇后断生路」这条双线讲一遍，重点落在<b>「皇后做的每一件事，写在档册上都合规」</b>——这才是宫斗的底色。最后把那封没送出去的信读出来：「妾愿以三年寂寂，换母家一纸清白。」</p>
+      <p class="dim">本子为架空原创，朝代、人物、事件皆无原型。不含血腥、虐待与歧视性情节；不使用真实案件与真实人物。</p>
+    </div>
+
+    <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn primary" onclick="startGame()">重 新 查 案</button>
+      <button class="btn ghost" onclick="renderVerdict()">回 到 结 案 页</button>
+    </div>
+    <div class="foot">上巳血案 · 古代宫斗单人推理本<br>真相写在前，线索倒着推 · 每个结论至少两条独立线索</div>
+  </section>`;
+}
+
+renderIntro();
+updToTop();
+</script>
+</body>
+</html>
